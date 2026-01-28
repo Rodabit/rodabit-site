@@ -323,10 +323,23 @@ textarea {
 <script>
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
-menuToggle.onclick = () => navLinks.classList.toggle('open');
+const navItems = navLinks.querySelectorAll('a');
+
+// Abre / fecha pelo botão
+menuToggle.onclick = () => {
+  navLinks.classList.toggle('open');
+};
+
+// Fecha o menu ao clicar em qualquer link (mobile)
+navItems.forEach(link => {
+  link.onclick = () => {
+    navLinks.classList.remove('open');
+  };
+});
 </script>
 
 </body>
 </html>
+
 
 
