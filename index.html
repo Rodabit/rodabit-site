@@ -14,16 +14,12 @@ html {
 @font-face {
   font-family: '13Misa';
   src: url('13_Misa.TTF') format('truetype');
-  font-weight: normal;
-  font-style: normal;
   font-display: swap;
 }
 
 @font-face {
   font-family: 'ClassicRobot';
   src: url('ClassicRobot.otf') format('opentype');
-  font-weight: normal;
-  font-style: normal;
   font-display: swap;
 }
 
@@ -50,16 +46,18 @@ body {
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  line-height: 1.6;
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
 a {
   color: var(--orange);
   text-decoration: none;
-}
-
-a:hover {
-  color: var(--blue-light);
 }
 
 /* ================= HEADER ================= */
@@ -71,8 +69,8 @@ header {
   height: 60px;
   background: var(--blue-dark);
   display: flex;
-  align-items: center;
   justify-content: flex-end;
+  align-items: center;
   padding: 0 20px;
   z-index: 1000;
 }
@@ -87,10 +85,6 @@ nav li a {
   color: var(--text-main);
 }
 
-nav li a:hover {
-  text-decoration: underline;
-}
-
 /* ================= MENU MOBILE ================= */
 .menu-toggle {
   display: none;
@@ -101,8 +95,8 @@ nav li a:hover {
 .menu-toggle span {
   background: var(--text-main);
   height: 3px;
-  width: 25px;
-  margin-bottom: 4px;
+  width: 26px;
+  margin-bottom: 5px;
   border-radius: 2px;
 }
 
@@ -112,7 +106,7 @@ main {
 }
 
 section {
-  padding: 80px 20px;
+  padding: 70px 20px;
   max-width: 900px;
   margin: 0 auto;
 }
@@ -126,21 +120,20 @@ section {
 
 .logo-r {
   font-family: '13Misa';
-  font-size: 7rem;
+  font-size: clamp(4rem, 10vw, 7rem);
   color: var(--orange);
-  display: inline-block;
   line-height: 1;
 }
 
 .logo-rest {
   font-family: 'ClassicRobot';
-  font-size: 6.5rem;
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
   color: white;
 }
 
 #home p {
   margin-top: 20px;
-  font-size: 1.3rem;
+  font-size: clamp(1rem, 4vw, 1.3rem);
   color: var(--text-muted);
 }
 
@@ -151,22 +144,22 @@ section {
   padding: 14px 36px;
   border: none;
   border-radius: 30px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
   cursor: pointer;
-}
-
-.btn-primary:hover {
-  background: #e05525;
 }
 
 /* ================= TÍTULOS ================= */
 section h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
+  font-size: clamp(1.7rem, 6vw, 2.2rem);
+  margin-bottom: 24px;
   border-bottom: 3px solid var(--orange);
   display: inline-block;
-  padding-bottom: 4px;
+}
+
+/* ================= SOBRE ================= */
+#about p {
+  margin-bottom: 1.2rem;
+  max-width: 720px;
 }
 
 /* ================= CARDS ================= */
@@ -175,7 +168,7 @@ section h2 {
 }
 
 #services li,
-#portfolio .card,
+.card,
 #blog article,
 #contact form {
   background: var(--bg-card);
@@ -188,12 +181,11 @@ section h2 {
 /* ================= PORTFÓLIO ================= */
 #portfolio .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
 }
 
 #portfolio img {
-  width: 100%;
   height: 160px;
   object-fit: cover;
   border-radius: 4px;
@@ -214,16 +206,6 @@ textarea {
   border: none;
 }
 
-button {
-  background: var(--orange);
-  border: none;
-  padding: 12px 30px;
-  border-radius: 30px;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
 /* ================= RESPONSIVO ================= */
 @media (max-width: 768px) {
   nav ul {
@@ -231,10 +213,11 @@ button {
     top: 60px;
     right: 0;
     height: calc(100vh - 60px);
-    width: 220px;
+    width: 240px;
     background: var(--blue-dark);
     flex-direction: column;
-    padding-top: 30px;
+    padding: 30px 20px;
+    gap: 16px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
   }
@@ -280,15 +263,14 @@ button {
 
 <section id="about">
   <h2>Sobre</h2>
-  <p>
-A Rodabit nasce da inquietação com o ensino raso de tecnologia e da convicção de que aprender de verdade exige colocar a mão na massa — errar, medir, ajustar, refazer. Não é um clube de robótica “de vitrine”, nem um curso de receitas prontas. É um laboratório de aprendizado aplicado, onde eletrônica, programação, robótica e fabricação digital se encontram para resolver problemas reais.
 
-Nossa experiência vem de projetos concretos: desenvolvimento de extrusores de filamento PET reciclado, controle térmico com PID em Arduino, caracterização de termistores via datalogging, criação e adaptação de drivers de LED de corrente constante, além de design mecânico e fabricação digital com CNC a laser e modelagem em FreeCAD. Aqui, teoria não flutua — ela fecha circuito.
+  <p>A Rodabit nasce da inquietação com o ensino raso de tecnologia e da convicção de que aprender de verdade exige colocar a mão na massa — errar, medir, ajustar e refazer.</p>
 
-A Rodabit acredita que tecnologia não deve ser consumida como mágica, mas compreendida, desmontada e reconstruída. Por isso, os projetos envolvem desde a escolha criteriosa de componentes (motores, drivers, sensores) até decisões de arquitetura de software e eletrônica, sempre com espírito crítico: isso funciona? por quê? como pode ser melhorado?
+  <p>Não é um clube de robótica de vitrine, nem um curso de receitas prontas. É um laboratório de aprendizado aplicado, onde eletrônica, programação, robótica e fabricação digital se encontram para resolver problemas reais.</p>
 
-Mais do que ensinar ferramentas, a Rodabit forma pensamento técnico. Questiona metodologias educacionais tradicionais que priorizam o “seguir tutorial” e aposta em um modelo onde o aluno se torna autor, não apenas usuário. Robótica aqui é meio, não fim — o objetivo é desenvolver autonomia, raciocínio lógico, visão sistêmica e responsabilidade técnica.
-  </p>
+  <p>Nossa experiência vem de projetos concretos, como extrusores de filamento PET reciclado, controle térmico com PID em Arduino, caracterização de termistores via datalogging, drivers de LED de corrente constante e fabricação digital com CNC e FreeCAD.</p>
+
+  <p>Mais do que ensinar ferramentas, a Rodabit forma pensamento técnico. Aqui, robótica é meio — não fim.</p>
 </section>
 
 <section id="services">
@@ -341,14 +323,8 @@ Mais do que ensinar ferramentas, a Rodabit forma pensamento técnico. Questiona 
 <script>
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
-
 menuToggle.onclick = () => navLinks.classList.toggle('open');
 </script>
 
 </body>
 </html>
-
-
-
-
-
