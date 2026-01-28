@@ -25,7 +25,7 @@ html {
 
 /* ================= VARIÁVEIS ================= */
 :root {
-  --bg-main: #008000;
+  --bg-main: #1F2933;
   --bg-card: #00008b;
   --blue-dark: #0b1e38;
   --blue-light: #1e88e5;
@@ -316,15 +316,16 @@ textarea {
 
 <section id="contact">
   <h2>Contato</h2>
-  <form onsubmit="event.preventDefault(); alert('Mensagem enviada!'); this.reset();">
-    <label>Nome</label>
-    <input required>
-    <label>Email</label>
-    <input type="email" required>
-    <label>Mensagem</label>
-    <textarea rows="5" required></textarea>
-    <button type="submit">Enviar</button>
-  </form>
+<form action="https://formspree.io/f/mykwavgo" method="POST">
+  <label>Nome</label>
+  <input type="text" name="nome" required>
+  <label>Email</label>
+  <input type="email" name="email" required>
+  <label>Mensagem</label>
+  <textarea name="mensagem" rows="5" required></textarea>
+  <button type="submit">Enviar</button>
+</form>
+
 </section>
 
 </main>
@@ -349,6 +350,7 @@ navItems.forEach(link => {
 
 </body>
 </html>
+
 
 
 
