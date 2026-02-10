@@ -3,7 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RodaBit - Rodando ideias, conectando mentes e criando o futuro.</title>
+<title>RodaBit — Rodando ideias, conectando mentes e criando o futuro</title>
+
+<!-- =====================================================================================
+==================================== CSS =================================================
+===================================================================================== -->
 
 <style>
 html {
@@ -51,7 +55,6 @@ body {
 
 img {
   max-width: 100%;
-  height: auto;
   display: block;
 }
 
@@ -64,8 +67,7 @@ a {
 header {
   position: fixed;
   top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   height: 60px;
   background: var(--blue-dark);
   display: flex;
@@ -81,7 +83,7 @@ nav ul {
   gap: 20px;
 }
 
-nav li a {
+nav a {
   color: var(--text-main);
 }
 
@@ -122,7 +124,6 @@ section {
   font-family: '13Misa';
   font-size: clamp(4rem, 10vw, 7rem);
   color: var(--orange);
-  line-height: 1;
 }
 
 .logo-rest {
@@ -142,9 +143,9 @@ section {
   background: var(--orange);
   color: white;
   padding: 14px 36px;
-  border: none;
   border-radius: 30px;
   font-size: 1.05rem;
+  border: none;
   cursor: pointer;
 }
 
@@ -156,21 +157,10 @@ section h2 {
   display: inline-block;
 }
 
-/* ================= SOBRE ================= */
-#about p {
-  margin-bottom: 1.2rem;
-  max-width: 720px;
-}
-
 /* ================= CARDS ================= */
-#services ul {
-  list-style: none;
-}
-
-#services li,
 .card,
-#blog article,
-#contact form {
+article,
+form {
   background: var(--bg-card);
   padding: 20px;
   margin-bottom: 20px;
@@ -206,10 +196,10 @@ textarea {
   border: none;
 }
 
-/* ================= FEEDBACK DO FORMULÁRIO CONTATO ================= */
+/* ================= FORM STATUS ================= */
 #form-status {
   margin-top: 12px;
-  font-weight: 600;
+  font-weight: bold;
   color: var(--orange);
   text-align: center;
 }
@@ -225,7 +215,6 @@ textarea {
     background: var(--blue-dark);
     flex-direction: column;
     padding: 30px 20px;
-    gap: 16px;
     transform: translateX(100%);
     transition: transform 0.3s ease;
   }
@@ -239,13 +228,15 @@ textarea {
   }
 }
 </style>
-  <!--------------------------FIM DO BLOCO CSS ------------------------------------------------------>
+
+<!-- ============================ FIM DO BLOCO CSS ============================ -->
+
 </head>
 
 <body>
 
 <header>
-  <nav>
+  <nav aria-label="Navegação principal">
     <ul id="nav-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#about">Sobre</a></li>
@@ -272,73 +263,86 @@ textarea {
 
 <section id="about">
   <h2>Sobre</h2>
-
-  <p>A Rodabit nasce da inquietação com o ensino raso de tecnologia e da convicção de que aprender de verdade exige colocar a mão na massa — errar, medir, ajustar e refazer.</p>
-
-  <p>Não é um clube de robótica de vitrine, nem um curso de receitas prontas. É um laboratório de aprendizado aplicado, onde eletrônica, programação, robótica e fabricação digital se encontram para resolver problemas reais.</p>
-
-  <p>Nossa experiência vem de projetos concretos, como extrusores de filamento PET reciclado, controle térmico com PID em Arduino, caracterização de termistores via datalogging, drivers de LED de corrente constante e fabricação digital com CNC e FreeCAD.</p>
-
-  <p>Mais do que ensinar ferramentas, a Rodabit forma pensamento técnico. Aqui, robótica é meio — não fim.</p>
+  <p>A RodaBit nasce da inquietação com o ensino superficial de tecnologia e da convicção de que aprender de verdade exige experimentar, errar, medir e refinar.</p>
+  <p>É um laboratório de aprendizado aplicado onde eletrônica, programação, robótica e fabricação digital se encontram para resolver problemas reais.</p>
+  <p>Mais do que ensinar ferramentas, formamos pensamento técnico. Aqui, robótica é meio — não fim.</p>
 </section>
 
 <section id="services">
   <h2>Serviços</h2>
-  <ul>
-    <li>Sistemas embarcados e IoT</li>
-    <li>Robótica educacional</li>
-    <li>Consultoria técnica</li>
-    <li>Treinamentos e workshops</li>
-  </ul>
+
+  <article class="card">
+    <h3>Sistemas embarcados e IoT</h3>
+    <p>Desenvolvimento com microcontroladores, sensores reais, controle fechado, comunicação e depuração consciente.</p>
+  </article>
+
+  <article class="card">
+    <h3>Robótica educacional</h3>
+    <p>Aprendizado baseado em projetos reais, indo além de kits prontos e soluções de vitrine.</p>
+  </article>
+
+  <article class="card">
+    <h3>Consultoria técnica</h3>
+    <p>Apoio em projetos de eletrônica, automação, controle térmico e fabricação digital.</p>
+  </article>
+
+  <article class="card">
+    <h3>Treinamentos e workshops</h3>
+    <p>Formação prática para escolas, empresas e entusiastas técnicos.</p>
+  </article>
 </section>
 
 <section id="portfolio">
   <h2>Portfólio</h2>
   <div class="grid">
-   
-    <div class="card">
-      <img src="20260104_211825.jpg">
-      <p>Robótica educacional prática</p>
-    </div>
-    
-    <div class="card">
-      <img src="20260104_212003.jpg">
-      <p>Automação e controle</p>
-    </div>
-  
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1518773553398-650c184e0bb3?auto=format&fit=crop&w=400&q=80">
-      <p>IA no microcontrolador</p>
-    </div>  
-  
-  
+
+    <article class="card">
+      <img src="20260104_211825.jpg" alt="Robótica educacional prática">
+      <p>Projetos educacionais com foco em eletrônica real e controle.</p>
+    </article>
+
+    <article class="card">
+      <img src="20260104_212003.jpg" alt="Automação e controle">
+      <p>Sistemas de automação, controle térmico e PID.</p>
+    </article>
+
   </div>
 </section>
 
 <section id="blog">
   <h2>Blog</h2>
+
   <article>
-    <h3>Robótica descomplicada</h3>
-    <p>Tecnologia explicada do jeito certo.</p>
+    <h3>Robótica sem romantização</h3>
+    <p>Por que errar, medir e corrigir ensina mais do que seguir tutoriais prontos.</p>
   </article>
+
 </section>
 
 <section id="contact">
   <h2>Contato</h2>
-<form action="https://formspree.io/f/mykwavgo" method="POST">
-  <label>Nome</label>
-  <input type="text" name="nome" required>
-  <label>Email</label>
-  <input type="email" name="email" required>
-  <label>Mensagem</label>
-  <textarea name="mensagem" rows="5" required></textarea>
-  <button type="submit">Enviar</button>
-</form>
-<p id="form-status"></p>
 
+  <form action="https://formspree.io/f/mykwavgo" method="POST">
+    <label>Nome</label>
+    <input type="text" name="nome" required>
+
+    <label>Email</label>
+    <input type="email" name="email" required>
+
+    <label>Mensagem</label>
+    <textarea name="mensagem" rows="5" required></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+
+  <p id="form-status"></p>
 </section>
 
 </main>
+
+<!-- =====================================================================================
+==================================== JAVASCRIPT ==========================================
+===================================================================================== -->
 
 <script>
 const menuToggle = document.getElementById('menu-toggle');
@@ -351,14 +355,14 @@ navItems.forEach(link => {
   link.onclick = () => navLinks.classList.remove('open');
 });
 
-// Formulário
+// ================= FORMULÁRIO =================
 const form = document.querySelector("form");
 const status = document.getElementById("form-status");
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const data = new FormData(form);
 
+  const data = new FormData(form);
   const response = await fetch(form.action, {
     method: form.method,
     body: data,
@@ -374,14 +378,7 @@ form.addEventListener("submit", async (e) => {
 });
 </script>
 
+<!-- ============================ FIM DO BLOCO JAVASCRIPT ============================ -->
 
 </body>
 </html>
-
-
-
-
-
-
-
-
