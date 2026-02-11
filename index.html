@@ -9,9 +9,7 @@
 ==================================== CSS ================================================
 ===================================================================================== -->
 <style>
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 /* ================= FONTES ================= */
 @font-face {
@@ -19,7 +17,6 @@ html {
   src: url('13_Misa.TTF') format('truetype');
   font-display: swap;
 }
-
 @font-face {
   font-family: 'ClassicRobot';
   src: url('ClassicRobot.otf') format('opentype');
@@ -29,6 +26,7 @@ html {
 /* ================= VARIÁVEIS ================= */
 :root {
   --bg-main: #1F2933;
+  --bg-card: #00008b;
   --blue-dark: #0b1e38;
   --blue-light: #1e88e5;
   --text-main: #e5e7eb;
@@ -37,11 +35,7 @@ html {
 }
 
 /* ================= RESET ================= */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 /* ================= BASE ================= */
 body {
@@ -50,6 +44,8 @@ body {
   color: var(--text-main);
   line-height: 1.7;
 }
+
+a { color: var(--orange); text-decoration: none; }
 
 /* ================= HEADER ================= */
 header {
@@ -71,14 +67,29 @@ nav ul {
   gap: 20px;
 }
 
-nav a {
-  color: var(--text-main);
-  text-decoration: none;
+nav a { color: var(--text-main); }
+
+/* ================= MENU MOBILE ================= */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+.menu-toggle span {
+  background: var(--text-main);
+  height: 3px;
+  width: 26px;
+  margin-bottom: 5px;
+  border-radius: 2px;
 }
 
 /* ================= MAIN ================= */
-main {
-  margin-top: 60px;
+main { margin-top: 60px; }
+
+section {
+  padding: 70px 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* ================= HOME ================= */
@@ -93,85 +104,47 @@ main {
   align-items: baseline;
 }
 
-/* ================= LOGO ================= */
+/* LOGO */
 .logo-r {
   font-family: '13Misa';
   font-size: clamp(4rem, 10vw, 7rem);
   color: var(--orange);
-  display: inline-block;
   opacity: 0;
 }
-
 .logo-rest {
   font-family: 'ClassicRobot';
   font-size: clamp(3.5rem, 9vw, 6.5rem);
   color: white;
-  display: inline-block;
   opacity: 0;
 }
 
 /* ================= ANIMAÇÕES ================= */
-
-/* R pousando */
 .logo-r.animate {
   animation:
-    landR 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
+    landR 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards,
     glowFade 0.6s ease-out 1.2s forwards;
 }
-
-/* odaBit vindo do noroeste */
 .logo-rest.animate {
   animation: slideInNW 1.2s ease-out forwards;
 }
 
 @keyframes landR {
-  0% {
-    transform: translateY(-120px) scale(2.8);
-    opacity: 0;
-    filter: blur(6px);
-    text-shadow: none;
-  }
-  60% {
-    opacity: 1;
-    filter: blur(2px);
-  }
-  85% {
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
+  0% { transform: translateY(-120px) scale(2.8); opacity: 0; filter: blur(6px); }
+  60% { opacity: 1; filter: blur(2px); }
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
     filter: blur(0);
-    text-shadow:
-      0 0 14px rgba(255, 111, 60, 0.9),
-      0 0 32px rgba(255, 111, 60, 0.6);
+    text-shadow: 0 0 14px rgba(255,111,60,.9),
+                 0 0 32px rgba(255,111,60,.6);
   }
 }
-
 @keyframes glowFade {
-  from {
-    text-shadow:
-      0 0 14px rgba(255, 111, 60, 0.9),
-      0 0 32px rgba(255, 111, 60, 0.6);
-  }
-  to {
-    text-shadow: none;
-  }
+  to { text-shadow: none; }
 }
-
 @keyframes slideInNW {
-  0% {
-    transform: translate(-60px, -40px);
-    opacity: 0;
-  }
-  60% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate(0, 0);
-    opacity: 1;
-  }
+  from { transform: translate(-60px,-40px); opacity: 0; }
+  to   { transform: translate(0,0); opacity: 1; }
 }
 
 /* ================= TEXTO HOME ================= */
@@ -180,17 +153,48 @@ main {
   font-size: clamp(1rem, 4vw, 1.3rem);
   color: var(--text-muted);
 }
-
-/* ================= BOTÃO ================= */
 .btn-primary {
   margin-top: 30px;
   background: var(--orange);
   color: white;
   padding: 14px 36px;
   border-radius: 30px;
-  font-size: 1.05rem;
   border: none;
   cursor: pointer;
+}
+
+/* ================= CARDS ================= */
+.card, article, form {
+  background: var(--bg-card);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid var(--orange);
+  border-radius: 6px;
+}
+
+/* ================= PORTFÓLIO ================= */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: 20px;
+}
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 768px) {
+  nav ul {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    height: calc(100vh - 60px);
+    width: 240px;
+    background: var(--blue-dark);
+    flex-direction: column;
+    padding: 30px 20px;
+    transform: translateX(100%);
+    transition: transform .3s ease;
+  }
+  nav ul.open { transform: translateX(0); }
+  .menu-toggle { display: flex; }
 }
 </style>
 <!-- ============================ FIM DO BLOCO CSS ============================ -->
@@ -200,11 +204,17 @@ main {
 
 <header>
   <nav>
-    <ul>
+    <ul id="nav-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#about">Sobre</a></li>
+      <li><a href="#services">Serviços</a></li>
+      <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#blog">Blog</a></li>
       <li><a href="#contact">Contato</a></li>
     </ul>
+    <div class="menu-toggle" id="menu-toggle">
+      <span></span><span></span><span></span>
+    </div>
   </nav>
 </header>
 
@@ -215,12 +225,47 @@ main {
     <span class="logo-r" id="logoR">R</span>
     <span class="logo-rest" id="logoRest">odaBit</span>
   </div>
-
   <p>Rodando ideias, conectando mentes e criando o futuro.</p>
-
-  <button class="btn-primary">
+  <button class="btn-primary"
+    onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
     Fale Conosco
   </button>
+</section>
+
+<section id="about">
+  <h2>Sobre</h2>
+  <p>Aprendizado aplicado, robótica como meio e pensamento técnico como objetivo.</p>
+</section>
+
+<section id="services">
+  <h2>Serviços</h2>
+  <article>Sistemas embarcados e IoT</article>
+  <article>Robótica educacional</article>
+  <article>Consultoria técnica</article>
+  <article>Treinamentos e workshops</article>
+</section>
+
+<section id="portfolio">
+  <h2>Portfólio</h2>
+  <div class="grid">
+    <div class="card">Robótica educacional prática</div>
+    <div class="card">Automação e controle</div>
+  </div>
+</section>
+
+<section id="blog">
+  <h2>Blog</h2>
+  <article>Robótica sem romantização</article>
+</section>
+
+<section id="contact">
+  <h2>Contato</h2>
+  <form>
+    <input placeholder="Nome">
+    <input placeholder="Email">
+    <textarea placeholder="Mensagem"></textarea>
+    <button class="btn-primary">Enviar</button>
+  </form>
 </section>
 
 </main>
@@ -229,10 +274,16 @@ main {
 ==================================== JAVASCRIPT ==========================================
 ===================================================================================== -->
 <script>
-/* Dispara as animações após carregamento completo */
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+menuToggle.onclick = () => navLinks.classList.toggle('open');
+navLinks.querySelectorAll('a').forEach(a =>
+  a.onclick = () => navLinks.classList.remove('open')
+);
+
 window.addEventListener("load", () => {
-  document.getElementById("logoR").classList.add("animate");
-  document.getElementById("logoRest").classList.add("animate");
+  logoR.classList.add("animate");
+  logoRest.classList.add("animate");
 });
 </script>
 <!-- ============================ FIM DO BLOCO JAVASCRIPT ============================ -->
