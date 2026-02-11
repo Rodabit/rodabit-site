@@ -106,13 +106,22 @@ main {
   font-family: 'ClassicRobot';
   font-size: clamp(3.5rem, 9vw, 6.5rem);
   color: white;
+  display: inline-block;
+  opacity: 0;
 }
 
 /* ================= ANIMAÇÕES ================= */
+
+/* R pousando */
 .logo-r.animate {
   animation:
     landR 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
     glowFade 0.6s ease-out 1.2s forwards;
+}
+
+/* odaBit vindo do noroeste */
+.logo-rest.animate {
+  animation: slideInNW 1.2s ease-out forwards;
 }
 
 @keyframes landR {
@@ -122,17 +131,14 @@ main {
     filter: blur(6px);
     text-shadow: none;
   }
-
   60% {
     opacity: 1;
     filter: blur(2px);
   }
-
   85% {
     transform: translateY(0) scale(1);
     filter: blur(0);
   }
-
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
@@ -151,6 +157,20 @@ main {
   }
   to {
     text-shadow: none;
+  }
+}
+
+@keyframes slideInNW {
+  0% {
+    transform: translate(-60px, -40px);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
   }
 }
 
@@ -192,7 +212,8 @@ main {
 
 <section id="home">
   <div class="logo-wrapper">
-    <span class="logo-r" id="logoR">R</span><span class="logo-rest">odaBit</span>
+    <span class="logo-r" id="logoR">R</span>
+    <span class="logo-rest" id="logoRest">odaBit</span>
   </div>
 
   <p>Rodando ideias, conectando mentes e criando o futuro.</p>
@@ -208,10 +229,10 @@ main {
 ==================================== JAVASCRIPT ==========================================
 ===================================================================================== -->
 <script>
-/* Dispara a animação após carregamento completo */
+/* Dispara as animações após carregamento completo */
 window.addEventListener("load", () => {
-  const logoR = document.getElementById("logoR");
-  logoR.classList.add("animate");
+  document.getElementById("logoR").classList.add("animate");
+  document.getElementById("logoRest").classList.add("animate");
 });
 </script>
 <!-- ============================ FIM DO BLOCO JAVASCRIPT ============================ -->
