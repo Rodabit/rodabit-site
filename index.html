@@ -145,13 +145,15 @@ section {
 .i-dot-wrapper::after {
   content: "";
   position: absolute;
-  top: 0.1;
-  left: 50%;
+  top: 0.535em;
+  left: 52%;
   transform: translate(-50%, -50%);
-  width: 0.2em;
-  height: 0.2em;
+  width: 0.15em;
+  height: 0.15em;
   background: var(--orange);
   border-radius: 50%;
+  opacity: 100;
+  will-change: transform, opacity;
 }
   
 /* ================= ANIMAÇÕES ================= */
@@ -435,6 +437,7 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
 
 
 
