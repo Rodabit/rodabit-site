@@ -386,7 +386,8 @@ menuToggle.onclick = () => navLinks.classList.toggle('open');
 navItems.forEach(link => link.onclick = () => navLinks.classList.remove('open'));
 
 /* animações do logo */
-window.addEventListener('load', () => {
+/* window.addEventListener('load', () => { */ 
+document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('logoR').classList.add('animate');
   document.getElementById('logoRest').classList.add('animate');
 });
@@ -414,4 +415,5 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
 
