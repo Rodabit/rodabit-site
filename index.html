@@ -3,20 +3,23 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RodaBit — Rodando ideias, conectando mentes e criando o futuro</title>
+<title>RodaBit - Rodando ideias, conectando mentes e criando o futuro.</title>
 
 <!-- =====================================================================================
 ==================================== CSS ================================================
 ===================================================================================== -->
 <style>
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+}
 
-/* ================= FONTES ================= */
+/* ================= FONTES LOCAIS ================= */
 @font-face {
   font-family: '13Misa';
   src: url('13_Misa.TTF') format('truetype');
   font-display: swap;
 }
+
 @font-face {
   font-family: 'ClassicRobot';
   src: url('ClassicRobot.otf') format('opentype');
@@ -35,23 +38,37 @@ html { scroll-behavior: smooth; }
 }
 
 /* ================= RESET ================= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* ================= BASE ================= */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
   line-height: 1.7;
 }
 
-a { color: var(--orange); text-decoration: none; }
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: var(--orange);
+  text-decoration: none;
+}
 
 /* ================= HEADER ================= */
 header {
   position: fixed;
   top: 0;
-  width: 100%;
+  left: 0;
+  right: 0;
   height: 60px;
   background: var(--blue-dark);
   display: flex;
@@ -67,7 +84,9 @@ nav ul {
   gap: 20px;
 }
 
-nav a { color: var(--text-main); }
+nav li a {
+  color: var(--text-main);
+}
 
 /* ================= MENU MOBILE ================= */
 .menu-toggle {
@@ -75,6 +94,7 @@ nav a { color: var(--text-main); }
   flex-direction: column;
   cursor: pointer;
 }
+
 .menu-toggle span {
   background: var(--text-main);
   height: 3px;
@@ -84,7 +104,9 @@ nav a { color: var(--text-main); }
 }
 
 /* ================= MAIN ================= */
-main { margin-top: 60px; }
+main {
+  margin-top: 60px;
+}
 
 section {
   padding: 70px 20px;
@@ -109,8 +131,10 @@ section {
   font-family: '13Misa';
   font-size: clamp(4rem, 10vw, 7rem);
   color: var(--orange);
+  line-height: 1;
   opacity: 0;
 }
+
 .logo-rest {
   font-family: 'ClassicRobot';
   font-size: clamp(3.5rem, 9vw, 6.5rem);
@@ -119,52 +143,89 @@ section {
 }
 
 /* ================= ANIMAÇÕES ================= */
+
+/* R pousando */
 .logo-r.animate {
   animation:
-    landR 1.2s cubic-bezier(0.2,0.8,0.2,1) forwards,
+    landR 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards,
     glowFade 0.6s ease-out 1.2s forwards;
 }
+
+/* odaBit vindo do noroeste */
 .logo-rest.animate {
   animation: slideInNW 1.2s ease-out forwards;
 }
 
 @keyframes landR {
-  0% { transform: translateY(-120px) scale(2.8); opacity: 0; filter: blur(6px); }
-  60% { opacity: 1; filter: blur(2px); }
+  0% {
+    transform: translateY(-120px) scale(2.8);
+    opacity: 0;
+    filter: blur(6px);
+    text-shadow: none;
+  }
+  60% {
+    opacity: 1;
+    filter: blur(2px);
+  }
   100% {
     transform: translateY(0) scale(1);
     opacity: 1;
     filter: blur(0);
-    text-shadow: 0 0 14px rgba(255,111,60,.9),
-                 0 0 32px rgba(255,111,60,.6);
+    text-shadow:
+      0 0 14px rgba(255, 111, 60, 0.9),
+      0 0 32px rgba(255, 111, 60, 0.6);
   }
 }
+
 @keyframes glowFade {
   to { text-shadow: none; }
 }
+
 @keyframes slideInNW {
-  from { transform: translate(-60px,-40px); opacity: 0; }
-  to   { transform: translate(0,0); opacity: 1; }
+  from {
+    transform: translate(-60px, -40px);
+    opacity: 0;
+  }
+  to {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
 }
 
-/* ================= TEXTO HOME ================= */
 #home p {
   margin-top: 20px;
   font-size: clamp(1rem, 4vw, 1.3rem);
   color: var(--text-muted);
 }
+
 .btn-primary {
   margin-top: 30px;
   background: var(--orange);
   color: white;
   padding: 14px 36px;
-  border-radius: 30px;
   border: none;
+  border-radius: 30px;
+  font-size: 1.05rem;
   cursor: pointer;
 }
 
+/* ================= TÍTULOS ================= */
+section h2 {
+  font-size: clamp(1.7rem, 6vw, 2.2rem);
+  margin-bottom: 24px;
+  border-bottom: 3px solid var(--orange);
+  display: inline-block;
+}
+
 /* ================= CARDS ================= */
-.card, article, form {
+#services ul {
+  list-style: none;
+}
+
+#services li,
+.card,
+#blog article,
+#contact form {
   background: var(--bg-card);
   padding: 20px;
   margin-bottom: 20px;
@@ -173,10 +234,39 @@ section {
 }
 
 /* ================= PORTFÓLIO ================= */
-.grid {
+#portfolio .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
+}
+
+#portfolio img {
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* ================= CONTATO ================= */
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* ================= FEEDBACK FORM ================= */
+#form-status {
+  margin-top: 12px;
+  font-weight: 600;
+  color: var(--orange);
+  text-align: center;
 }
 
 /* ================= RESPONSIVO ================= */
@@ -190,11 +280,18 @@ section {
     background: var(--blue-dark);
     flex-direction: column;
     padding: 30px 20px;
+    gap: 16px;
     transform: translateX(100%);
-    transition: transform .3s ease;
+    transition: transform 0.3s ease;
   }
-  nav ul.open { transform: translateX(0); }
-  .menu-toggle { display: flex; }
+
+  nav ul.open {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
 }
 </style>
 <!-- ============================ FIM DO BLOCO CSS ============================ -->
@@ -234,38 +331,47 @@ section {
 
 <section id="about">
   <h2>Sobre</h2>
-  <p>Aprendizado aplicado, robótica como meio e pensamento técnico como objetivo.</p>
+  <p>A Rodabit nasce da inquietação com o ensino raso de tecnologia...</p>
 </section>
 
 <section id="services">
   <h2>Serviços</h2>
-  <article>Sistemas embarcados e IoT</article>
-  <article>Robótica educacional</article>
-  <article>Consultoria técnica</article>
-  <article>Treinamentos e workshops</article>
+  <ul>
+    <li>Sistemas embarcados e IoT</li>
+    <li>Robótica educacional</li>
+    <li>Consultoria técnica</li>
+    <li>Treinamentos e workshops</li>
+  </ul>
 </section>
 
 <section id="portfolio">
   <h2>Portfólio</h2>
   <div class="grid">
-    <div class="card">Robótica educacional prática</div>
-    <div class="card">Automação e controle</div>
+    <div class="card"><p>Robótica educacional prática</p></div>
+    <div class="card"><p>Automação e controle</p></div>
   </div>
 </section>
 
 <section id="blog">
   <h2>Blog</h2>
-  <article>Robótica sem romantização</article>
+  <article>
+    <h3>Robótica descomplicada</h3>
+    <p>Tecnologia explicada do jeito certo.</p>
+  </article>
 </section>
 
 <section id="contact">
   <h2>Contato</h2>
-  <form>
-    <input placeholder="Nome">
-    <input placeholder="Email">
-    <textarea placeholder="Mensagem"></textarea>
-    <button class="btn-primary">Enviar</button>
+  <form action="https://formspree.io/f/mykwavgo" method="POST">
+    <label>Nome</label>
+    <input type="text" name="nome" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <label>Mensagem</label>
+    <textarea name="mensagem" rows="5" required></textarea>
+    <button type="submit">Enviar</button>
   </form>
+  <p id="form-status"></p>
 </section>
 
 </main>
@@ -276,14 +382,40 @@ section {
 <script>
 const menuToggle = document.getElementById('menu-toggle');
 const navLinks = document.getElementById('nav-links');
-menuToggle.onclick = () => navLinks.classList.toggle('open');
-navLinks.querySelectorAll('a').forEach(a =>
-  a.onclick = () => navLinks.classList.remove('open')
-);
+const navItems = navLinks.querySelectorAll('a');
 
+menuToggle.onclick = () => navLinks.classList.toggle('open');
+
+navItems.forEach(link => {
+  link.onclick = () => navLinks.classList.remove('open');
+});
+
+/* animações do logo */
 window.addEventListener("load", () => {
-  logoR.classList.add("animate");
-  logoRest.classList.add("animate");
+  document.getElementById("logoR").classList.add("animate");
+  document.getElementById("logoRest").classList.add("animate");
+});
+
+/* formulário */
+const form = document.querySelector("form");
+const status = document.getElementById("form-status");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  if (response.ok) {
+    status.textContent = "Mensagem enviada com sucesso!";
+    form.reset();
+  } else {
+    status.textContent = "Erro ao enviar. Tente novamente.";
+  }
 });
 </script>
 <!-- ============================ FIM DO BLOCO JAVASCRIPT ============================ -->
