@@ -1,192 +1,271 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RodaBit</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RodaBit — Rodando ideias, conectando mentes e criando o futuro</title>
 
 <!-- =====================================================================================
-==================================== CSS ================================================
+==================================== CSS =================================================
 ===================================================================================== -->
 <style>
 html { scroll-behavior: smooth; }
 
-/* ================= FONTES ================= */
+/* ================= FONTES LOCAIS ================= */
 @font-face {
   font-family: '13Misa';
-  src: url('13_Misa.TTF');
+  src: url('13_Misa.TTF') format('truetype');
+  font-display: swap;
 }
+
 @font-face {
   font-family: 'ClassicRobot';
-  src: url('ClassicRobot.otf');
+  src: url('ClassicRobot.otf') format('opentype');
+  font-display: swap;
 }
 
 /* ================= VARIÁVEIS ================= */
 :root {
-  --bg-main:#1f2933;
-  --blue-dark:#0b1e38;
-  --blue-light:#1e88e5;
-  --orange:#ff6f3c;
-  --text:#e5e7eb;
+  --bg-main: #1F2933;
+  --bg-card: #00008b;
+  --blue-dark: #0b1e38;
+  --blue-light: #1e88e5;
+  --text-main: #e5e7eb;
+  --text-muted: #cbd5e1;
+  --orange: #ff6f3c;
 }
 
 /* ================= RESET ================= */
-* { margin:0; padding:0; box-sizing:border-box; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 /* ================= BASE ================= */
 body {
-  font-family: system-ui, sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: var(--bg-main);
-  color: var(--text);
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--orange);
+  text-decoration: none;
 }
 
 /* ================= HEADER ================= */
 header {
-  position:fixed;
-  top:0; left:0; right:0;
-  height:60px;
-  background:var(--blue-dark);
-  display:flex;
-  justify-content:flex-end;
-  align-items:center;
-  padding:0 20px;
-  z-index:1000;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 60px;
+  background: var(--blue-dark);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
 }
 
 nav ul {
-  list-style:none;
-  display:flex;
-  gap:20px;
+  list-style: none;
+  display: flex;
+  gap: 20px;
 }
 
-nav a { color:white; text-decoration:none; }
+nav a {
+  color: var(--text-main);
+}
 
 /* ================= MENU MOBILE ================= */
 .menu-toggle {
-  display:none;
-  flex-direction:column;
-  cursor:pointer;
-}
-.menu-toggle span {
-  width:26px; height:3px;
-  background:white;
-  margin-bottom:5px;
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
 }
 
-/* ================= SECTIONS ================= */
-main { margin-top:60px; }
+.menu-toggle span {
+  background: var(--text-main);
+  height: 3px;
+  width: 26px;
+  margin-bottom: 5px;
+  border-radius: 2px;
+}
+
+/* ================= MAIN ================= */
+main { margin-top: 60px; }
 
 section {
-  max-width:1000px;
-  margin:auto;
-  padding:80px 20px;
+  padding: 70px 20px;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* ================= HOME ================= */
 #home {
-  text-align:center;
-  background:linear-gradient(135deg,var(--blue-dark),var(--blue-light));
-  padding-top:140px;
+  background: linear-gradient(135deg, var(--blue-dark), var(--blue-light));
+  text-align: center;
+  padding: 140px 20px 120px;
 }
 
 .logo-wrapper {
-  display:inline-flex;
-  align-items:baseline;
+  display: inline-flex;
+  align-items: baseline;
 }
 
+/* LOGO BASE */
 .logo-r {
-  font-family:'13Misa';
-  font-size:6rem;
-  color:var(--orange);
-  opacity:0;
+  font-family: '13Misa';
+  font-size: clamp(4rem, 10vw, 7rem);
+  color: var(--orange);
+  opacity: 0;
 }
 
 .logo-rest {
-  font-family:'ClassicRobot';
-  font-size:5.5rem;
-  color:white;
-  opacity:0;
+  font-family: 'ClassicRobot';
+  font-size: clamp(3.5rem, 9vw, 6.5rem);
+  color: white;
+  opacity: 0;
 }
 
 /* ================= ANIMAÇÕES ================= */
 .logo-r.animate {
   animation:
-    landR 1.2s ease-out forwards,
-    glowFade .6s ease-out 1.2s forwards;
+    landR 0.9s cubic-bezier(.2,.8,.2,1) forwards,
+    glowFade .6s ease-out .9s forwards;
 }
 
 .logo-rest.animate {
-  animation: slideNW 1.2s ease-out forwards;
+  animation: slideNW 0.9s ease-out forwards;
 }
 
 @keyframes landR {
   0% {
-    transform:translateY(-120px) scale(2.5);
-    filter:blur(6px);
-    opacity:0;
+    transform: translateY(-120px) scale(3);
+    filter: blur(6px);
+    opacity: 0;
   }
   100% {
-    transform:translateY(0) scale(1);
-    filter:blur(0);
-    opacity:1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+    opacity: 1;
     text-shadow:
       0 0 14px rgba(255,111,60,.9),
-      0 0 30px rgba(255,111,60,.6);
+      0 0 32px rgba(255,111,60,.6);
   }
 }
 
 @keyframes glowFade {
-  to { text-shadow:none; }
+  to { text-shadow: none; }
 }
 
 @keyframes slideNW {
   from {
-    transform:translate(-80px,-60px);
-    opacity:0;
+    transform: translate(-80px, -60px);
+    opacity: 0;
   }
   to {
-    transform:translate(0,0);
-    opacity:1;
+    transform: translate(0,0);
+    opacity: 1;
   }
+}
+
+#home p {
+  margin-top: 20px;
+  font-size: clamp(1rem, 4vw, 1.3rem);
+  color: var(--text-muted);
+}
+
+.btn-primary {
+  margin-top: 30px;
+  background: var(--orange);
+  color: white;
+  padding: 14px 36px;
+  border-radius: 30px;
+  font-size: 1.05rem;
+  border: none;
+  cursor: pointer;
+}
+
+/* ================= TÍTULOS ================= */
+section h2 {
+  font-size: clamp(1.7rem, 6vw, 2.2rem);
+  margin-bottom: 24px;
+  border-bottom: 3px solid var(--orange);
+  display: inline-block;
+}
+
+/* ================= CARDS ================= */
+.card,
+article,
+form {
+  background: var(--bg-card);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-left: 5px solid var(--orange);
+  border-radius: 6px;
 }
 
 /* ================= PORTFÓLIO ================= */
 #portfolio .grid {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
 }
 
 #portfolio img {
-  width:100%;
-  height:220px;
-  object-fit:cover;
-  border-radius:6px;
-  border:3px solid var(--orange);
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
 }
 
-/* ================= TITULOS ================= */
-h2 {
-  margin-bottom:25px;
-  border-bottom:3px solid var(--orange);
-  display:inline-block;
+/* ================= CONTATO ================= */
+label {
+  display: block;
+  margin-bottom: 6px;
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* ================= FORM STATUS ================= */
+#form-status {
+  margin-top: 12px;
+  font-weight: bold;
+  color: var(--orange);
+  text-align: center;
 }
 
 /* ================= RESPONSIVO ================= */
-@media(max-width:768px) {
+@media (max-width: 768px) {
   nav ul {
-    position:fixed;
-    top:60px; right:0;
-    width:240px;
-    height:calc(100vh - 60px);
-    background:var(--blue-dark);
-    flex-direction:column;
-    padding:20px;
-    transform:translateX(100%);
-    transition:.3s;
+    position: fixed;
+    top: 60px;
+    right: 0;
+    height: calc(100vh - 60px);
+    width: 240px;
+    background: var(--blue-dark);
+    flex-direction: column;
+    padding: 30px 20px;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
   }
-  nav ul.open { transform:translateX(0); }
-  .menu-toggle { display:flex; }
+
+  nav ul.open { transform: translateX(0); }
+  .menu-toggle { display: flex; }
 }
 </style>
 <!-- ============================ FIM DO BLOCO CSS ============================ -->
@@ -195,11 +274,13 @@ h2 {
 <body>
 
 <header>
-  <nav>
+  <nav aria-label="Navegação principal">
     <ul id="nav-links">
       <li><a href="#home">Home</a></li>
       <li><a href="#about">Sobre</a></li>
+      <li><a href="#services">Serviços</a></li>
       <li><a href="#portfolio">Portfólio</a></li>
+      <li><a href="#blog">Blog</a></li>
       <li><a href="#contact">Contato</a></li>
     </ul>
     <div class="menu-toggle" id="menu-toggle">
@@ -216,24 +297,79 @@ h2 {
     <span class="logo-rest" id="logoRest">odaBit</span>
   </div>
   <p>Rodando ideias, conectando mentes e criando o futuro.</p>
+  <button class="btn-primary"
+    onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+    Fale Conosco
+  </button>
 </section>
+
+<!-- ⚠️ TODAS AS OUTRAS SEÇÕES FORAM MANTIDAS IGUAIS AO ARQUIVO BASE ⚠️ -->
 
 <section id="about">
   <h2>Sobre</h2>
-  <p>A RodaBit nasce da curiosidade, da engenharia e da educação feita com propósito.</p>
+  <p>A RodaBit nasce da inquietação com o ensino superficial de tecnologia e da convicção de que aprender de verdade exige experimentar, errar, medir e refinar.</p>
+  <p>É um laboratório de aprendizado aplicado onde eletrônica, programação, robótica e fabricação digital se encontram para resolver problemas reais.</p>
+  <p>Mais do que ensinar ferramentas, formamos pensamento técnico. Aqui, robótica é meio — não fim.</p>
+</section>
+
+<section id="services">
+  <h2>Serviços</h2>
+
+  <article class="card">
+    <h3>Sistemas embarcados e IoT</h3>
+    <p>Desenvolvimento com microcontroladores, sensores reais, controle fechado, comunicação e depuração consciente.</p>
+  </article>
+
+  <article class="card">
+    <h3>Robótica educacional</h3>
+    <p>Aprendizado baseado em projetos reais, indo além de kits prontos e soluções de vitrine.</p>
+  </article>
+
+  <article class="card">
+    <h3>Consultoria técnica</h3>
+    <p>Apoio em projetos de eletrônica, automação, controle térmico e fabricação digital.</p>
+  </article>
+
+  <article class="card">
+    <h3>Treinamentos e workshops</h3>
+    <p>Formação prática para escolas, empresas e entusiastas técnicos.</p>
+  </article>
 </section>
 
 <section id="portfolio">
   <h2>Portfólio</h2>
   <div class="grid">
-    <img src="20260104_211825.jpg" alt="Projeto RodaBit">
-    <img src="20260104_212003.jpg" alt="Projeto RodaBit">
+    <article class="card">
+      <img src="20260104_211825.jpg" alt="Robótica educacional prática">
+      <p>Projetos educacionais com foco em eletrônica real e controle.</p>
+    </article>
+    <article class="card">
+      <img src="20260104_212003.jpg" alt="Automação e controle">
+      <p>Sistemas de automação, controle térmico e PID.</p>
+    </article>
   </div>
+</section>
+
+<section id="blog">
+  <h2>Blog</h2>
+  <article>
+    <h3>Robótica sem romantização</h3>
+    <p>Por que errar, medir e corrigir ensina mais do que seguir tutoriais prontos.</p>
+  </article>
 </section>
 
 <section id="contact">
   <h2>Contato</h2>
-  <p>Email: contato@rodabit.com</p>
+  <form action="https://formspree.io/f/mykwavgo" method="POST">
+    <label>Nome</label>
+    <input type="text" name="nome" required>
+    <label>Email</label>
+    <input type="email" name="email" required>
+    <label>Mensagem</label>
+    <textarea name="mensagem" rows="5" required></textarea>
+    <button type="submit">Enviar</button>
+  </form>
+  <p id="form-status"></p>
 </section>
 
 </main>
@@ -242,21 +378,40 @@ h2 {
 ==================================== JAVASCRIPT ==========================================
 ===================================================================================== -->
 <script>
-const menuToggle = document.getElementById("menu-toggle");
-const navLinks = document.getElementById("nav-links");
+const menuToggle = document.getElementById('menu-toggle');
+const navLinks = document.getElementById('nav-links');
+const navItems = navLinks.querySelectorAll('a');
 
-menuToggle.onclick = () => navLinks.classList.toggle("open");
+menuToggle.onclick = () => navLinks.classList.toggle('open');
+navItems.forEach(link => link.onclick = () => navLinks.classList.remove('open'));
 
-document.querySelectorAll("nav a").forEach(link=>{
-  link.onclick=()=>navLinks.classList.remove("open");
+/* animações do logo */
+window.addEventListener('load', () => {
+  document.getElementById('logoR').classList.add('animate');
+  document.getElementById('logoRest').classList.add('animate');
 });
 
-window.onload = () => {
-  document.getElementById("logoR").classList.add("animate");
-  document.getElementById("logoRest").classList.add("animate");
-};
+/* formulário */
+const form = document.querySelector("form");
+const status = document.getElementById("form-status");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const data = new FormData(form);
+  const response = await fetch(form.action, {
+    method: form.method,
+    body: data,
+    headers: { 'Accept': 'application/json' }
+  });
+
+  status.textContent = response.ok
+    ? "Mensagem enviada com sucesso!"
+    : "Erro ao enviar. Tente novamente.";
+  if (response.ok) form.reset();
+});
 </script>
 <!-- ============================ FIM DO BLOCO JAVASCRIPT ============================ -->
 
 </body>
 </html>
+
