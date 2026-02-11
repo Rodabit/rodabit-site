@@ -136,6 +136,24 @@ section {
   opacity: 0;
 }
 
+.i-dot-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* esconde o pingo original */
+.i-dot-wrapper::after {
+  content: "";
+  position: absolute;
+  top: 0.15em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0.25em;
+  height: 0.25em;
+  background: var(--orange);
+  border-radius: 50%;
+}
+  
 /* ================= ANIMAÇÕES ================= */
 .logo-r.animate {
   animation:
@@ -295,7 +313,8 @@ textarea {
 <section id="home">
   <div class="logo-wrapper">
     <span class="logo-r" id="logoR">R</span>
-    <span class="logo-rest" id="logoRest">odaBit</span>
+    <span class="logo-rest" id="logoRest">odaB<span class="i-dot-wrapper">i</span>t</span>
+   
   </div>
   <p>Rodando ideias, conectando mentes e criando o futuro.</p>
   <button class="btn-primary"
@@ -354,7 +373,7 @@ textarea {
 <section id="blog">
   <h2>Blog</h2>
   <article>
-    <h3>Robótica sem romantização</h3>
+    <h3>Robótica sem segredos</h3>
     <p>Por que errar, medir e corrigir ensina mais do que seguir tutoriais prontos.</p>
   </article>
 </section>
@@ -416,6 +435,7 @@ form.addEventListener("submit", async (e) => {
 
 </body>
 </html>
+
 
 
 
