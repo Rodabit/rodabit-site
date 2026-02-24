@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Textos Jornalísticos — Português</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #f5f0e8;
+    --sepia: #d4b896;
+    --accent: #8b1a1a;
+    --gold: #c9a227;
+    --light-ink: #4a3728;
+    --column-bg: #ede8dc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #2a2015;
+    font-family: 'Source Serif 4', Georgia, serif;
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 30px 15px;
+  }
+
+  /* Outer wrapper with texture */
+  .newspaper-outer {
+    max-width: 1100px;
+    margin: 0 auto;
+    background: var(--paper);
+    box-shadow: 0 0 80px rgba(0,0,0,0.8), inset 0 0 60px rgba(0,0,0,0.05);
+    position: relative;
+  }
+
+  /* Aged paper texture */
+  .newspaper-outer::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(139,110,80,0.06) 27px, rgba(139,110,80,0.06) 28px),
+      radial-gradient(ellipse at 20% 80%, rgba(180,140,80,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 10%, rgba(160,120,60,0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .newspaper-inner {
+    position: relative;
+    z-index: 1;
+    padding: 0 40px 60px;
+  }
+
+  /* ====== HEADER ====== */
+  .masthead {
+    border-bottom: 3px double var(--ink);
+    padding: 20px 0 12px;
+    margin-bottom: 0;
+    text-align: center;
+  }
+
+  .school-line {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--light-ink);
+    border-top: 1px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
+    padding: 4px 0;
+    margin-bottom: 12px;
+  }
+
+  .masthead-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(52px, 8vw, 96px);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 0.9;
+    letter-spacing: -2px;
+    text-transform: uppercase;
+  }
+
+  .masthead-subtitle {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(16px, 2.5vw, 22px);
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-top: 6px;
+  }
+
+  .header-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--light-ink);
+    border-top: 1px solid var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 6px 0;
+    margin-top: 10px;
+  }
+
+  /* ====== DISCIPLINE BANNER ====== */
+  .discipline-banner {
+    background: var(--ink);
+    color: var(--paper);
+    text-align: center;
+    padding: 8px 0;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .discipline-banner span {
+    color: var(--gold);
+    margin: 0 15px;
+  }
+
+  /* ====== BYLINE ====== */
+  .byline-box {
+    border: 1px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: var(--column-bg);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1px;
+    color: var(--light-ink);
+    margin-top: 0;
+    border-top: none;
+  }
+
+  .byline-box .teacher { font-weight: 700; text-transform: uppercase; color: var(--accent); }
+
+  /* ====== HEADLINE SECTION ====== */
+  .headline-section {
+    padding: 30px 0 20px;
+    border-bottom: 1px solid var(--sepia);
+  }
+
+  .kicker {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--ink);
+    color: var(--paper);
+    display: inline-block;
+    padding: 3px 10px;
+    margin-bottom: 12px;
+  }
+
+  .main-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 5vw, 58px);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--ink);
+    max-width: 800px;
+  }
+
+  .deck {
+    font-family: 'Source Serif 4', serif;
+    font-size: 18px;
+    font-weight: 300;
+    font-style: italic;
+    color: var(--light-ink);
+    margin-top: 12px;
+    border-left: 4px solid var(--accent);
+    padding-left: 16px;
+    line-height: 1.5;
+  }
+
+  /* ====== MAIN CONTENT LAYOUT ====== */
+  .content-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr 300px;
+    gap: 0;
+    margin-top: 24px;
+  }
+
+  .col-1, .col-2 {
+    padding: 0 20px 20px 0;
+    border-right: 1px solid var(--sepia);
+  }
+  .col-2 { padding-left: 20px; }
+  .col-sidebar {
+    padding-left: 24px;
+  }
+
+  /* ====== INTRO PARA ====== */
+  .intro-para {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .intro-para::first-letter {
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 900;
+    float: left;
+    line-height: 0.75;
+    margin: 8px 8px 0 0;
+    color: var(--accent);
+    padding: 0 4px 4px 0;
+  }
+
+  /* ====== BODY TEXT ====== */
+  .body-text {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--ink);
+    margin-bottom: 16px;
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  .body-text strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* ====== SECTION HEADERS ====== */
+  .section-head {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--ink);
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--sepia);
+    padding: 8px 0 6px;
+    margin: 24px 0 14px;
+    letter-spacing: -0.5px;
+  }
+
+  .section-head.accent-head {
+    color: var(--accent);
+    border-top-color: var(--accent);
+  }
+
+  /* ====== PULL QUOTE ====== */
+  .pull-quote {
+    border-top: 3px double var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 16px 0;
+    margin: 24px 0;
+    text-align: center;
+  }
+
+  .pull-quote p {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 21px;
+    line-height: 1.35;
+    color: var(--ink);
+  }
+
+  .pull-quote cite {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light-ink);
+    margin-top: 8px;
+    display: block;
+  }
+
+  /* ====== NUMBERED LIST (Estrutura) ====== */
+  .structure-list {
+    list-style: none;
+    counter-reset: steps;
+    margin: 0 0 16px;
+  }
+
+  .structure-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  .structure-list li::before {
+    content: counter(steps);
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 900;
+    color: var(--accent);
+    min-width: 28px;
+    line-height: 1;
+  }
+
+  .structure-list li strong {
+    color: var(--accent);
+  }
+
+  /* ====== 6 QUESTIONS GRID ====== */
+  .questions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 14px 0;
+  }
+
+  .q-card {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 12px 14px;
+    transition: transform 0.2s;
+  }
+
+  .q-card:hover { transform: translateY(-2px); }
+
+  .q-card .q-word {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 900;
+    font-style: italic;
+    color: var(--gold);
+    display: block;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .q-card .q-desc {
+    font-family: 'Source Serif 4', serif;
+    font-size: 11.5px;
+    font-style: italic;
+    color: rgba(245,240,232,0.75);
+  }
+
+  /* ====== BULLETIN LIST ====== */
+  .bulletin-list {
+    list-style: none;
+    margin: 0 0 16px;
+  }
+
+  .bulletin-list li {
+    padding: 5px 0 5px 16px;
+    border-bottom: 1px dotted var(--sepia);
+    font-size: 14.5px;
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .bulletin-list li::before {
+    content: '▪';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .bulletin-list li a {
+    color: var(--accent);
+    text-decoration: underline;
+  }
+
+  /* ====== SIDEBAR ====== */
+  .sidebar-box {
+    border: 2px solid var(--ink);
+    padding: 16px;
+    margin-bottom: 20px;
+    background: white;
+    position: relative;
+  }
+
+  .sidebar-box::before {
+    content: '';
+    position: absolute;
+    top: 4px; left: 4px; right: -4px; bottom: -4px;
+    background: var(--ink);
+    z-index: -1;
+  }
+
+  .sidebar-box .box-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--sepia);
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+
+  .sidebar-box p {
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+
+  /* Pyramid Diagram */
+  .pyramid-diagram {
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .pyramid-level {
+    margin: 0 auto 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Serif 4', serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    padding: 8px 6px;
+    clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+    transition: filter 0.2s;
+    cursor: default;
+  }
+
+  .pyramid-level:hover { filter: brightness(1.15); }
+
+  .pl-1 { width: 100%; background: var(--accent); font-size: 13px; font-weight: 700; }
+  .pl-2 { width: 82%; background: #6b3333; }
+  .pl-3 { width: 64%; background: #4a3728; }
+  .pl-4 { width: 46%; background: var(--light-ink); }
+  .pl-5 { width: 30%; background: #2a2015; font-size: 11px; }
+
+  .pyramid-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light-ink);
+    text-align: center;
+    margin-top: 6px;
+  }
+
+  /* ====== FULL-WIDTH SECTION ====== */
+  .full-width-section {
+    border-top: 3px double var(--ink);
+    margin-top: 30px;
+    padding-top: 24px;
+  }
+
+  /* ====== GENRES TABLE ====== */
+  .genres-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .genre-card {
+    border: 1px solid var(--sepia);
+    padding: 14px 12px;
+    text-align: center;
+    background: var(--column-bg);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s;
+    cursor: default;
+  }
+
+  .genre-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.25s;
+  }
+
+  .genre-card:hover { background: white; box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+  .genre-card:hover::after { transform: scaleX(1); }
+
+  .genre-card .g-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .genre-card .g-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  /* ====== ACTIVITY SECTIONS ====== */
+  .activity-section {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 30px 40px;
+    margin-top: 30px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .activity-section::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 300px;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: -60px;
+    left: -20px;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .activity-section h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--gold);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    padding-bottom: 10px;
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .activity-section p {
+    font-size: 15.5px;
+    line-height: 1.75;
+    color: rgba(245,240,232,0.9);
+    margin-bottom: 14px;
+  }
+
+  .activity-section strong {
+    color: var(--gold);
+  }
+
+  .writing-lines {
+    margin-top: 20px;
+  }
+
+  .writing-line {
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    height: 36px;
+    margin-bottom: 4px;
+    position: relative;
+  }
+
+  .writing-line:first-child::before {
+    content: 'Título:';
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: rgba(201,162,39,0.6);
+    position: absolute;
+    left: 0;
+    bottom: 4px;
+  }
+
+  /* ====== FOOTER ====== */
+  .footer {
+    border-top: 3px double var(--ink);
+    padding: 14px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--column-bg);
+  }
+
+  .footer-text {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--light-ink);
+  }
+
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--ink);
+    letter-spacing: -1px;
+  }
+
+  /* ====== LIDE BOX ====== */
+  .lide-highlight {
+    background: linear-gradient(135deg, var(--accent) 0%, #6b1515 100%);
+    color: white;
+    padding: 20px 22px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .lide-highlight::before {
+    content: 'LIDE';
+    font-family: 'Space Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 3px;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 3px 8px;
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    font-weight: 700;
+  }
+
+  .lide-highlight p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.95);
+  }
+
+  .lide-highlight strong {
+    color: var(--gold);
+  }
+
+  /* ====== DECORATIVE ====== */
+  .ornament {
+    text-align: center;
+    color: var(--sepia);
+    font-size: 20px;
+    letter-spacing: 10px;
+    margin: 20px 0;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid var(--sepia);
+    margin: 20px 0;
+  }
+
+  .link-article {
+    background: var(--column-bg);
+    border-left: 4px solid var(--gold);
+    padding: 10px 14px;
+    margin: 16px 0;
+    font-size: 13px;
+    font-family: 'Space Mono', monospace;
+    word-break: break-all;
+    color: var(--light-ink);
+  }
+
+  .link-article::before {
+    content: '🔗 REPORTAGEM PARA ANÁLISE:';
+    display: block;
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-in {
+    animation: fadeIn 0.6s ease forwards;
+  }
+
+  .col-1 { animation-delay: 0.1s; }
+  .col-2 { animation-delay: 0.25s; }
+  .col-sidebar { animation-delay: 0.4s; }
+
+  @media (max-width: 800px) {
+    .newspaper-inner { padding: 0 20px 40px; }
+    .content-layout { grid-template-columns: 1fr; }
+    .col-1, .col-2 { border-right: none; padding-right: 0; border-bottom: 1px solid var(--sepia); padding-bottom: 20px; }
+    .col-sidebar { padding-left: 0; }
+    .genres-grid { grid-template-columns: 1fr 1fr; }
+    .questions-grid { grid-template-columns: 1fr; }
+    .header-meta { font-size: 7px; }
+    .activity-section { padding: 24px 20px; }
+    .footer { padding: 12px 20px; flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="newspaper-outer">
+  <!-- MASTHEAD -->
+  <div class="newspaper-inner">
+
+    <div class="masthead">
+      <div class="school-line">Escola Estadual de Ensino Médio Carlos Gomes — Prof. Givanildo Boneti Godinho</div>
+      <div class="masthead-title">A Redação</div>
+      <div class="masthead-subtitle">O Jornal da Sala de Aula</div>
+      <div class="header-meta">
+        <span>PORTUGUÊS — LINGUAGENS E SUAS TECNOLOGIAS</span>
+        <span>✦ ✦ ✦</span>
+        <span>EDIÇÃO ESPECIAL: TEXTO JORNALÍSTICO</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DISCIPLINE BANNER -->
+  <div class="discipline-banner">
+    PORTUGUÊS<span>◆</span>TEXTO JORNALÍSTICO<span>◆</span>PROFESSOR: GIVANILDO BONETI GODINHO
+  </div>
+
+  <!-- BYLINE BOX -->
+  <div class="newspaper-inner" style="padding-top:0; padding-bottom:0;">
+    <div class="byline-box">
+      <span>ESTUDANTE: _______________________________</span>
+      <span class="teacher">Prof. Givanildo Boneti Godinho</span>
+      <span>ANO: ____________</span>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="newspaper-inner">
+
+    <!-- Headline -->
+    <div class="headline-section animate-in">
+      <div class="kicker">Especial Didático</div>
+      <h1 class="main-headline">Textos Jornalísticos:<br>A Arte de Informar</h1>
+      <p class="deck">Como os jornais, revistas, rádio e televisão comunicam o mundo — e o que torna uma boa reportagem verdadeiramente inesquecível.</p>
+    </div>
+
+    <!-- 3-column layout -->
+    <div class="content-layout">
+
+      <!-- Column 1 -->
+      <div class="col-1 animate-in">
+        <p class="intro-para">Os <strong>textos jornalísticos</strong> são os textos veiculados pelos jornais, revistas, rádio e televisão, os quais possuem o intuito de comunicar e informar sobre algo.</p>
+
+        <p class="body-text">Atualmente, o texto jornalístico é provavelmente o gênero textual mais lido, pois possui o maior alcance nos diversos setores da sociedade.</p>
+
+        <p class="body-text">Uma característica importante dos textos jornalísticos é sua <strong>efemeridade</strong>, visto que favorecem o conhecimento de informações atuais com o propósito de difundir o que acontece de novo.</p>
+
+        <div class="pull-quote">
+          <p>"O jornalismo é a primeira versão da história."</p>
+          <cite>— Princípio da Profissão</cite>
+        </div>
+
+        <div class="section-head">Estrutura do Texto Jornalístico</div>
+        <p class="body-text">A composição de um texto jornalístico é dividida em quatro etapas fundamentais:</p>
+
+        <ol class="structure-list">
+          <li><div><strong>Pauta:</strong> escolha do tema ou assunto.</div></li>
+          <li><div><strong>Apuração:</strong> recolhimento das informações, dados e verificação da veracidade dos fatos.</div></li>
+          <li><div><strong>Redação:</strong> transformação das informações num texto.</div></li>
+          <li><div><strong>Edição:</strong> correção e revisão dos textos.</div></li>
+        </ol>
+
+        <div class="section-head">A Linguagem Jornalística</div>
+        <p class="body-text">A linguagem jornalística é em prosa e deve ser <strong>clara, simples, imparcial e objetiva</strong> de modo a expor para o leitor as informações mais relevantes sobre o tema.</p>
+
+        <p class="body-text">O jornalista possui a função de "traduzir" e transmitir as informações para o público em geral, utilizando um método de desenvolvimento textual baseado no critério básico ao responder às perguntas:</p>
+      </div>
+
+      <!-- Column 2 -->
+      <div class="col-2 animate-in">
+
+        <div class="questions-grid">
+          <div class="q-card"><span class="q-word">O quê?</span><span class="q-desc">acontecimento, evento, fato ocorrido</span></div>
+          <div class="q-card"><span class="q-word">Quem?</span><span class="q-desc">quais personagens estão envolvidos</span></div>
+          <div class="q-card"><span class="q-word">Quando?</span><span class="q-desc">horário em que ocorreu o fato</span></div>
+          <div class="q-card"><span class="q-word">Onde?</span><span class="q-desc">local que aconteceu o episódio</span></div>
+          <div class="q-card"><span class="q-word">Como?</span><span class="q-desc">modo que ocorreu o evento</span></div>
+          <div class="q-card"><span class="q-word">Por quê?</span><span class="q-desc">qual a causa do evento</span></div>
+        </div>
+
+        <p class="body-text" style="margin-top:18px;">Que tal inventarmos uma reportagem colocando em prática o que aprendemos até aqui?</p>
+
+        <div class="link-article">https://g1.globo.com/rs/rio-grande-do-sul/noticia/2026/02/14/entenda-por-que-cidade-gaucha-e-considerada-a-capital-do-golpe-do-bilhete-premiado-no-brasil-e-saiba-como-se-proteger.ghtml</div>
+
+        <div class="section-head">Gramática e Estilo</div>
+        <p class="body-text">No tocante à sua estrutura gramatical, normalmente o texto jornalístico apresenta <strong>frases curtas e ideias sucintas</strong>, as quais favorecem a objetividade do texto.</p>
+
+        <p class="body-text">Além disso, trabalham com o recurso das repetições que auxiliam na memorização e assimilação das informações. O mais comum é o uso da <strong>ordem direta</strong> nas construções frasais, ou seja: sujeito + verbo + complementos e adjuntos adverbiais.</p>
+
+        <p class="body-text">Esses textos possuem uma <strong>linguagem denotativa</strong>, ou seja, isenta de ambiguidades e que possui um único sentido.</p>
+
+        <p class="body-text">Aqui, vale lembrar que o jornal é um veículo portador de diferentes gêneros textuais. Portanto, eles podem apresentar uma linguagem <strong>conotativa (figurada)</strong>, na medida em que desenvolve os diversos tipos de textos:</p>
+
+        <ul class="bulletin-list">
+          <li>Narrativo</li>
+          <li>Descritivo</li>
+          <li>Dissertativo-opinativo</li>
+          <li>Injuntivo</li>
+          <li>Expositivo</li>
+        </ul>
+
+        <div class="section-head accent-head">Lide <em>(Lead)</em></div>
+
+        <div class="lide-highlight">
+          <p>Um recurso jornalístico muito utilizado é o "<strong>lide</strong>" (forma aportuguesada) ou "<strong>lead</strong>" (no inglês), que significa "guia", "principal", "liderança" ou "o que vem à frente".</p>
+        </div>
+
+        <p class="body-text">O <strong>lide</strong> representa a primeira parte do texto jornalístico que se encarrega de apresentar as principais informações da matéria, essenciais para destacar "aos olhos do leitor" o acesso à informação.</p>
+
+        <p class="body-text">Assim, o lide é um recurso jornalístico essencial e que deve ser bem elaborado, objetivo e coerente. Isso porque favorece o interesse do leitor, sendo comum que muitos dos leitores leiam apenas o <em>lide</em> de cada matéria jornalística.</p>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-sidebar animate-in">
+
+        <div class="sidebar-box">
+          <div class="box-title">Pirâmide Invertida</div>
+          <p>A Pirâmide Invertida é um dos recursos jornalísticos utilizados a fim de hierarquizar as informações, onde prevalece a <strong>ordem decrescente de importância</strong>.</p>
+          <p>O conteúdo mais importante permanece no topo. O conteúdo mais superficial está situado embaixo do texto.</p>
+
+          <div class="pyramid-diagram">
+            <div class="pyramid-level pl-1">Mais Importante</div>
+            <div class="pyramid-level pl-2">Muito Relevante</div>
+            <div class="pyramid-level pl-3">Relevante</div>
+            <div class="pyramid-level pl-4">Contexto</div>
+            <div class="pyramid-level pl-5">Detalhes</div>
+            <div class="pyramid-label">▲ Pirâmide Invertida ▲</div>
+          </div>
+        </div>
+
+        <div class="sidebar-box">
+          <div class="box-title">Texto Informativo</div>
+          <p>Os textos informativos são um dos gêneros mais presentes nos textos jornalísticos. Englobam as produções textuais objetivas em prosa, baseadas na <strong>linguagem clara e direta</strong>.</p>
+          <p>São textos que têm como objetivo principal transmitir informação sobre algo, estando isento de duplas interpretações.</p>
+          <p>Assim, o emissor (escritor) preocupa-se em expor brevemente um tema, fatos ou circunstâncias a um, ou vários receptores (leitores).</p>
+        </div>
+
+        <div class="sidebar-box">
+          <div class="box-title">Sabia que...</div>
+          <p>A expressão <em>lide</em> vem do inglês <em>lead</em> e foi incorporada ao jornalismo brasileiro. Um bom lide responde em apenas um parágrafo às seis perguntas essenciais.</p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- FULL WIDTH: Gêneros -->
+    <div class="full-width-section">
+      <div class="section-head">Gêneros Jornalísticos</div>
+      <p class="body-text" style="margin-bottom:18px;">O jornal abriga diversos textos jornalísticos, vulgarmente chamados de "matérias", sendo divididos em seções, compostas pelos mais variados gêneros:</p>
+
+      <div class="genres-grid">
+        <div class="genre-card">
+          <span class="g-icon">📰</span>
+          <div class="g-name">Notícia</div>
+          <p style="font-size:13px; color:#4a3728; margin-top:6px; line-height:1.5">Relato objetivo de um fato recente e relevante.</p>
+        </div>
+        <div class="genre-card">
+          <span class="g-icon">🔍</span>
+          <div class="g-name">Reportagem</div>
+          <p style="font-size:13px; color:#4a3728; margin-top:6px; line-height:1.5">Aprofundamento investigativo de um tema ou acontecimento.</p>
+        </div>
+        <div class="genre-card">
+          <span class="g-icon">🎤</span>
+          <div class="g-name">Entrevista</div>
+          <p style="font-size:13px; color:#4a3728; margin-top:6px; line-height:1.5">Diálogo entre jornalista e fonte especializada.</p>
+        </div>
+        <div class="genre-card">
+          <span class="g-icon">📣</span>
+          <div class="g-name">Texto Publicitário</div>
+          <p style="font-size:13px; color:#4a3728; margin-top:6px; line-height:1.5">Conteúdo persuasivo com fins comerciais ou institucionais.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ACTIVITY: Questionário -->
+  <div class="activity-section">
+    <div class="newspaper-inner" style="padding-bottom:0;">
+      <h2>✍ Questionário</h2>
+      <p>Com base no texto estudado, <strong>invente uma pergunta</strong> para que seus colegas respondam. Escreva em um bilhete, que será copiado pelo professor no quadro.</p>
+      <p>Lembre-se das características da linguagem jornalística: seja claro, objetivo e imparcial na formulação da sua pergunta.</p>
+      <div class="writing-lines">
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACTIVITY: Produção Textual -->
+  <div class="activity-section" style="background: linear-gradient(135deg, #2a1a08 0%, #1a1208 100%);">
+    <div class="newspaper-inner" style="padding-bottom:0;">
+      <h2>📰 Produção Textual</h2>
+      <p>Agora é sua vez. <strong>Invente um texto jornalístico</strong> baseado em tudo o que aprendemos. Não esqueça do <strong>lide</strong>, e de responder às perguntas do roteiro:</p>
+      <p>
+        <strong>O quê? &nbsp; Quem? &nbsp; Quando? &nbsp; Onde? &nbsp; Como? &nbsp; Por quê?</strong>
+      </p>
+      <div class="writing-lines">
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+        <div class="writing-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <span class="footer-text">Escola E. E. M. Carlos Gomes</span>
+    <span class="footer-logo">A Redação</span>
+    <span class="footer-text">Português — Texto Jornalístico</span>
+  </div>
+
+</div>
+
+</body>
+</html>
