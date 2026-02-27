@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tartaruga Logo v2.2</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg: #f0f7e6;
+    --panel: #ffffff;
+    --canvas-bg: #e8f5e9;
+    --accent: #4caf50;
+    --accent2: #ff8f00;
+    --accent3: #1976d2;
+    --text: #2e3a1f;
+    --text-soft: #6a7c5a;
+    --border: #c8e6c9;
+    --input-bg: #f9fbe7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    user-select: none;
+  }
+
+  /* ── TOPBAR ── */
+  #topbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 6px 14px;
+    background: var(--panel);
+    border-bottom: 2px solid var(--border);
+    box-shadow: 0 2px 8px rgba(60,100,40,0.07);
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+  #topbar h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+  }
+  #topbar h1 span.prof {
+    font-size: 0.85rem;
+    color: var(--accent3);
+    font-family: 'Nunito', sans-serif;
+    font-weight: 800;
+    margin-left: 6px;
+  }
+  #cores-caneta, #cores-fundo { display: flex; gap: 6px; flex-wrap: nowrap; }
+  .topbar-group {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 5px 12px;
+  }
+  .topbar-group label {
+    font-size: 0.78rem; font-weight: 700; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .color-btn {
+    width: 20px; height: 20px; border-radius: 50%;
+    border: 2.5px solid #fff; box-shadow: 0 0 0 1.5px #ccc;
+    cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; flex-shrink: 0;
+  }
+  .color-btn:hover { transform: scale(1.18); box-shadow: 0 0 0 2px var(--accent); }
+  .color-btn.active { box-shadow: 0 0 0 3px var(--accent2); transform: scale(1.15); }
+  .topbar-btn {
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.82rem;
+    border: none; border-radius: 10px; padding: 6px 14px;
+    cursor: pointer; transition: background 0.15s, transform 0.1s; white-space: nowrap;
+  }
+  #btn-limpar   { background: #ffcdd2; color: #b71c1c; }
+  #btn-limpar:hover { background: #ef9a9a; transform: scale(1.04); }
+  #btn-desfazer { background: #fff9c4; color: #f57f17; }
+  #btn-desfazer:hover { background: #fff176; transform: scale(1.04); }
+  #btn-salvar   { background: #c8e6c9; color: #1b5e20; }
+  #btn-salvar:hover { background: #a5d6a7; transform: scale(1.04); }
+  #espaco-topbar { flex: 1; }
+
+  /* ── LAYOUT ── */
+  #main { display: flex; flex: 1; overflow: hidden; }
+
+  #canvas-wrap {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    background: var(--canvas-bg);
+    background-image:
+      linear-gradient(rgba(76,175,80,0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(76,175,80,0.07) 1px, transparent 1px);
+    background-size: 32px 32px;
+    overflow: hidden; position: relative;
+  }
+  #canvas { background: transparent; display: block; }
+
+  /* ── PAINEL DIREITO ── */
+  #painel {
+    width: 310px; min-width: 250px; max-width: 380px;
+    background: var(--panel);
+    border-left: 2px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden; flex-shrink: 0;
+  }
+
+  /* ── ABAS ── */
+  #abas {
+    display: flex; flex-shrink: 0;
+    border-bottom: 2px solid var(--border);
+  }
+  .aba-btn {
+    flex: 1; padding: 9px 6px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.92rem; letter-spacing: 0.3px;
+    background: var(--bg); color: var(--text-soft);
+    border: none; cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    border-bottom: 3px solid transparent;
+  }
+  .aba-btn:hover { background: #e8f5e9; color: var(--text); }
+  .aba-btn.active {
+    background: var(--panel); color: var(--accent3);
+    border-bottom: 3px solid var(--accent3);
+  }
+
+  /* ── CONTEÚDO DAS ABAS ── */
+  .aba-conteudo {
+    display: none; flex-direction: column;
+    flex: 1; overflow: hidden; padding: 14px 14px 10px 14px; gap: 9px;
+  }
+  .aba-conteudo.active { display: flex; }
+
+  /* ── ABA COMANDOS ── */
+  #ajuda {
+    background: var(--input-bg); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 9px 12px;
+    font-size: 0.74rem; line-height: 1.65; color: var(--text-soft); flex-shrink: 0;
+  }
+  #ajuda strong { color: var(--accent); font-weight: 800; }
+  #ajuda .cmd {
+    display: inline-block; background: #e8f5e9; color: var(--text);
+    font-weight: 700; border-radius: 6px; padding: 0 5px;
+    font-family: 'Courier New', monospace; font-size: 0.76rem;
+  }
+
+  #tabela-cores {
+    background: var(--input-bg); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 7px 10px; font-size: 0.72rem; flex-shrink: 0;
+  }
+  #tabela-cores strong { color: var(--accent3); font-weight: 800; font-size: 0.74rem; display:block; margin-bottom:4px; }
+  #tabela-cores table { border-collapse: collapse; width: 100%; }
+  #tabela-cores td { padding: 1px 4px; vertical-align: middle; }
+  #tabela-cores .swatch {
+    width: 13px; height: 13px; border-radius: 3px;
+    display: inline-block; border: 1px solid rgba(0,0,0,0.2);
+    vertical-align: middle; margin-right: 3px;
+  }
+  #tabela-cores .num { font-weight: 800; color: var(--text); }
+  #tabela-cores .nome { color: var(--text-soft); }
+
+  #output {
+    background: #1a2a1a; color: #a5d6a7;
+    border-radius: 12px; padding: 8px 10px;
+    font-family: 'Courier New', monospace; font-size: 0.78rem;
+    min-height: 48px; max-height: 80px; overflow-y: auto;
+    flex-shrink: 0; line-height: 1.6;
+  }
+  #output .ok  { color: #69f0ae; }
+  #output .err { color: #ff5252; }
+  #output .inf { color: #80cbc4; }
+
+  #input-wrap { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+  #input-wrap label {
+    font-weight: 800; font-size: 0.82rem; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  #cmd-input {
+    font-family: 'Courier New', monospace; font-size: 1rem; font-weight: 700;
+    border: 2.5px solid var(--border); border-radius: 12px; padding: 10px 14px;
+    background: var(--input-bg); color: var(--text); outline: none; width: 100%;
+    transition: border-color 0.15s; caret-color: var(--accent);
+  }
+  #cmd-input:focus { border-color: var(--accent); }
+  #cmd-input::placeholder { color: #b0bfaa; font-weight: 600; font-family: 'Nunito', sans-serif; }
+
+  #btn-executar {
+    font-family: 'Fredoka One', cursive; font-size: 1.1rem; letter-spacing: 0.5px;
+    background: var(--accent); color: #fff; border: none; border-radius: 14px;
+    padding: 11px; cursor: pointer;
+    transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+    box-shadow: 0 4px 0 #2e7d32; width: 100%;
+  }
+  #btn-executar:hover { background: #43a047; transform: translateY(-2px); box-shadow: 0 6px 0 #2e7d32; }
+  #btn-executar:active { transform: translateY(2px); box-shadow: 0 2px 0 #2e7d32; }
+
+  #historico-wrap {
+    flex: 1; overflow: hidden; display: flex; flex-direction: column; gap: 4px; min-height: 0;
+  }
+  #historico-wrap label {
+    font-weight: 800; font-size: 0.78rem; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0;
+  }
+  #historico {
+    flex: 1; overflow-y: auto; border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 6px 8px;
+    font-family: 'Courier New', monospace; font-size: 0.78rem; line-height: 1.8;
+    background: var(--input-bg); color: var(--text-soft); min-height: 0;
+  }
+  #historico .h-ok  { color: var(--accent); cursor: pointer; }
+  #historico .h-ok:hover { text-decoration: underline; }
+  #historico .h-err { color: #e53935; }
+
+  /* ── ABA PROCEDIMENTOS ── */
+  #proc-toolbar {
+    display: flex; gap: 8px; flex-shrink: 0; align-items: center; flex-wrap: wrap;
+  }
+  #proc-toolbar span {
+    font-size: 0.75rem; color: var(--text-soft); font-weight: 700; flex: 1;
+  }
+  .proc-btn {
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.78rem;
+    border: none; border-radius: 9px; padding: 5px 12px;
+    cursor: pointer; transition: background 0.15s, transform 0.1s; white-space: nowrap;
+  }
+  #btn-carregar-proc { background: var(--accent); color: #fff; }
+  #btn-carregar-proc:hover { background: #43a047; transform: scale(1.04); }
+  #btn-salvar-proc   { background: #bbdefb; color: #0d47a1; }
+  #btn-salvar-proc:hover { background: #90caf9; transform: scale(1.04); }
+  #btn-limpar-proc   { background: #ffcdd2; color: #b71c1c; }
+  #btn-limpar-proc:hover { background: #ef9a9a; transform: scale(1.04); }
+
+  #proc-editor {
+    flex: 1; min-height: 0;
+    font-family: 'Courier New', monospace; font-size: 0.85rem; line-height: 1.7;
+    border: 2px solid var(--border); border-radius: 12px; padding: 10px 12px;
+    background: #1a2a1a; color: #c8e6c9;
+    resize: none; outline: none;
+    caret-color: #69f0ae;
+    user-select: text;
+    transition: border-color 0.15s;
+  }
+  #proc-editor:focus { border-color: var(--accent3); }
+  #proc-editor::placeholder { color: #4a6a4a; }
+
+  #proc-status {
+    background: #1a2a1a; color: #80cbc4;
+    border-radius: 10px; padding: 6px 10px;
+    font-family: 'Courier New', monospace; font-size: 0.76rem;
+    min-height: 36px; max-height: 72px; overflow-y: auto;
+    flex-shrink: 0; line-height: 1.5;
+  }
+  #proc-status .ok  { color: #69f0ae; }
+  #proc-status .err { color: #ff5252; }
+  #proc-status .inf { color: #80cbc4; }
+
+  #proc-lista-wrap { flex-shrink: 0; }
+  #proc-lista-wrap label {
+    font-weight: 800; font-size: 0.76rem; color: var(--text-soft);
+    text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 4px;
+  }
+  #proc-lista {
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .proc-tag {
+    background: #e8f5e9; color: #2e7d32; font-weight: 800;
+    font-size: 0.74rem; border-radius: 8px; padding: 3px 9px;
+    font-family: 'Courier New', monospace; cursor: pointer;
+    border: 1.5px solid #a5d6a7; transition: background 0.15s;
+    user-select: none;
+  }
+  .proc-tag:hover { background: #c8e6c9; }
+
+  /* ── TURTLE ── */
+  #turtle-svg { position: absolute; pointer-events: none; }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div id="topbar">
+  <h1>🐢 Tartaruga Logo v2.2 <span class="prof">— Prof. Givanildo</span></h1>
+  <div class="topbar-group">
+    <label>Cor da linha</label>
+    <div id="cores-caneta"></div>
+  </div>
+  <div class="topbar-group">
+    <label>Fundo</label>
+    <div id="cores-fundo"></div>
+  </div>
+  <div id="espaco-topbar"></div>
+  <button id="btn-desfazer" class="topbar-btn">↩ Desfazer</button>
+  <button id="btn-salvar"   class="topbar-btn">💾 Salvar</button>
+  <button id="btn-limpar"   class="topbar-btn">🗑 Limpar</button>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+  <!-- CANVAS -->
+  <div id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+    <div style="position:absolute;pointer-events:none;top:0;left:0;width:100%;height:100%;">
+      <svg id="turtle-svg" width="48" height="48" viewBox="0 0 48 48" style="position:absolute;">
+        <ellipse cx="24" cy="24" rx="13" ry="10" fill="#558b2f" stroke="#33691e" stroke-width="1.5"/>
+        <ellipse cx="24" cy="23" rx="10" ry="8" fill="#7cb342" stroke="#558b2f" stroke-width="1"/>
+        <line x1="24" y1="15" x2="24" y2="31" stroke="#558b2f" stroke-width="0.8" opacity="0.5"/>
+        <line x1="14" y1="23" x2="34" y2="23" stroke="#558b2f" stroke-width="0.8" opacity="0.5"/>
+        <line x1="16" y1="17" x2="32" y2="29" stroke="#558b2f" stroke-width="0.8" opacity="0.4"/>
+        <line x1="32" y1="17" x2="16" y2="29" stroke="#558b2f" stroke-width="0.8" opacity="0.4"/>
+        <ellipse cx="24" cy="11" rx="5" ry="4.5" fill="#558b2f" stroke="#33691e" stroke-width="1"/>
+        <circle cx="22.2" cy="9.8" r="1.1" fill="#1b5e20"/>
+        <circle cx="25.8" cy="9.8" r="1.1" fill="#1b5e20"/>
+        <circle cx="22.4" cy="9.6" r="0.45" fill="#fff" opacity="0.7"/>
+        <circle cx="26.0" cy="9.6" r="0.45" fill="#fff" opacity="0.7"/>
+        <ellipse cx="13" cy="18" rx="3.5" ry="2.2" fill="#558b2f" stroke="#33691e" stroke-width="1" transform="rotate(-20,13,18)"/>
+        <ellipse cx="35" cy="18" rx="3.5" ry="2.2" fill="#558b2f" stroke="#33691e" stroke-width="1" transform="rotate(20,35,18)"/>
+        <ellipse cx="13" cy="30" rx="3.5" ry="2.2" fill="#558b2f" stroke="#33691e" stroke-width="1" transform="rotate(20,13,30)"/>
+        <ellipse cx="35" cy="30" rx="3.5" ry="2.2" fill="#558b2f" stroke="#33691e" stroke-width="1" transform="rotate(-20,35,30)"/>
+        <ellipse cx="24" cy="35.5" rx="2.5" ry="3" fill="#558b2f" stroke="#33691e" stroke-width="1"/>
+      </svg>
+    </div>
+  </div>
+
+  <!-- PAINEL -->
+  <div id="painel">
+
+    <!-- ABAS -->
+    <div id="abas">
+      <button class="aba-btn active" data-aba="comandos">🎮 Comandos</button>
+      <button class="aba-btn" data-aba="procedimentos">📝 Procedimentos</button>
+    </div>
+
+    <!-- ABA COMANDOS -->
+    <div id="aba-comandos" class="aba-conteudo active">
+      <div id="ajuda">
+        <strong>Comandos:</strong><br>
+        <span class="cmd">pf 100</span> parafrente &nbsp;
+        <span class="cmd">pt 50</span> paratras<br>
+        <span class="cmd">pd 90</span> paradireita &nbsp;
+        <span class="cmd">pe 90</span> paraesquerda<br>
+        <span class="cmd">lp</span> levantacaneta &nbsp;
+        <span class="cmd">bc</span> baixacaneta<br>
+        <span class="cmd">pinte 2</span> preenche c/ cor resistor<br>
+        <span class="cmd">repita 4 [ pf 100 pd 90 ]</span><br>
+        <span class="cmd">meu_proc</span> chama um procedimento
+      </div>
+
+      <div id="tabela-cores">
+        <strong>🎨 Código de Cores (Resistor)</strong>
+        <table>
+          <tr>
+            <td><span class="swatch" style="background:#000"></span><span class="num">0</span></td><td class="nome">Preto</td>
+            <td><span class="swatch" style="background:#964B00"></span><span class="num">1</span></td><td class="nome">Marrom</td>
+            <td><span class="swatch" style="background:#FF0000"></span><span class="num">2</span></td><td class="nome">Vermelho</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#FF7F00"></span><span class="num">3</span></td><td class="nome">Laranja</td>
+            <td><span class="swatch" style="background:#FFFF00;border-color:#aaa"></span><span class="num">4</span></td><td class="nome">Amarelo</td>
+            <td><span class="swatch" style="background:#008000"></span><span class="num">5</span></td><td class="nome">Verde</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#0000FF"></span><span class="num">6</span></td><td class="nome">Azul</td>
+            <td><span class="swatch" style="background:#8B00FF"></span><span class="num">7</span></td><td class="nome">Violeta</td>
+            <td><span class="swatch" style="background:#808080"></span><span class="num">8</span></td><td class="nome">Cinza</td>
+          </tr>
+          <tr>
+            <td><span class="swatch" style="background:#fff;border-color:#aaa"></span><span class="num">9</span></td><td class="nome">Branco</td>
+            <td colspan="4"></td>
+          </tr>
+        </table>
+      </div>
+
+      <div id="output">
+        <span class="inf">🐢 Olá! Escreva um comando e pressione Enter.</span>
+      </div>
+
+      <div id="input-wrap">
+        <label for="cmd-input">Digite o comando:</label>
+        <input id="cmd-input" type="text" autocomplete="off" autocorrect="off"
+               spellcheck="false" placeholder="ex: pf 100  |  petala">
+        <button id="btn-executar">▶ Executar</button>
+      </div>
+
+      <div id="historico-wrap">
+        <label>Histórico</label>
+        <div id="historico"></div>
+      </div>
+    </div><!-- /aba-comandos -->
+
+    <!-- ABA PROCEDIMENTOS -->
+    <div id="aba-procedimentos" class="aba-conteudo">
+
+      <div id="proc-toolbar">
+        <button class="proc-btn" id="btn-carregar-proc" title="Compilar e carregar os procedimentos">▶ Carregar</button>
+        <button class="proc-btn" id="btn-salvar-proc"   title="Baixar como arquivo .logo">⬇ Baixar</button>
+        <button class="proc-btn" id="btn-limpar-proc"   title="Apagar editor">🗑 Limpar</button>
+        <label style="display:none"><input type="file" id="file-input-proc" accept=".logo,.txt"></label>
+        <button class="proc-btn" id="btn-abrir-proc" title="Abrir arquivo .logo"
+                style="background:#e1bee7;color:#4a148c;">📂 Abrir</button>
+      </div>
+
+      <textarea id="proc-editor" spellcheck="false"
+        placeholder="; Escreva seus procedimentos aqui.
+; Exemplo:
+
+para quadrado
+  repita 4 [ pf 100 pd 90 ]
+fim
+
+para flor
+  repita 6 [ quadrado pd 60 ]
+fim
+
+para petala
+  repita 90 [ pf 2 pd 1 ]
+  repita 90 [ pf 2 pe 1 ]
+fim"></textarea>
+
+      <div id="proc-status">
+        <span class="inf">Nenhum procedimento carregado.</span>
+      </div>
+
+      <div id="proc-lista-wrap">
+        <label>Procedimentos carregados:</label>
+        <div id="proc-lista"></div>
+      </div>
+
+    </div><!-- /aba-procedimentos -->
+
+  </div><!-- /painel -->
+</div>
+
+<script>
+'use strict';
+
+// ══════════════════════════════════════════════════════════════
+//  CORES
+// ══════════════════════════════════════════════════════════════
+const RESISTOR_CORES = [
+  { nome:"Preto",    hex:"#000000" },
+  { nome:"Marrom",   hex:"#964B00" },
+  { nome:"Vermelho", hex:"#FF0000" },
+  { nome:"Laranja",  hex:"#FF7F00" },
+  { nome:"Amarelo",  hex:"#FFFF00" },
+  { nome:"Verde",    hex:"#008000" },
+  { nome:"Azul",     hex:"#0000FF" },
+  { nome:"Violeta",  hex:"#8B00FF" },
+  { nome:"Cinza",    hex:"#808080" },
+  { nome:"Branco",   hex:"#FFFFFF" },
+];
+
+const CORES_CANETA = [
+  { nome:"Preto",    hex:"#1a1a1a" },
+  { nome:"Azul",     hex:"#1565c0" },
+  { nome:"Vermelho", hex:"#c62828" },
+  { nome:"Verde",    hex:"#2e7d32" },
+  { nome:"Roxo",     hex:"#6a1b9a" },
+  { nome:"Laranja",  hex:"#e65100" },
+  { nome:"Rosa",     hex:"#ad1457" },
+  { nome:"Dourado",  hex:"#f57f17" },
+];
+
+const CORES_FUNDO = [
+  { nome:"Verde claro", hex:"#e8f5e9" },
+  { nome:"Azul claro",  hex:"#e3f2fd" },
+  { nome:"Amarelo",     hex:"#fffde7" },
+  { nome:"Lilás",       hex:"#f3e5f5" },
+  { nome:"Branco",      hex:"#ffffff" },
+  { nome:"Cinza suave", hex:"#f5f5f5" },
+];
+
+// ══════════════════════════════════════════════════════════════
+//  ELEMENTOS DOM
+// ══════════════════════════════════════════════════════════════
+const canvas     = document.getElementById('canvas');
+const ctx        = canvas.getContext('2d');
+const wrap       = document.getElementById('canvas-wrap');
+const turtleSvg  = document.getElementById('turtle-svg');
+const outputEl   = document.getElementById('output');
+const hist       = document.getElementById('historico');
+const cmdInput   = document.getElementById('cmd-input');
+const procEditor = document.getElementById('proc-editor');
+const procStatus = document.getElementById('proc-status');
+const procLista  = document.getElementById('proc-lista');
+
+// ══════════════════════════════════════════════════════════════
+//  ESTADO
+// ══════════════════════════════════════════════════════════════
+let state = {};
+let snapshots = [];
+let commandHistory = [];
+
+// Dicionário de procedimentos: nome → array de tokens
+let procedures = {};
+
+function initState() {
+  return {
+    x: canvas.width  / 2,
+    y: canvas.height / 2,
+    angle: 0,
+    pen: true,
+    penColor: "#1a1a1a",
+    bgColor: "#e8f5e9"
+  };
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TURTLE
+// ══════════════════════════════════════════════════════════════
+function positionTurtle() {
+  turtleSvg.style.left = (state.x - 24) + 'px';
+  turtleSvg.style.top  = (state.y - 24) + 'px';
+  turtleSvg.style.transform = `rotate(${state.angle}deg)`;
+  turtleSvg.style.transformOrigin = '24px 24px';
+}
+
+function applyBgColor(hex) {
+  state.bgColor = hex;
+  wrap.style.backgroundColor = hex;
+  wrap.style.backgroundImage =
+    `linear-gradient(rgba(76,175,80,0.07) 1px, transparent 1px),
+     linear-gradient(90deg, rgba(76,175,80,0.07) 1px, transparent 1px)`;
+}
+
+function move(pixels) {
+  const rad = (state.angle - 90) * Math.PI / 180;
+  const nx  = state.x + Math.cos(rad) * pixels;
+  const ny  = state.y + Math.sin(rad) * pixels;
+  if (state.pen) {
+    ctx.beginPath();
+    ctx.moveTo(state.x, state.y);
+    ctx.lineTo(nx, ny);
+    ctx.strokeStyle = state.penColor;
+    ctx.lineWidth   = 3;
+    ctx.lineCap     = 'round';
+    ctx.stroke();
+  }
+  state.x = nx;
+  state.y = ny;
+  positionTurtle();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  UNDO / SNAPSHOT
+// ══════════════════════════════════════════════════════════════
+function saveSnapshot(cmdText) {
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  snapshots.push({ state: JSON.parse(JSON.stringify(state)), imageData, cmdText });
+  if (snapshots.length > 60) snapshots.shift();
+}
+
+function undo() {
+  if (snapshots.length === 0) { log("Nada para desfazer!", "err"); return; }
+  const snap = snapshots.pop();
+  state = snap.state;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.putImageData(snap.imageData, 0, 0);
+  positionTurtle();
+  log("↩ Desfeito: " + snap.cmdText, "inf");
+  const lines = hist.children;
+  if (lines.length > 0) hist.removeChild(lines[lines.length - 1]);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  FLOOD FILL
+// ══════════════════════════════════════════════════════════════
+function hexToRgb(hex) {
+  return [
+    parseInt(hex.slice(1,3), 16),
+    parseInt(hex.slice(3,5), 16),
+    parseInt(hex.slice(5,7), 16)
+  ];
+}
+
+function floodFill(startX, startY, fillHex) {
+  startX = Math.round(startX); startY = Math.round(startY);
+  const W = canvas.width, H = canvas.height;
+  if (startX < 0 || startX >= W || startY < 0 || startY >= H) return false;
+
+  const imgData = ctx.getImageData(0, 0, W, H);
+  const data    = imgData.data;
+  const idx     = (startY * W + startX) * 4;
+  const [tR, tG, tB, tA] = [data[idx], data[idx+1], data[idx+2], data[idx+3]];
+  const [fR, fG, fB]     = hexToRgb(fillHex);
+  if (tR===fR && tG===fG && tB===fB && tA===255) return true;
+
+  const TOL = 30;
+  function same(i) {
+    return Math.abs(data[i]  -tR)<=TOL && Math.abs(data[i+1]-tG)<=TOL &&
+           Math.abs(data[i+2]-tB)<=TOL && Math.abs(data[i+3]-tA)<=TOL;
+  }
+
+  const stack   = [[startX, startY]];
+  const visited = new Uint8Array(W * H);
+
+  while (stack.length > 0) {
+    let [x, y] = stack.pop();
+    while (x >= 0 && same((y*W+x)*4)) x--;
+    x++;
+    let abv = false, blw = false;
+    while (x < W) {
+      const i = (y*W+x)*4;
+      if (!same(i)) break;
+      data[i]=fR; data[i+1]=fG; data[i+2]=fB; data[i+3]=255;
+      visited[y*W+x]=1;
+      if (y > 0) {
+        const ai=(y-1)*W+x;
+        if (!abv && same(ai*4) && !visited[ai]) { stack.push([x,y-1]); abv=true; }
+        else if (abv && !same(ai*4)) abv=false;
+      }
+      if (y < H-1) {
+        const bi=(y+1)*W+x;
+        if (!blw && same(bi*4) && !visited[bi]) { stack.push([x,y+1]); blw=true; }
+        else if (blw && !same(bi*4)) blw=false;
+      }
+      x++;
+    }
+  }
+  ctx.putImageData(imgData, 0, 0);
+  return true;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  TOKENIZADOR
+// ══════════════════════════════════════════════════════════════
+function tokenize(str) {
+  // Remove comentários de linha ( ; ... )
+  str = str.replace(/;[^\n]*/g, ' ');
+  const tokens = [];
+  const re = /\[|\]|[^\s\[\]]+/g;
+  let m;
+  while ((m = re.exec(str)) !== null) tokens.push(m[0]);
+  return tokens;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PARSER DE PROCEDIMENTOS
+//  Sintaxe: para <nome> [arg1 arg2 ...]  <corpo>  fim
+//  Versão atual: sem argumentos (chamada simples)
+// ══════════════════════════════════════════════════════════════
+function parseProcedures(source) {
+  const newProcs = {};
+  const errors   = [];
+
+  // Tokeniza sem remover quebras de linha para detectar "para" e "fim"
+  const tokens = tokenize(source);
+
+  let i = 0;
+  while (i < tokens.length) {
+    const tok = tokens[i].toLowerCase();
+
+    if (tok === 'para') {
+      i++;
+      if (i >= tokens.length) { errors.push('Faltou nome após "para".'); break; }
+      const nome = tokens[i].toLowerCase();
+      i++;
+
+      // Valida nome (apenas letras, números, _ )
+      if (!/^[a-záéíóúàãõâêôçü_][a-záéíóúàãõâêôçü0-9_]*$/i.test(nome)) {
+        errors.push(`Nome inválido de procedimento: "${nome}".`);
+        continue;
+      }
+
+      // Coleta tokens do corpo até encontrar "fim"
+      const corpo = [];
+      let encontrouFim = false;
+      while (i < tokens.length) {
+        if (tokens[i].toLowerCase() === 'fim') { encontrouFim = true; i++; break; }
+        corpo.push(tokens[i]);
+        i++;
+      }
+      if (!encontrouFim) {
+        errors.push(`Procedimento "${nome}" sem "fim".`);
+        break;
+      }
+      newProcs[nome] = corpo;
+    } else {
+      // Token fora de procedimento (ignora — pode ser espaço residual)
+      i++;
+    }
+  }
+
+  return { procs: newProcs, errors };
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EXECUTOR DE TOKENS
+// ══════════════════════════════════════════════════════════════
+const MAX_CALL_DEPTH = 50;
+
+function execTokens(tokens, start, depth) {
+  depth = depth || 0;
+  if (depth > MAX_CALL_DEPTH)
+    return { ok:false, msg:'Profundidade máxima de chamadas atingida (recursão infinita?)', i: start };
+
+  let i = start;
+
+  while (i < tokens.length) {
+    const raw = tokens[i];
+    const tok = raw.toLowerCase();
+
+    // ── parafrente / pf
+    if (tok === 'parafrente' || tok === 'pf') {
+      i++;
+      if (i >= tokens.length) return err(`"${tok.toUpperCase()}" precisa de um número.`, i);
+      const val = parseFloat(tokens[i]);
+      if (isNaN(val)) return err(`"${tokens[i]}" não é número.`, i);
+      move(val); i++; continue;
+    }
+
+    // ── paratras / pt
+    if (tok === 'paratras' || tok === 'pt') {
+      i++;
+      if (i >= tokens.length) return err(`"${tok.toUpperCase()}" precisa de um número.`, i);
+      const val = parseFloat(tokens[i]);
+      if (isNaN(val)) return err(`"${tokens[i]}" não é número.`, i);
+      move(-val); i++; continue;
+    }
+
+    // ── paradireita / pd
+    if (tok === 'paradireita' || tok === 'pd') {
+      i++;
+      if (i >= tokens.length) return err(`"${tok.toUpperCase()}" precisa de um ângulo.`, i);
+      const val = parseFloat(tokens[i]);
+      if (isNaN(val)) return err(`"${tokens[i]}" não é número.`, i);
+      state.angle = (state.angle + val + 360) % 360;
+      positionTurtle(); i++; continue;
+    }
+
+    // ── paraesquerda / pe
+    if (tok === 'paraesquerda' || tok === 'pe') {
+      i++;
+      if (i >= tokens.length) return err(`"${tok.toUpperCase()}" precisa de um ângulo.`, i);
+      const val = parseFloat(tokens[i]);
+      if (isNaN(val)) return err(`"${tokens[i]}" não é número.`, i);
+      state.angle = ((state.angle - val) % 360 + 360) % 360;
+      positionTurtle(); i++; continue;
+    }
+
+    // ── levantacaneta / lp
+    if (tok === 'levantacaneta' || tok === 'lp') { state.pen = false; i++; continue; }
+
+    // ── baixacaneta / bc
+    if (tok === 'baixacaneta' || tok === 'bc') { state.pen = true; i++; continue; }
+
+    // ── pinte N
+    if (tok === 'pinte') {
+      i++;
+      if (i >= tokens.length) return err('"PINTE" precisa de um número de cor (0–9).', i);
+      const n = parseInt(tokens[i]);
+      if (isNaN(n) || n < 0 || n > 9) return err(`Cor "${tokens[i]}" inválida (use 0–9).`, i);
+      floodFill(Math.round(state.x), Math.round(state.y), RESISTOR_CORES[n].hex);
+      i++;
+      return { ok:true, msg:`🎨 Pintado com ${RESISTOR_CORES[n].nome} (${n})`, i };
+    }
+
+    // ── repita N [ ... ]
+    if (tok === 'repita') {
+      i++;
+      if (i >= tokens.length) return err('"REPITA" precisa de um número.', i);
+      const n = parseInt(tokens[i]);
+      if (isNaN(n) || n < 0) return err(`"${tokens[i]}" não é inteiro válido.`, i);
+      i++;
+      if (i >= tokens.length || tokens[i] !== '[')
+        return err('"REPITA" precisa de bloco [ ].', i);
+      i++; // pula '['
+      const blocoTokens = [];
+      let depth2 = 1;
+      while (i < tokens.length && depth2 > 0) {
+        if (tokens[i] === '[') depth2++;
+        else if (tokens[i] === ']') { depth2--; if (depth2===0) { i++; break; } }
+        if (depth2 > 0) blocoTokens.push(tokens[i]);
+        i++;
+      }
+      if (depth2 !== 0) return err('Falta "]".', i);
+      let cnt = 0;
+      for (let rep = 0; rep < n; rep++) {
+        const r = execTokens(blocoTokens, 0, depth + 1);
+        if (!r.ok) return r;
+        if (++cnt > 20000) return err('Laço excedeu limite de segurança.', i);
+      }
+      continue;
+    }
+
+    // ── ']' solto
+    if (tok === ']') return err('Colchete "]" inesperado.', i);
+
+    // ── chamada de procedimento
+    if (procedures[tok]) {
+      const r = execTokens(procedures[tok], 0, depth + 1);
+      if (!r.ok) return { ok:false, msg:`Erro em "${tok}": ${r.msg}`, i };
+      i++; continue;
+    }
+
+    // ── desconhecido
+    return err(`Comando desconhecido: "${raw}".`, i);
+  }
+
+  return { ok:true, msg:'✓ Executado com sucesso!', i };
+}
+
+function err(msg, i) { return { ok:false, msg, i }; }
+
+// ══════════════════════════════════════════════════════════════
+//  UI — LOG
+// ══════════════════════════════════════════════════════════════
+function log(msg, type="ok") {
+  const span = document.createElement('span');
+  span.className = type;
+  span.textContent = msg;
+  outputEl.innerHTML = '';
+  outputEl.appendChild(span);
+}
+
+function logProc(msg, type="inf") {
+  const span = document.createElement('span');
+  span.className = type;
+  span.textContent = msg;
+  procStatus.innerHTML = '';
+  procStatus.appendChild(span);
+}
+
+function addHist(text, ok) {
+  const div = document.createElement('div');
+  div.className = ok ? 'h-ok' : 'h-err';
+  div.textContent = (ok ? '✓ ' : '✗ ') + text;
+  if (ok) {
+    div.title = "Clique para repetir";
+    div.addEventListener('click', () => { cmdInput.value = text; cmdInput.focus(); });
+  }
+  hist.appendChild(div);
+  hist.scrollTop = hist.scrollHeight;
+}
+
+// ══════════════════════════════════════════════════════════════
+//  EXECUTAR COMANDO
+// ══════════════════════════════════════════════════════════════
+function executar() {
+  const raw = cmdInput.value.trim();
+  if (!raw) return;
+
+  saveSnapshot(raw);
+
+  const tokens = tokenize(raw);
+  const result = execTokens(tokens, 0, 0);
+
+  log(result.msg, result.ok ? "ok" : "err");
+  addHist(raw, result.ok);
+
+  if (result.ok) {
+    commandHistory.push(raw);
+    cmdInput.value = '';
+  }
+  cmdInput.focus();
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CARREGAR PROCEDIMENTOS
+// ══════════════════════════════════════════════════════════════
+function carregarProcedimentos() {
+  const src = procEditor.value;
+  const { procs, errors } = parseProcedures(src);
+
+  if (errors.length > 0) {
+    logProc('✗ Erros:\n' + errors.join('\n'), 'err');
+    return;
+  }
+
+  procedures = procs;
+  const nomes = Object.keys(procedures);
+
+  // Atualiza lista de tags
+  procLista.innerHTML = '';
+  nomes.forEach(nome => {
+    const tag = document.createElement('span');
+    tag.className = 'proc-tag';
+    tag.textContent = nome;
+    tag.title = 'Clique para usar no terminal';
+    tag.addEventListener('click', () => {
+      cmdInput.value = nome;
+      document.querySelector('[data-aba="comandos"]').click();
+      cmdInput.focus();
+    });
+    procLista.appendChild(tag);
+  });
+
+  if (nomes.length === 0) {
+    logProc('Nenhum procedimento encontrado.', 'inf');
+  } else {
+    logProc(`✓ ${nomes.length} procedimento(s) carregado(s): ${nomes.join(', ')}`, 'ok');
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  ARQUIVO .LOGO
+// ══════════════════════════════════════════════════════════════
+document.getElementById('btn-salvar-proc').addEventListener('click', () => {
+  const blob = new Blob([procEditor.value], { type:'text/plain' });
+  const a = document.createElement('a');
+  a.download = 'procedimentos.logo';
+  a.href = URL.createObjectURL(blob);
+  a.click();
+});
+
+document.getElementById('btn-abrir-proc').addEventListener('click', () => {
+  document.getElementById('file-input-proc').click();
+});
+
+document.getElementById('file-input-proc').addEventListener('change', e => {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    procEditor.value = ev.target.result;
+    logProc(`📂 Arquivo "${file.name}" carregado. Clique em ▶ Carregar.`, 'inf');
+  };
+  reader.readAsText(file);
+  e.target.value = ''; // reset para permitir reabrir o mesmo arquivo
+});
+
+document.getElementById('btn-limpar-proc').addEventListener('click', () => {
+  procEditor.value = '';
+  procedures = {};
+  procLista.innerHTML = '';
+  logProc('Editor limpo. Procedimentos removidos.', 'inf');
+});
+
+document.getElementById('btn-carregar-proc').addEventListener('click', carregarProcedimentos);
+
+// ══════════════════════════════════════════════════════════════
+//  ABAS
+// ══════════════════════════════════════════════════════════════
+document.querySelectorAll('.aba-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.aba-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.aba-conteudo').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('aba-' + btn.dataset.aba).classList.add('active');
+  });
+});
+
+// ══════════════════════════════════════════════════════════════
+//  CORES INTERFACE
+// ══════════════════════════════════════════════════════════════
+function buildColorPicker(containerId, cores, onClick, activeHex) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  cores.forEach(c => {
+    const btn = document.createElement('div');
+    btn.className = 'color-btn' + (c.hex === activeHex ? ' active' : '');
+    btn.style.background = c.hex;
+    btn.title = c.nome;
+    btn.addEventListener('click', () => {
+      container.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      onClick(c.hex);
+    });
+    container.appendChild(btn);
+  });
+}
+
+function initColors() {
+  buildColorPicker('cores-caneta', CORES_CANETA, hex => {
+    state.penColor = hex;
+    commandHistory.push('__color__:' + hex);
+    log("Cor da linha: " + hex, "inf");
+  }, state.penColor);
+
+  buildColorPicker('cores-fundo', CORES_FUNDO, hex => {
+    applyBgColor(hex);
+    commandHistory.push('__bg__:' + hex);
+    log("Cor do fundo alterada!", "inf");
+  }, state.bgColor);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  BOTÕES TOPBAR
+// ══════════════════════════════════════════════════════════════
+document.getElementById('btn-limpar').addEventListener('click', () => {
+  saveSnapshot('(antes de limpar)');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  state = initState();
+  positionTurtle();
+  hist.innerHTML = '';
+  log("🗑 Tela limpa! A tartaruga voltou ao centro.", "inf");
+});
+
+document.getElementById('btn-desfazer').addEventListener('click', undo);
+
+document.getElementById('btn-salvar').addEventListener('click', () => {
+  const a = document.createElement('a');
+  a.download = 'desenho.png';
+  a.href = canvas.toDataURL();
+  a.click();
+});
+
+document.getElementById('btn-executar').addEventListener('click', executar);
+
+// ══════════════════════════════════════════════════════════════
+//  TECLADO
+// ══════════════════════════════════════════════════════════════
+cmdInput.addEventListener('keydown', e => {
+  if (e.key === 'Enter') { executar(); return; }
+  if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+    const items = [...hist.querySelectorAll('.h-ok')].map(d => d.textContent.slice(2));
+    if (items.length === 0) return;
+    if (cmdInput._histIdx == null) cmdInput._histIdx = items.length;
+    if (e.key === 'ArrowUp')   cmdInput._histIdx = Math.max(0, cmdInput._histIdx - 1);
+    if (e.key === 'ArrowDown') cmdInput._histIdx = Math.min(items.length, cmdInput._histIdx + 1);
+    cmdInput.value = items[cmdInput._histIdx] || '';
+    e.preventDefault();
+  } else {
+    cmdInput._histIdx = null;
+  }
+});
+
+// Ctrl+Enter no editor de procedimentos = Carregar
+procEditor.addEventListener('keydown', e => {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    e.preventDefault();
+    carregarProcedimentos();
+  }
+});
+
+// ══════════════════════════════════════════════════════════════
+//  RESIZE
+// ══════════════════════════════════════════════════════════════
+const ro = new ResizeObserver(() => {
+  canvas.width  = wrap.clientWidth;
+  canvas.height = wrap.clientHeight;
+  state = initState();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const saved = [...commandHistory];
+  commandHistory = [];
+  saved.forEach(cmd => {
+    if (cmd.startsWith('__color__:')) { state.penColor = cmd.replace('__color__:',''); commandHistory.push(cmd); return; }
+    if (cmd.startsWith('__bg__:'))    { applyBgColor(cmd.replace('__bg__:','')); commandHistory.push(cmd); return; }
+    execTokens(tokenize(cmd), 0, 0);
+    commandHistory.push(cmd);
+  });
+  positionTurtle();
+});
+ro.observe(wrap);
+
+// ══════════════════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════════════════
+canvas.width  = wrap.clientWidth  || 600;
+canvas.height = wrap.clientHeight || 500;
+state = initState();
+applyBgColor(state.bgColor);
+initColors();
+positionTurtle();
+cmdInput.focus();
+</script>
+</body>
+</html>
