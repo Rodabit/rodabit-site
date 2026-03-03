@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Literatura Brasileira — Do Colonial ao Contemporâneo</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde: #1a4a2e;
+    --verde-claro: #2d7a4f;
+    --amarelo: #f5c842;
+    --amarelo-suave: #fde68a;
+    --creme: #faf6ee;
+    --papel: #f0ead6;
+    --tinta: #1c1410;
+    --marrom: #6b3a2a;
+    --marrom-claro: #c4956a;
+    --cinza-quente: #8a7060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background-color: var(--creme);
+    color: var(--tinta);
+    font-family: 'Crimson Pro', serif;
+    font-size: 19px;
+    line-height: 1.7;
+  }
+
+  /* CAPA */
+  .capa {
+    min-height: 100vh;
+    background: linear-gradient(160deg, var(--verde) 0%, #0d2e1a 60%, #1a0e08 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    padding: 60px 40px;
+  }
+
+  .capa::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% 0%, rgba(245,200,66,0.15) 0%, transparent 60%),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f5c842' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  .capa-subtitulo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem;
+    letter-spacing: 0.4em;
+    color: var(--amarelo);
+    margin-bottom: 20px;
+    opacity: 0.9;
+  }
+
+  .capa h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+    position: relative;
+  }
+
+  .capa h1 span {
+    color: var(--amarelo);
+    display: block;
+    font-style: italic;
+    font-size: 0.65em;
+  }
+
+  .capa-linha {
+    width: 80px;
+    height: 3px;
+    background: var(--amarelo);
+    margin: 30px auto;
+  }
+
+  .capa-desc {
+    color: rgba(255,255,255,0.7);
+    font-size: 1.1rem;
+    max-width: 500px;
+    font-style: italic;
+  }
+
+  .capa-bandeira {
+    margin-top: 50px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    opacity: 0.5;
+  }
+  .capa-bandeira span {
+    display: block;
+    width: 40px;
+    height: 6px;
+    border-radius: 3px;
+  }
+  .verde-b { background: #009c3b; }
+  .amarelo-b { background: #ffdf00; }
+  .azul-b { background: #002776; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255,255,255,0.4);
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    font-family: 'Bebas Neue', sans-serif;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ÍNDICE */
+  .indice {
+    background: var(--papel);
+    padding: 80px 60px;
+    border-bottom: 3px solid var(--amarelo);
+  }
+
+  .indice h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    color: var(--verde);
+    margin-bottom: 40px;
+  }
+
+  .indice-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .indice-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px dashed rgba(107,58,42,0.25);
+    text-decoration: none;
+    color: var(--tinta);
+    transition: color 0.2s;
+  }
+
+  .indice-item:hover { color: var(--verde-claro); }
+
+  .indice-ano {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    color: var(--marrom-claro);
+    min-width: 70px;
+    letter-spacing: 0.05em;
+  }
+
+  .indice-nome {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  /* PERÍODO / ESCOLA */
+  .periodo {
+    padding: 100px 0 60px;
+    position: relative;
+  }
+
+  .periodo:nth-child(even) { background: var(--papel); }
+  .periodo:nth-child(odd) { background: var(--creme); }
+
+  .periodo-header {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 60px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+
+  .periodo-header.reverse { direction: rtl; }
+  .periodo-header.reverse > * { direction: ltr; }
+
+  .periodo-label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.4em;
+    color: var(--marrom-claro);
+    margin-bottom: 8px;
+  }
+
+  .periodo-titulo {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--verde);
+    margin-bottom: 6px;
+  }
+
+  .periodo-anos {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem;
+    color: var(--marrom);
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+
+  .periodo-contexto {
+    background: var(--verde);
+    color: #fff;
+    padding: 18px 22px;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  .periodo-contexto::before {
+    content: '📜 Contexto histórico';
+    display: block;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.1em;
+    font-size: 0.8rem;
+    color: var(--amarelo);
+    margin-bottom: 8px;
+  }
+
+  .caracteristicas {
+    list-style: none;
+    margin-bottom: 28px;
+  }
+
+  .caracteristicas li {
+    padding: 6px 0 6px 22px;
+    position: relative;
+    border-bottom: 1px solid rgba(107,58,42,0.12);
+    font-size: 1rem;
+  }
+
+  .caracteristicas li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--amarelo);
+    font-size: 0.8rem;
+    top: 8px;
+  }
+
+  .obras-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+    margin-top: 10px;
+  }
+
+  .obra-card {
+    background: #fff;
+    border: 1px solid rgba(107,58,42,0.15);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+  }
+
+  .obra-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+  }
+
+  .obra-card .obra-link-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--amarelo);
+    color: var(--tinta);
+    font-size: 0.65rem;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.12em;
+    padding: 2px 7px;
+    border-radius: 2px;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .obra-card:hover .obra-link-badge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .obra-card.sem-link {
+    cursor: default;
+  }
+
+  .obra-card.sem-link:hover {
+    transform: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .obra-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    background: var(--papel);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+  }
+
+  .obra-info {
+    padding: 12px;
+  }
+
+  .obra-titulo {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.3;
+    margin-bottom: 2px;
+    color: var(--verde);
+  }
+
+  .obra-autor {
+    font-size: 0.82rem;
+    color: var(--cinza-quente);
+  }
+
+  .obra-ano {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.8rem;
+    color: var(--marrom-claro);
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .periodo-visual {
+    position: sticky;
+    top: 40px;
+  }
+
+  .visual-principal {
+    width: 100%;
+    aspect-ratio: 3/4;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 8px 8px 0 var(--amarelo), 12px 12px 0 var(--verde);
+    margin-bottom: 20px;
+  }
+
+  .visual-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    border-radius: 6px;
+    box-shadow: 8px 8px 0 var(--amarelo), 12px 12px 0 var(--verde);
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 5rem;
+    color: rgba(255,255,255,0.8);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .visual-placeholder span.label {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.2em;
+    margin-top: 12px;
+    font-size: 1rem;
+  }
+
+  .citacao {
+    background: var(--verde);
+    color: #fff;
+    padding: 24px 28px;
+    border-radius: 4px;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    position: relative;
+  }
+
+  .citacao::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: var(--amarelo);
+    opacity: 0.4;
+    position: absolute;
+    top: -10px;
+    left: 14px;
+    line-height: 1;
+  }
+
+  .citacao-autor {
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--amarelo);
+    margin-top: 12px;
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 0.1em;
+  }
+
+  /* LINHA DO TEMPO */
+  .timeline-section {
+    background: var(--verde);
+    padding: 80px 60px;
+    overflow: hidden;
+  }
+
+  .timeline-section h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.2em;
+    color: var(--amarelo);
+    text-align: center;
+    margin-bottom: 50px;
+  }
+
+  .timeline {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(245,200,66,0.3);
+    transform: translateX(-50%);
+  }
+
+  .tl-item {
+    display: flex;
+    justify-content: flex-end;
+    padding-right: calc(50% + 30px);
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  .tl-item:nth-child(even) {
+    justify-content: flex-start;
+    padding-right: 0;
+    padding-left: calc(50% + 30px);
+  }
+
+  .tl-dot {
+    position: absolute;
+    left: 50%;
+    top: 14px;
+    width: 14px;
+    height: 14px;
+    background: var(--amarelo);
+    border-radius: 50%;
+    transform: translateX(-50%);
+    border: 3px solid var(--verde);
+    box-shadow: 0 0 0 2px var(--amarelo);
+  }
+
+  .tl-content {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 4px;
+    padding: 14px 18px;
+    max-width: 360px;
+  }
+
+  .tl-anos {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--amarelo);
+    font-size: 1.1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .tl-nome {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.05rem;
+    margin-bottom: 4px;
+  }
+
+  .tl-desc {
+    color: rgba(255,255,255,0.6);
+    font-size: 0.85rem;
+  }
+
+  /* DIVISOR */
+  .divisor {
+    text-align: center;
+    padding: 20px;
+    color: var(--marrom-claro);
+    font-size: 1.5rem;
+    letter-spacing: 0.5em;
+  }
+
+  /* RODAPÉ */
+  footer {
+    background: var(--tinta);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 40px;
+    font-size: 0.85rem;
+  }
+
+  footer strong { color: var(--amarelo); }
+
+  /* TAG ESPECIAL */
+  .tag-movimento {
+    display: inline-block;
+    background: var(--amarelo);
+    color: var(--tinta);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    padding: 3px 10px;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+
+  .secao-obras {
+    max-width: 1100px;
+    margin: 50px auto 0;
+    padding: 0 60px;
+  }
+
+  .secao-obras h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.2em;
+    color: var(--marrom);
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--amarelo);
+    display: inline-block;
+  }
+
+  @media (max-width: 900px) {
+    .periodo-header, .periodo-header.reverse {
+      grid-template-columns: 1fr;
+      direction: ltr;
+      padding: 0 30px;
+    }
+    .periodo-visual { position: static; }
+    .indice { padding: 50px 30px; }
+    .timeline-section { padding: 60px 30px; }
+    .tl-item, .tl-item:nth-child(even) {
+      padding: 0 0 0 30px;
+      justify-content: flex-start;
+    }
+    .timeline::before { left: 7px; }
+    .tl-dot { left: 0; }
+    .tl-content { max-width: 100%; }
+    .secao-obras { padding: 0 30px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<section class="capa">
+  <p class="capa-subtitulo">Segundo Ano — Ensino Médio</p>
+  <h1>Literatura <span>Brasileira</span></h1>
+  <div class="capa-linha"></div>
+  <p class="capa-desc">Da literatura de informação ao modernismo e além — uma viagem pelos movimentos que moldaram nossa identidade</p>
+  <div class="capa-bandeira">
+    <span class="verde-b"></span>
+    <span class="amarelo-b"></span>
+    <span class="azul-b"></span>
+  </div>
+  <div class="scroll-hint">▼ ROLE PARA EXPLORAR ▼</div>
+</section>
+
+<!-- ÍNDICE -->
+<nav class="indice">
+  <h2>Sumário</h2>
+  <div class="indice-grid">
+    <a href="#quinhentismo" class="indice-item">
+      <span class="indice-ano">1500–1601</span>
+      <span class="indice-nome">Quinhentismo</span>
+    </a>
+    <a href="#barroco" class="indice-item">
+      <span class="indice-ano">1601–1768</span>
+      <span class="indice-nome">Barroco</span>
+    </a>
+    <a href="#arcadismo" class="indice-item">
+      <span class="indice-ano">1768–1836</span>
+      <span class="indice-nome">Arcadismo</span>
+    </a>
+    <a href="#romantismo" class="indice-item">
+      <span class="indice-ano">1836–1881</span>
+      <span class="indice-nome">Romantismo</span>
+    </a>
+    <a href="#realismo" class="indice-item">
+      <span class="indice-ano">1881–1893</span>
+      <span class="indice-nome">Realismo / Naturalismo</span>
+    </a>
+    <a href="#parnasianismo" class="indice-item">
+      <span class="indice-ano">1882–1922</span>
+      <span class="indice-nome">Parnasianismo</span>
+    </a>
+    <a href="#simbolismo" class="indice-item">
+      <span class="indice-ano">1893–1922</span>
+      <span class="indice-nome">Simbolismo</span>
+    </a>
+    <a href="#modernismo" class="indice-item">
+      <span class="indice-ano">1922–1945</span>
+      <span class="indice-nome">Modernismo</span>
+    </a>
+    <a href="#modernismo2" class="indice-item">
+      <span class="indice-ano">1930–1945</span>
+      <span class="indice-nome">2ª Fase Modernista</span>
+    </a>
+    <a href="#contemporaneo" class="indice-item">
+      <span class="indice-ano">1945–hoje</span>
+      <span class="indice-nome">Literatura Contemporânea</span>
+    </a>
+  </div>
+</nav>
+
+<!-- LINHA DO TEMPO VISUAL -->
+<section class="timeline-section">
+  <h2>Linha do Tempo</h2>
+  <div class="timeline">
+    <div class="tl-item">
+    <a href="quinhentismo.html" class="indice-item"><div class="tl-content">	
+      <div class="tl-dot"></div>
+        <div class="tl-anos">1500–1601</div>
+        <div class="tl-nome">Quinhentismo</div>
+        <div class="tl-desc">Literatura de informação sobre o novo mundo</div>
+	  </div>
+    </a>	  
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-anos">1601–1768</div>
+        <div class="tl-nome">Barroco</div>
+        <div class="tl-desc">Conflito, religiosidade e antíteses</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-anos">1768–1836</div>
+        <div class="tl-nome">Arcadismo</div>
+        <div class="tl-desc">Razão, natureza e ideais iluministas</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-anos">1836–1881</div>
+        <div class="tl-nome">Romantismo</div>
+        <div class="tl-desc">Sentimento, nacionalismo e indianismo</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-anos">1881–1922</div>
+        <div class="tl-nome">Realismo, Naturalismo, Parnasianismo & Simbolismo</div>
+        <div class="tl-desc">Ciência, objetividade e estética pura</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <div class="tl-anos">1922–hoje</div>
+        <div class="tl-nome">Modernismo e Contemporâneo</div>
+        <div class="tl-desc">Ruptura, brasilidade e pluralidade</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =============================== -->
+<!-- QUINHENTISMO -->
+<!-- =============================== -->
+<section class="periodo" id="quinhentismo">
+  <div class="periodo-header">
+    <div class="periodo-texto">
+      <span class="tag-movimento">1ª escola literária</span>
+      <p class="periodo-label">Período Colonial</p>
+      <h2 class="periodo-titulo">Quinhentismo</h2>
+      <p class="periodo-anos">1500 — 1601</p>
+      <div class="periodo-contexto">
+        Chegada dos portugueses ao Brasil. Início do processo de colonização. A Europa vive o Renascimento e as Grandes Navegações.
+      </div>
+      <ul class="caracteristicas">
+        <li>Não é ficção — são cartas, relatos e crônicas de viagens</li>
+        <li>Intenção de informar a Coroa sobre o novo território</li>
+        <li>Visão europeia sobre o índio e a natureza brasileira</li>
+        <li>Linguagem descritiva, quase jornalística</li>
+        <li>O Brasil é visto como paraíso terrestre — exotismo</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #1a4a2e, #2d7a4f);">
+        ⛵
+        <span class="label" style="color:var(--amarelo)">CARTA DE PERO VAZ</span>
+      </div>
+      <div class="citacao">
+        "Achamos a terra muito cheia de grandes arvoredos… as águas são muitas, sem conto."
+        <p class="citacao-autor">— Pero Vaz de Caminha, 1500</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="Carta.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">📜</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Carta a El-Rei D. Manuel</div>
+          <div class="obra-autor">Pero Vaz de Caminha</div>
+          <div class="obra-ano">1500</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://archive.org/details/tratadodescritiv00souz" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🗺️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Tratado Descritivo do Brasil</div>
+          <div class="obra-autor">Gabriel Soares de Sousa</div>
+          <div class="obra-ano">1587</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/pesquisa/DetalheObraForm.do?select_action=&co_obra=1990" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">✝️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Cartas e Sermões</div>
+          <div class="obra-autor">Pe. José de Anchieta</div>
+          <div class="obra-ano">1563–1597</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- QUESTIONÁRIO — QUINHENTISMO -->
+<!-- =============================== -->
+<section class="periodo" id="questionario-quinhentismo">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">Atividade de revisão</span>
+      <p class="periodo-label">Fixação de conteúdo</p>
+      <h2 class="periodo-titulo">Questionário — Quinhentismo</h2>
+      <p class="periodo-anos">10 questões essenciais</p>
+
+      <div class="periodo-contexto">
+        Responda às questões abaixo com base no conteúdo estudado sobre o início
+        da literatura no Brasil.
+      </div>
+
+      <ol style="margin-top:20px; padding-left:20px;">
+        <li>Em que contexto histórico surgiu o Quinhentismo no Brasil?</li>
+        <li>Por que o Quinhentismo não é considerado um movimento literário artístico?</li>
+        <li>Qual era a principal finalidade da literatura informativa?</li>
+        <li>Quem escreveu a <em>Carta de Achamento do Brasil</em> e qual era seu objetivo?</li>
+        <li>Como os povos indígenas eram retratados nos textos quinhentistas?</li>
+        <li>Qual era a função da literatura jesuítica?</li>
+        <li>Qual foi o papel dos jesuítas na formação cultural do Brasil?</li>
+        <li>Cite duas características principais do Quinhentismo.</li>
+        <li>Explique o que significa dizer que a visão do período era eurocêntrica.</li>
+        <li>Por que o Quinhentismo é importante para a compreensão da identidade brasileira?</li>
+      </ol>
+
+      <p style="margin-top:25px; font-size:0.9rem; opacity:0.7;">
+        ✍️ Sugestão: responda com base em exemplos históricos e textos estudados.
+      </p>
+    </div>
+
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #2a3a1a, #5a7a30);">
+        📜
+        <span class="label" style="color:#e0f5b0">REVISÃO COLONIAL</span>
+      </div>
+
+      <div class="citacao">
+        "A escrita é o registro da memória de um povo."
+        <p class="citacao-autor">— Reflexão sobre o período colonial</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- BARROCO -->
+<!-- =============================== -->
+<section class="periodo" id="barroco">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">2ª escola literária</span>
+      <p class="periodo-label">Período Colonial</p>
+      <h2 class="periodo-titulo">Barroco</h2>
+      <p class="periodo-anos">1601 — 1768</p>
+      <div class="periodo-contexto">
+        Contrarreforma, Inquisição e conflitos religiosos na Europa. No Brasil: escravidão consolidada e sociedade colonial estratificada. Crise entre fé e razão.
+      </div>
+      <ul class="caracteristicas">
+        <li>Conflito interior: carne × espírito, vida × morte</li>
+        <li>Uso intenso de antíteses e paradoxos</li>
+        <li>Cultismo (jogo de palavras) e conceptismo (jogo de ideias)</li>
+        <li>Linguagem ornamental, rebuscada e densa</li>
+        <li>Temas religiosos, morais e satíricos</li>
+        <li>Na escultura: Aleijadinho é o maior símbolo brasileiro</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #3a1f0d, #7a3a1a);">
+        🕯️
+        <span class="label" style="color:var(--amarelo-suave)">BARROCO BRASILEIRO</span>
+      </div>
+      <div class="citacao">
+        "Nasce o sol, e não dura mais que um dia, / depois da luz se segue a noite escura."
+        <p class="citacao-autor">— Gregório de Matos</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.wikiwand.com/pt/articles/Greg%C3%B3rio_de_Matos" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🖋️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Poemas Satíricos e Líricos</div>
+          <div class="obra-autor">Gregório de Matos</div>
+          <div class="obra-ano">séc. XVII</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000115.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">⛪</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Sermão da Sexagésima</div>
+          <div class="obra-autor">Padre Antônio Vieira</div>
+          <div class="obra-ano">1655</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/pesquisa/DetalheObraForm.do?select_action=&co_obra=1675" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">⚖️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Sermão pelo Bom Sucesso das Armas</div>
+          <div class="obra-autor">Padre Antônio Vieira</div>
+          <div class="obra-ano">1640</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- ARCADISMO -->
+<!-- =============================== -->
+<section class="periodo" id="arcadismo">
+  <div class="periodo-header">
+    <div class="periodo-texto">
+      <span class="tag-movimento">3ª escola literária</span>
+      <p class="periodo-label">Período Colonial — Pré-Romântico</p>
+      <h2 class="periodo-titulo">Arcadismo</h2>
+      <p class="periodo-anos">1768 — 1836</p>
+      <div class="periodo-contexto">
+        Iluminismo na Europa. No Brasil: Inconfidência Mineira (1789), exploração do ouro em Minas Gerais, crescente insatisfação com Portugal.
+      </div>
+      <ul class="caracteristicas">
+        <li>Razão, equilíbrio e clareza contra o excesso barroco</li>
+        <li>"Inutilia truncat" — cortar o inútil</li>
+        <li>"Fugere urbem" — fuga para a vida simples no campo</li>
+        <li>Bucolismo: exaltação da natureza pastoril</li>
+        <li>Pseudônimos gregos e romanos (nomes de pastores)</li>
+        <li>Primeiros textos de caráter nacional-brasileiro</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #2e4a1a, #4a7a2d);">
+        🌿
+        <span class="label" style="color:#c8e6a0">INCONFIDÊNCIA MINEIRA</span>
+      </div>
+      <div class="citacao">
+        "Ora direis, ouvir estrelas! Certo / perdestes o senso! E eu vos direi, no entanto…"
+        <p class="citacao-autor">— Olavo Bilac (eco arcádico nas gerações seguintes)</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000115.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🍃</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Obras Poéticas (Marília de Dirceu)</div>
+          <div class="obra-autor">Tomás Antônio Gonzaga</div>
+          <div class="obra-ano">1792</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://archive.org/details/vilarica00cost" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🗡️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Vila Rica</div>
+          <div class="obra-autor">Cláudio Manuel da Costa</div>
+          <div class="obra-ano">1773</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000095.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌾</div>
+        <div class="obra-info">
+          <div class="obra-titulo">O Uraguai</div>
+          <div class="obra-autor">Basílio da Gama</div>
+          <div class="obra-ano">1769</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- ROMANTISMO -->
+<!-- =============================== -->
+<section class="periodo" id="romantismo">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">4ª escola literária</span>
+      <p class="periodo-label">Século XIX — Independência</p>
+      <h2 class="periodo-titulo">Romantismo</h2>
+      <p class="periodo-anos">1836 — 1881</p>
+      <div class="periodo-contexto">
+        Independência do Brasil (1822). Construção da identidade nacional. Dom Pedro II e o Segundo Reinado. Romantismo europeu chega ao Brasil via França.
+      </div>
+      <ul class="caracteristicas">
+        <li>Sentimentalismo exacerbado e subjetivismo</li>
+        <li>Indianismo: o índio como herói nacional idealizado</li>
+        <li>Nacionalismo e valorização do Brasil</li>
+        <li>Amor impossível, sofrimento e melancolia</li>
+        <li>Ultrarromantismo: mal do século, morte como solução</li>
+        <li>Prosa: romance histórico e urbano</li>
+        <li>3 gerações: indianista, ultrarromântica, condoreira</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #1a1a4a, #4a2d7a);">
+        🪶
+        <span class="label" style="color:#c8b8f0">O GUARANI — IRACEMA</span>
+      </div>
+      <div class="citacao">
+        "Iracema, a virgem dos lábios de mel, que tinha os cabelos mais negros que a asa da graúna."
+        <p class="citacao-autor">— José de Alencar, Iracema (1865)</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000060.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🏹</div>
+        <div class="obra-info">
+          <div class="obra-titulo">O Guarani</div>
+          <div class="obra-autor">José de Alencar</div>
+          <div class="obra-ano">1857</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000159.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌙</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Iracema</div>
+          <div class="obra-autor">José de Alencar</div>
+          <div class="obra-ano">1865</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000020.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">💔</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Lira dos Vinte Anos</div>
+          <div class="obra-autor">Álvares de Azevedo</div>
+          <div class="obra-ano">1853</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000016.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🦅</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Os Escravos</div>
+          <div class="obra-autor">Castro Alves</div>
+          <div class="obra-ano">1883</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- REALISMO / NATURALISMO -->
+<!-- =============================== -->
+<section class="periodo" id="realismo">
+  <div class="periodo-header">
+    <div class="periodo-texto">
+      <span class="tag-movimento">5ª escola literária</span>
+      <p class="periodo-label">Final do Século XIX</p>
+      <h2 class="periodo-titulo">Realismo & Naturalismo</h2>
+      <p class="periodo-anos">1881 — 1893</p>
+      <div class="periodo-contexto">
+        Abolição da Escravatura (1888), Proclamação da República (1889). Influência do positivismo, darwinismo e marxismo. A ciência como explicação do mundo.
+      </div>
+      <ul class="caracteristicas">
+        <li>Crítica social e análise objetiva da realidade</li>
+        <li>Personagens complexos, cheios de contradições</li>
+        <li>Anti-idealismo: o mundo como ele é, não como deveria ser</li>
+        <li>Naturalismo: determinismo, meio ambiente e hereditariedade</li>
+        <li>Machado de Assis: narrador irônico e mordaz, critica a burguesia</li>
+        <li>Aluísio Azevedo: foco nas classes baixas e instintos humanos</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #1a1a1a, #3a3a3a);">
+        🎭
+        <span class="label" style="color:#aaa">MACHADO DE ASSIS</span>
+      </div>
+      <div class="citacao">
+        "Não fui eu que escrevi este livro; foi o leitor. Contentei-me em dar-lhe as tintas e o pincel."
+        <p class="citacao-autor">— Machado de Assis</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000196.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">💀</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Memórias Póstumas de Brás Cubas</div>
+          <div class="obra-autor">Machado de Assis</div>
+          <div class="obra-ano">1881</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000193.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🕰️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Dom Casmurro</div>
+          <div class="obra-autor">Machado de Assis</div>
+          <div class="obra-ano">1899</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000015.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🏚️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">O Cortiço</div>
+          <div class="obra-autor">Aluísio Azevedo</div>
+          <div class="obra-ano">1890</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000014.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">📖</div>
+        <div class="obra-info">
+          <div class="obra-titulo">O Mulato</div>
+          <div class="obra-autor">Aluísio Azevedo</div>
+          <div class="obra-ano">1881</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- PARNASIANISMO -->
+<!-- =============================== -->
+<section class="periodo" id="parnasianismo">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">6ª escola literária</span>
+      <p class="periodo-label">Final do Século XIX</p>
+      <h2 class="periodo-titulo">Parnasianismo</h2>
+      <p class="periodo-anos">1882 — 1922</p>
+      <div class="periodo-contexto">
+        República Velha e Belle Époque brasileira. Influência francesa. O Brasil urbaniza-se. A elite letrada valoriza a "arte pela arte".
+      </div>
+      <ul class="caracteristicas">
+        <li>"A arte pela arte" — beleza formal acima de tudo</li>
+        <li>Culto à forma: metrificação e rima perfeitas</li>
+        <li>Soneto como forma preferida</li>
+        <li>Temas greco-romanos e mitológicos</li>
+        <li>Vocabulário erudito e precioso</li>
+        <li>Impassibilidade: poesia fria, sem emoção excessiva</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #1a2a4a, #2a4a7a);">
+        🏛️
+        <span class="label" style="color:#a0c0f0">OLAVO BILAC</span>
+      </div>
+      <div class="citacao">
+        "Trabalha, e timbrando em nunca te enganares, / Faz que a tua obra toda seja viva."
+        <p class="citacao-autor">— Olavo Bilac</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000124.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">⭐</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Poesias</div>
+          <div class="obra-autor">Olavo Bilac</div>
+          <div class="obra-ano">1888</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/pesquisa/DetalheObraForm.do?select_action=&co_obra=2081" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🏺</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Meridionais</div>
+          <div class="obra-autor">Alberto de Oliveira</div>
+          <div class="obra-ano">1884</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/pesquisa/DetalheObraForm.do?select_action=&co_obra=2070" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🔮</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Sonetos e Poemas</div>
+          <div class="obra-autor">Raimundo Correia</div>
+          <div class="obra-ano">1883</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- SIMBOLISMO -->
+<!-- =============================== -->
+<section class="periodo" id="simbolismo">
+  <div class="periodo-header">
+    <div class="periodo-texto">
+      <span class="tag-movimento">7ª escola literária</span>
+      <p class="periodo-label">Final do Século XIX</p>
+      <h2 class="periodo-titulo">Simbolismo</h2>
+      <p class="periodo-anos">1893 — 1922</p>
+      <div class="periodo-contexto">
+        Período de crise social na República Velha. Influência da poesia decadentista francesa (Baudelaire, Verlaine, Mallarmé). Tensão entre espiritualidade e materialismo.
+      </div>
+      <ul class="caracteristicas">
+        <li>Valorização do subconsciente e do irracional</li>
+        <li>Sinestesia: mistura de sensações (cores, sons, cheiros)</li>
+        <li>Musicalidade e ritmo acima do sentido literal</li>
+        <li>Espiritualismo, misticismo e religiosidade</li>
+        <li>Palavras como símbolos de realidades abstratas</li>
+        <li>Cruz e Sousa: principal nome, de origem africana</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #2a1a4a, #5a2a8a);">
+        🌫️
+        <span class="label" style="color:#d4a0f0">CRUZ E SOUSA</span>
+      </div>
+      <div class="citacao">
+        "Formas alvas, brancas, Formas claras / de luares, de neves, de neblinas…"
+        <p class="citacao-autor">— Cruz e Sousa, Broquéis</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000031.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🖤</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Broquéis</div>
+          <div class="obra-autor">Cruz e Sousa</div>
+          <div class="obra-ano">1893</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000032.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌙</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Faróis</div>
+          <div class="obra-autor">Cruz e Sousa</div>
+          <div class="obra-ano">1900</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000053.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌸</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Kiriale</div>
+          <div class="obra-autor">Alphonsus de Guimaraens</div>
+          <div class="obra-ano">1902</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- MODERNISMO 1ª FASE -->
+<!-- =============================== -->
+<section class="periodo" id="modernismo">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">8ª escola literária</span>
+      <p class="periodo-label">Século XX — Ruptura Total</p>
+      <h2 class="periodo-titulo">Modernismo</h2>
+      <p class="periodo-anos">1922 — 1930 <em style="font-size:0.7em">(1ª fase)</em></p>
+      <div class="periodo-contexto">
+        Semana de Arte Moderna (1922) em São Paulo. Industrialização, tensões sociais, tenentismo, Revolução de 1930. O Brasil questiona sua identidade.
+      </div>
+      <ul class="caracteristicas">
+        <li>Ruptura com o passado: "destruir para reconstruir"</li>
+        <li>Verso livre: sem metrificação obrigatória</li>
+        <li>Linguagem coloquial brasileira — contra o português de Portugal</li>
+        <li>Humor, ironia e paródia das formas tradicionais</li>
+        <li>Antropofagia cultural: devorar o estrangeiro e transformar</li>
+        <li>Valorização da cultura popular, do índio e do negro</li>
+        <li>Busca por uma identidade genuinamente brasileira</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #4a1a0a, #c04a10);">
+        🎨
+        <span class="label" style="color:#ffd4a0">SEMANA DE ARTE MODERNA</span>
+      </div>
+      <div class="citacao">
+        "Tupi or not tupi, that is the question."
+        <p class="citacao-autor">— Oswald de Andrade, Manifesto Antropófago (1928)</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000116.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🚂</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Macunaíma</div>
+          <div class="obra-autor">Mário de Andrade</div>
+          <div class="obra-ano">1928</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000117.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">✂️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Paulicéia Desvairada</div>
+          <div class="obra-autor">Mário de Andrade</div>
+          <div class="obra-ano">1922</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://pt.wikisource.org/wiki/Manifesto_Antrop%C3%B3fago" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🍊</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Manifesto Antropófago</div>
+          <div class="obra-autor">Oswald de Andrade</div>
+          <div class="obra-ano">1928</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000040.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌵</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Alguma Poesia</div>
+          <div class="obra-autor">Carlos Drummond de Andrade</div>
+          <div class="obra-ano">1930</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- MODERNISMO 2ª FASE -->
+<!-- =============================== -->
+<section class="periodo" id="modernismo2">
+  <div class="periodo-header">
+    <div class="periodo-texto">
+      <span class="tag-movimento">9ª escola literária</span>
+      <p class="periodo-label">Século XX — Consolidação</p>
+      <h2 class="periodo-titulo">2ª Fase Modernista</h2>
+      <p class="periodo-anos">1930 — 1945</p>
+      <div class="periodo-contexto">
+        Era Vargas e o Estado Novo (1937). Crise de 1929 e seus reflexos. Segunda Guerra Mundial. No Brasil: seca, migrações, desigualdade social no Nordeste.
+      </div>
+      <ul class="caracteristicas">
+        <li>Regionalismo: foco no Nordeste e suas mazelas</li>
+        <li>Prosa social e engajada politicamente</li>
+        <li>Realismo crítico: denúncia da pobreza e da seca</li>
+        <li>Poesia introspectiva e de reflexão existencial</li>
+        <li>Drummond: o poeta do cotidiano e do conflito interior</li>
+        <li>Graciliano Ramos: linguagem seca, personagens sem esperança</li>
+        <li>Jorge Amado: cultura baiana, exuberância e luta social</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #3a2a10, #7a5a20);">
+        🌵
+        <span class="label" style="color:#f0d080">NORDESTE E SERTÃO</span>
+      </div>
+      <div class="citacao">
+        "No meio do caminho tinha uma pedra / tinha uma pedra no meio do caminho."
+        <p class="citacao-autor">— Carlos Drummond de Andrade</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000115.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🐑</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Vidas Secas</div>
+          <div class="obra-autor">Graciliano Ramos</div>
+          <div class="obra-ano">1938</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://archive.org/details/capitaesdaareiad0000amad" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🌊</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Capitães da Areia</div>
+          <div class="obra-autor">Jorge Amado</div>
+          <div class="obra-ano">1937</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000040.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🪨</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Sentimento do Mundo</div>
+          <div class="obra-autor">Carlos Drummond</div>
+          <div class="obra-ano">1940</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://www.dominiopublico.gov.br/download/texto/bv000157.pdf" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ LER</span>
+        <div class="obra-img">🌾</div>
+        <div class="obra-info">
+          <div class="obra-titulo">O Quinze</div>
+          <div class="obra-autor">Rachel de Queiroz</div>
+          <div class="obra-ano">1930</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="divisor">· · · · ·</div>
+
+<!-- =============================== -->
+<!-- CONTEMPORÂNEO -->
+<!-- =============================== -->
+<section class="periodo" id="contemporaneo">
+  <div class="periodo-header reverse">
+    <div class="periodo-texto">
+      <span class="tag-movimento">Literatura contemporânea</span>
+      <p class="periodo-label">1945 até hoje</p>
+      <h2 class="periodo-titulo">Literatura Contemporânea</h2>
+      <p class="periodo-anos">1945 — presente</p>
+      <div class="periodo-contexto">
+        Pós-guerra, ditadura militar (1964–1985), redemocratização, globalização. Literatura marcada pela fragmentação, pluralidade de vozes e novas tecnologias.
+      </div>
+      <ul class="caracteristicas">
+        <li>Grande variedade de estilos e temáticas — sem uma escola única</li>
+        <li>Guimarães Rosa: prosa poética, mundo sertanejo reinventado</li>
+        <li>Clarice Lispector: fluxo de consciência e angústia existencial</li>
+        <li>Literatura de resistência na ditadura (décadas de 60–80)</li>
+        <li>Diversidade de vozes: mulheres, negros, periferias</li>
+        <li>Literaturas marginais e contemporâneas (Ferréz, Conceição Evaristo)</li>
+        <li>Conexão com a cultura digital e novas linguagens</li>
+      </ul>
+    </div>
+    <div class="periodo-visual">
+      <div class="visual-placeholder" style="background: linear-gradient(135deg, #0a0a2a, #1a3a6a);">
+        ✨
+        <span class="label" style="color:#80c0ff">PLURALIDADE DE VOZES</span>
+      </div>
+      <div class="citacao">
+        "No princípio era o verbo. Só depois é que veio o desverbo."
+        <p class="citacao-autor">— Manoel de Barros</p>
+      </div>
+    </div>
+  </div>
+  <div class="secao-obras">
+    <h3>📚 Obras de referência</h3>
+    <div class="obras-grid">
+      <a class="obra-card" href="https://pt.wikipedia.org/wiki/Grande_Sert%C3%A3o:_Veredas" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🌄</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Grande Sertão: Veredas</div>
+          <div class="obra-autor">Guimarães Rosa</div>
+          <div class="obra-ano">1956</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://pt.wikipedia.org/wiki/A_Paix%C3%A3o_Segundo_G.H." target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🐱</div>
+        <div class="obra-info">
+          <div class="obra-titulo">A Paixão Segundo G.H.</div>
+          <div class="obra-autor">Clarice Lispector</div>
+          <div class="obra-ano">1964</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://pt.wikipedia.org/wiki/Ponci%C3%A1_Vic%C3%AAnio" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🌺</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Ponciá Vicêncio</div>
+          <div class="obra-autor">Conceição Evaristo</div>
+          <div class="obra-ano">2003</div>
+        </div>
+      </a>
+      <a class="obra-card" href="https://pt.wikipedia.org/wiki/Cap%C3%A3o_Pecado" target="_blank" rel="noopener">
+        <span class="obra-link-badge">↗ VER</span>
+        <div class="obra-img">🏙️</div>
+        <div class="obra-info">
+          <div class="obra-titulo">Capão Pecado</div>
+          <div class="obra-autor">Ferréz</div>
+          <div class="obra-ano">2000</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- RODAPÉ -->
+<footer>
+  <p><strong>Literatura Brasileira</strong> — Material didático para o 2º Ano do Ensino Médio</p>
+  <p style="margin-top:8px">Organizado cronologicamente · Do Quinhentismo à Literatura Contemporânea</p>
+  <p style="margin-top:12px; font-size:0.75rem; opacity:0.5">
+    📚 Links de obras apontam para Domínio Público, Wikisource, Archive.org e Wikipedia · Obras em domínio público são de acesso livre
+  </p>
+</footer>
+
+<script>
+  // Animação de entrada suave nos períodos ao rolar
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.08 });
+
+  document.querySelectorAll('.periodo-header, .secao-obras').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+    observer.observe(el);
+  });
+
+  // Navegação suave
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+
+
+
+</body>
+</html>
