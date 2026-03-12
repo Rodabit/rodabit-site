@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Língua Portuguesa — Morfologia & Sintaxe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --verde:    #1a4a2e;
+      --verde2:   #2d7a4f;
+      --ouro:     #c9a84c;
+      --creme:    #fdf6e3;
+      --papel:    #f4ede0;
+      --cinza:    #3a3530;
+      --suave:    #e8dcc8;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Source Serif 4', Georgia, serif;
+      background: var(--creme);
+      color: var(--cinza);
+      line-height: 1.75;
+      font-size: 17px;
+    }
+
+    /* HEADER */
+    header {
+      background: var(--verde);
+      color: #fff;
+      padding: 52px 40px 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 18px,
+        rgba(255,255,255,.03) 18px,
+        rgba(255,255,255,.03) 36px
+      );
+    }
+    header .badge {
+      display: inline-block;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--ouro);
+      border: 1px solid var(--ouro);
+      padding: 4px 14px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      line-height: 1.15;
+      font-weight: 900;
+    }
+    header p {
+      margin-top: 12px;
+      font-style: italic;
+      opacity: .75;
+      font-size: 1rem;
+    }
+    .ornament {
+      color: var(--ouro);
+      font-size: 1.6rem;
+      letter-spacing: 8px;
+      display: block;
+      margin-top: 20px;
+      opacity: .6;
+    }
+
+    /* LAYOUT */
+    main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    /* SECTION TITLE */
+    .parte-titulo {
+      margin: 56px 0 8px;
+      text-align: center;
+    }
+    .parte-titulo h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.9rem;
+      color: var(--verde);
+      display: inline-block;
+      border-bottom: 3px solid var(--ouro);
+      padding-bottom: 6px;
+    }
+
+    /* CARD */
+    .card {
+      background: #fff;
+      border-radius: 6px;
+      border-left: 5px solid var(--verde2);
+      padding: 28px 32px;
+      margin: 24px 0;
+      box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    }
+    .card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem;
+      color: var(--verde);
+      margin-bottom: 10px;
+    }
+    .card .subtag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--ouro);
+      font-family: 'Source Serif 4', sans-serif;
+      font-weight: 600;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    /* DESTAQUE */
+    .destaque {
+      background: var(--papel);
+      border: 1px solid var(--suave);
+      border-radius: 4px;
+      padding: 14px 20px;
+      margin: 14px 0;
+      font-style: italic;
+      font-size: .97rem;
+    }
+    .destaque strong { font-style: normal; color: var(--verde2); }
+
+    /* TABELA */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 18px 0;
+      font-size: .93rem;
+    }
+    th {
+      background: var(--verde);
+      color: #fff;
+      padding: 9px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-family: 'Source Serif 4', sans-serif;
+    }
+    td {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--suave);
+    }
+    tr:nth-child(even) td { background: var(--creme); }
+
+    /* LISTA */
+    ul.lista, ol.lista {
+      padding-left: 22px;
+      margin: 10px 0;
+    }
+    ul.lista li, ol.lista li {
+      margin-bottom: 6px;
+    }
+
+    /* SEPARADOR */
+    .sep {
+      border: none;
+      border-top: 2px dashed var(--suave);
+      margin: 48px 0 0;
+    }
+
+    /* RESUMO */
+    .resumo-box {
+      background: var(--verde);
+      color: #fff;
+      border-radius: 8px;
+      padding: 36px 38px;
+      margin: 48px 0 0;
+      box-shadow: 0 4px 24px rgba(26,74,46,.25);
+    }
+    .resumo-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--ouro);
+      margin-bottom: 20px;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    .resumo-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--ouro);
+      margin: 18px 0 6px;
+      border-bottom: 1px solid rgba(201,168,76,.3);
+      padding-bottom: 4px;
+    }
+    .resumo-box p, .resumo-box li {
+      font-size: .95rem;
+      opacity: .9;
+      line-height: 1.7;
+    }
+    .resumo-box ul { padding-left: 20px; }
+    .resumo-box li { margin-bottom: 4px; }
+    .resumo-box .aviso {
+      margin-top: 22px;
+      background: rgba(255,255,255,.1);
+      border-radius: 4px;
+      padding: 10px 16px;
+      font-size: .88rem;
+      font-style: italic;
+      text-align: center;
+      opacity: .7;
+    }
+
+    /* EXERCÍCIOS */
+    .exercicios-box {
+      background: var(--papel);
+      border: 2px solid var(--suave);
+      border-radius: 8px;
+      padding: 36px 38px;
+      margin: 40px 0 0;
+    }
+    .exercicios-box h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      color: var(--verde);
+      margin-bottom: 28px;
+      text-align: center;
+      border-bottom: 3px solid var(--ouro);
+      padding-bottom: 10px;
+    }
+    .questao {
+      margin-bottom: 28px;
+    }
+    .questao p {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--cinza);
+      line-height: 1.6;
+    }
+    .questao .num {
+      display: inline-block;
+      background: var(--verde);
+      color: #fff;
+      border-radius: 50%;
+      width: 28px; height: 28px;
+      line-height: 28px;
+      text-align: center;
+      font-size: .85rem;
+      font-weight: 700;
+      margin-right: 8px;
+      font-family: 'Source Serif 4', sans-serif;
+      flex-shrink: 0;
+    }
+    .alternativas label {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      margin: 6px 0;
+      cursor: pointer;
+      font-size: .95rem;
+      padding: 7px 10px;
+      border-radius: 4px;
+      transition: background .15s;
+    }
+    .alternativas label:hover { background: var(--suave); }
+    .alternativas input { margin-top: 3px; accent-color: var(--verde2); }
+    .alternativas label.certa  { background: #d4edda; border-left: 3px solid #28a745; }
+    .alternativas label.errada { background: #f8d7da; border-left: 3px solid #dc3545; }
+
+    .btn-verificar {
+      display: block;
+      margin: 10px 0 0 36px;
+      background: var(--verde2);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 8px 22px;
+      font-size: .9rem;
+      cursor: pointer;
+      font-family: 'Source Serif 4', serif;
+      transition: background .2s;
+    }
+    .btn-verificar:hover { background: var(--verde); }
+    .feedback {
+      margin: 8px 0 0 36px;
+      font-size: .9rem;
+      font-style: italic;
+      min-height: 18px;
+    }
+    .feedback.ok  { color: #1a6b2f; }
+    .feedback.err { color: #a81a1a; }
+
+    /* dissertativa */
+    .dissertativa textarea {
+      width: 100%;
+      border: 1px solid var(--suave);
+      border-radius: 4px;
+      padding: 10px 14px;
+      font-family: 'Source Serif 4', serif;
+      font-size: .93rem;
+      color: var(--cinza);
+      resize: vertical;
+      background: #fff;
+      margin-top: 4px;
+    }
+    .dissertativa textarea:focus { outline: 2px solid var(--verde2); }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: .82rem;
+      color: #999;
+      border-top: 1px solid var(--suave);
+      font-style: italic;
+    }
+
+    @media (max-width: 600px) {
+      .card { padding: 20px 18px; }
+      .resumo-box, .exercicios-box { padding: 24px 18px; }
+      header { padding: 36px 20px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Língua Portuguesa</div>
+  <h1>Morfologia &amp; Sintaxe</h1>
+  <p>Classes de palavras · Funções sintáticas · Termos acessórios</p>
+  <span class="ornament">✦ ✦ ✦</span>
+</header>
+
+<main>
+
+  <!-- ===================== PARTE 1: MORFOLOGIA ===================== -->
+  <div class="parte-titulo">
+    <h2>Parte I — Morfologia</h2>
+  </div>
+  <p style="text-align:center; margin-bottom: 8px; font-style:italic; color:#666;">As classes de palavras e suas principais características</p>
+
+  <!-- SUBSTANTIVO -->
+  <div class="card">
+    <span class="subtag">Classe 1</span>
+    <h3>📖 Substantivo</h3>
+    <p>Nomeia <strong>seres, objetos, sentimentos, lugares, ações e qualidades</strong>. É o núcleo do sujeito e do objeto.</p>
+
+    <table>
+      <tr><th>Tipo</th><th>Definição</th><th>Exemplo</th></tr>
+      <tr><td>Comum</td><td>Nomeia qualquer ser da espécie</td><td><em>cidade, cachorro, amor</em></td></tr>
+      <tr><td>Próprio</td><td>Identifica um ser específico</td><td><em>Brasil, Mariana, Rio Doce</em></td></tr>
+      <tr><td>Concreto</td><td>Tem existência independente</td><td><em>cadeira, vento, pedra</em></td></tr>
+      <tr><td>Abstrato</td><td>Depende de outro ser para existir</td><td><em>beleza, coragem, saudade</em></td></tr>
+      <tr><td>Coletivo</td><td>No singular, indica um conjunto</td><td><em>cardume, alcateia, frota</em></td></tr>
+    </table>
+
+    <div class="destaque">
+      <strong>Flexões:</strong> gênero (masculino / feminino), número (singular / plural) e grau (aumentativo / diminutivo).<br>
+      Ex.: <em>o gato → a gata → os gatos → gatinho → gatão</em>
+    </div>
+  </div>
+
+  <!-- ADJETIVO -->
+  <div class="card">
+    <span class="subtag">Classe 2</span>
+    <h3>🎨 Adjetivo</h3>
+    <p>Caracteriza ou qualifica um substantivo, atribuindo-lhe <strong>qualidade, estado ou aspecto</strong>.</p>
+
+    <div class="destaque">
+      <strong>Locução adjetiva</strong> = preposição + substantivo com valor de adjetivo.<br>
+      <em>anel de ouro</em> (áureo) · <em>casa de madeira</em> (de madeira) · <em>cheiro de terra</em> (terroso)
+    </div>
+
+    <table>
+      <tr><th>Grau</th><th>Forma</th><th>Exemplo</th></tr>
+      <tr><td>Comparativo de igualdade</td><td>tão … quanto</td><td><em>tão alto quanto João</em></td></tr>
+      <tr><td>Comparativo de superioridade</td><td>mais … do que</td><td><em>mais esperto do que ela</em></td></tr>
+      <tr><td>Superlativo absoluto</td><td>-íssimo / muito</td><td><em>lindíssima / muito linda</em></td></tr>
+      <tr><td>Superlativo relativo</td><td>o mais … de</td><td><em>o mais dedicado da turma</em></td></tr>
+    </table>
+
+    <p>⚠️ Adjetivo composto: só o último elemento varia.<br>
+    <em>acordos luso-brasileiros · olhos castanho-claros</em></p>
+  </div>
+
+  <!-- ARTIGO -->
+  <div class="card">
+    <span class="subtag">Classe 3</span>
+    <h3>🔖 Artigo</h3>
+    <p>Precede o substantivo, determinando-o.</p>
+    <table>
+      <tr><th>Tipo</th><th>Masculino</th><th>Feminino</th></tr>
+      <tr><td>Definido</td><td>o / os</td><td>a / as</td></tr>
+      <tr><td>Indefinido</td><td>um / uns</td><td>uma / umas</td></tr>
+    </table>
+    <div class="destaque">
+      <em>"<strong>O</strong> livro chegou"</em> (sabemos qual) ·
+      <em>"Comprei <strong>um</strong> livro"</em> (qualquer um)
+    </div>
+  </div>
+
+  <!-- NUMERAL -->
+  <div class="card">
+    <span class="subtag">Classe 4</span>
+    <h3>🔢 Numeral</h3>
+    <p>Indica quantidade, ordem, fração ou multiplicação relativa a um ser.</p>
+    <ul class="lista">
+      <li><strong>Cardinal:</strong> um, dois, cem — <em>"Comprei três livros."</em></li>
+      <li><strong>Ordinal:</strong> primeiro, segundo — <em>"Chegou em segundo lugar."</em></li>
+      <li><strong>Fracionário:</strong> metade, terço — <em>"Comeu um terço do bolo."</em></li>
+      <li><strong>Multiplicativo:</strong> duplo, triplo — <em>"Recebeu o dobro do salário."</em></li>
+    </ul>
+  </div>
+
+  <!-- PRONOME -->
+  <div class="card">
+    <span class="subtag">Classe 5</span>
+    <h3>👤 Pronome</h3>
+    <p>Substitui ou acompanha o substantivo, evitando repetições e indicando pessoas do discurso.</p>
+    <table>
+      <tr><th>Tipo</th><th>Exemplos</th></tr>
+      <tr><td>Pessoal (reto)</td><td>eu, tu, ele, nós, vós, eles</td></tr>
+      <tr><td>Pessoal (oblíquo)</td><td>me, te, se, nos, lhe, o, a</td></tr>
+      <tr><td>Possessivo</td><td>meu, teu, seu, nossa, vossa</td></tr>
+      <tr><td>Demonstrativo</td><td>este, esse, aquele (e variações)</td></tr>
+      <tr><td>Indefinido</td><td>alguém, ninguém, todo, qualquer</td></tr>
+      <tr><td>Relativo</td><td>que, quem, cujo, onde, o qual</td></tr>
+      <tr><td>Interrogativo</td><td>quem? que? qual? quanto?</td></tr>
+    </table>
+  </div>
+
+  <!-- VERBO — destaque maior -->
+  <div class="card" style="border-left-color: var(--ouro);">
+    <span class="subtag">Classe 6 — Principal</span>
+    <h3>⚡ Verbo</h3>
+    <p>Indica <strong>ação, estado, fenômeno natural ou mudança de estado</strong>. É o núcleo do predicado.</p>
+
+    <h4 style="color:var(--verde2); margin: 16px 0 6px;">Quanto ao significado</h4>
+    <table>
+      <tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr>
+      <tr><td>Significativo (lexical)</td><td>Tem sentido próprio</td><td><em>correr, amar, escrever</em></td></tr>
+      <tr><td>De ligação</td><td>Liga sujeito ao predicativo</td><td><em>ser, estar, parecer, ficar, tornar-se</em></td></tr>
+      <tr><td>Auxiliar</td><td>Forma locução verbal</td><td><em>ter, haver, ser, estar + particípio/inf.</em></td></tr>
+    </table>
+
+    <h4 style="color:var(--verde2); margin: 16px 0 6px;">Quanto à flexão</h4>
+    <ul class="lista">
+      <li><strong>Regular:</strong> radical fixo — <em>amar: amo, amas, amei…</em></li>
+      <li><strong>Irregular:</strong> radical ou terminação muda — <em>ser, ir, ter, pôr</em></li>
+      <li><strong>Defectivo:</strong> faltam formas — <em>abolir, colorir, falir</em></li>
+      <li><strong>Abundante:</strong> duas formas no particípio — <em>aceitado / aceito; pegado / pego</em></li>
+    </ul>
+
+    <h4 style="color:var(--verde2); margin: 16px 0 6px;">Formas nominais</h4>
+    <table>
+      <tr><th>Forma</th><th>Sufixo</th><th>Exemplo</th></tr>
+      <tr><td>Infinitivo</td><td>-ar, -er, -ir</td><td><em>cantar, beber, partir</em></td></tr>
+      <tr><td>Gerúndio</td><td>-ando, -endo, -indo</td><td><em>cantando, bebendo, partindo</em></td></tr>
+      <tr><td>Particípio</td><td>-ado, -ido</td><td><em>cantado, bebido, partido</em></td></tr>
+    </table>
+
+    <h4 style="color:var(--verde2); margin: 16px 0 6px;">Vozes verbais</h4>
+    <div class="destaque">
+      <strong>Ativa:</strong> sujeito pratica a ação — <em>"A professora corrigiu as provas."</em><br>
+      <strong>Passiva analítica:</strong> sujeito recebe a ação — <em>"As provas foram corrigidas pela professora."</em><br>
+      <strong>Passiva sintética:</strong> com pronome <em>se</em> — <em>"Corrigiram-se as provas."</em><br>
+      <strong>Reflexiva:</strong> sujeito pratica e recebe — <em>"Maria se olhou no espelho."</em>
+    </div>
+
+    <h4 style="color:var(--verde2); margin: 16px 0 6px;">Modos verbais</h4>
+    <ul class="lista">
+      <li><strong>Indicativo:</strong> fato certo — <em>Eu estudo todos os dias.</em></li>
+      <li><strong>Subjuntivo:</strong> dúvida / hipótese — <em>Espero que ele venha.</em></li>
+      <li><strong>Imperativo:</strong> ordem / pedido — <em>Venha cá! / Por favor, sente-se.</em></li>
+    </ul>
+  </div>
+
+  <!-- ADVÉRBIO -->
+  <div class="card">
+    <span class="subtag">Classe 7</span>
+    <h3>🔍 Advérbio</h3>
+    <p>Modifica verbo, adjetivo ou outro advérbio, indicando circunstâncias.</p>
+    <table>
+      <tr><th>Circunstância</th><th>Exemplos</th></tr>
+      <tr><td>Modo</td><td>bem, mal, depressa, cuidadosamente</td></tr>
+      <tr><td>Tempo</td><td>hoje, ontem, sempre, logo, ainda</td></tr>
+      <tr><td>Lugar</td><td>aqui, lá, perto, longe, dentro</td></tr>
+      <tr><td>Intensidade</td><td>muito, pouco, bastante, demais</td></tr>
+      <tr><td>Negação</td><td>não, jamais, nunca</td></tr>
+      <tr><td>Afirmação</td><td>sim, certamente, realmente</td></tr>
+      <tr><td>Dúvida</td><td>talvez, provavelmente, quiçá</td></tr>
+    </table>
+    <div class="destaque">
+      <strong>Locução adverbial</strong> = preposição + palavra: <em>de repente · às vezes · por acaso · sem dúvida</em>
+    </div>
+  </div>
+
+  <!-- PREPOSIÇÃO -->
+  <div class="card">
+    <span class="subtag">Classe 8</span>
+    <h3>🔗 Preposição</h3>
+    <p>Palavra invariável que <strong>relaciona</strong> termos dentro da frase, subordinando um ao outro.</p>
+    <div class="destaque">
+      Essenciais: <em>a, ante, após, até, com, contra, de, desde, em, entre, para, perante, por, sem, sob, sobre, trás</em>
+    </div>
+    <p>Exemplos em uso:<br>
+    <em>Gosto <strong>de</strong> café. · Vou <strong>para</strong> casa. · Saí <strong>sem</strong> guarda-chuva.</em></p>
+    <p style="margin-top:10px;"><strong>Combinação:</strong> ao (a+o) · <strong>Contração:</strong> do (de+o), no (em+o), pelo (por+o)</p>
+  </div>
+
+  <!-- CONJUNÇÃO -->
+  <div class="card">
+    <span class="subtag">Classe 9</span>
+    <h3>🔀 Conjunção</h3>
+    <p>Liga orações ou termos de mesma função.</p>
+    <table>
+      <tr><th>Tipo</th><th>Exemplos</th></tr>
+      <tr><td>Coord. aditiva</td><td>e, nem, também</td></tr>
+      <tr><td>Coord. adversativa</td><td>mas, porém, contudo, entretanto</td></tr>
+      <tr><td>Coord. alternativa</td><td>ou…ou, ora…ora</td></tr>
+      <tr><td>Coord. conclusiva</td><td>logo, portanto, então</td></tr>
+      <tr><td>Coord. explicativa</td><td>porque, pois, que</td></tr>
+      <tr><td>Sub. causal</td><td>porque, já que, visto que</td></tr>
+      <tr><td>Sub. condicional</td><td>se, caso, desde que</td></tr>
+      <tr><td>Sub. concessiva</td><td>embora, ainda que, mesmo que</td></tr>
+      <tr><td>Sub. final</td><td>para que, a fim de que</td></tr>
+      <tr><td>Sub. temporal</td><td>quando, enquanto, assim que</td></tr>
+    </table>
+  </div>
+
+  <!-- INTERJEIÇÃO -->
+  <div class="card">
+    <span class="subtag">Classe 10</span>
+    <h3>😲 Interjeição</h3>
+    <p>Exprime estados emocionais de forma condensada. Funciona como uma frase por si só.</p>
+    <div class="destaque">
+      <em>Ufa! · Ai! · Parabéns! · Psiu! · Nossa! · Bravo! · Xô!</em>
+    </div>
+    <p><strong>Locução interjetiva:</strong> <em>Meu Deus! · Valha-me! · Ora bolas!</em></p>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ===================== PARTE 2: SINTAXE ===================== -->
+  <div class="parte-titulo" style="margin-top: 48px;">
+    <h2>Parte II — Sintaxe Básica</h2>
+  </div>
+  <p style="text-align:center; margin-bottom: 8px; font-style:italic; color:#666;">Termos essenciais e acessórios da oração</p>
+
+  <!-- SUJEITO -->
+  <div class="card">
+    <span class="subtag">Termos Essenciais</span>
+    <h3>🧑 Sujeito</h3>
+    <p>Ser sobre o qual se faz uma declaração. Com ele o verbo <strong>concorda</strong>.</p>
+    <table>
+      <tr><th>Tipo</th><th>Característica</th><th>Exemplo</th></tr>
+      <tr><td>Simples</td><td>Um só núcleo</td><td><em>"<u>A turma</u> chegou."</em></td></tr>
+      <tr><td>Composto</td><td>Mais de um núcleo</td><td><em>"<u>Pedro e Ana</u> vieram."</em></td></tr>
+      <tr><td>Oculto (elíptico)</td><td>Identificado pela desinência</td><td><em>"<u>Ø</u> Estudamos muito."</em></td></tr>
+      <tr><td>Indeterminado</td><td>Não identificável</td><td><em>"Precisam de voluntários."</em></td></tr>
+      <tr><td>Inexistente</td><td>Verbos impessoais</td><td><em>"Choveu ontem."</em></td></tr>
+    </table>
+  </div>
+
+  <!-- PREDICADO -->
+  <div class="card">
+    <span class="subtag">Termos Essenciais</span>
+    <h3>📢 Predicado</h3>
+    <table>
+      <tr><th>Tipo</th><th>Verbo</th><th>Exemplo</th></tr>
+      <tr><td>Verbal</td><td>Significativo</td><td><em>"O aluno <u>dormiu</u>."</em></td></tr>
+      <tr><td>Nominal</td><td>De ligação + predicativo</td><td><em>"A prova <u>foi difícil</u>."</em></td></tr>
+      <tr><td>Verbo-nominal</td><td>Sig. + predicativo do suj./obj.</td><td><em>"Ela <u>chegou cansada</u>."</em></td></tr>
+    </table>
+  </div>
+
+  <!-- COMPLEMENTOS -->
+  <div class="card">
+    <span class="subtag">Termos Integrantes</span>
+    <h3>🎯 Complementos Verbais</h3>
+    <div class="destaque">
+      <strong>Objeto direto (OD):</strong> sem preposição — <em>"Comprei <u>o livro</u>."</em><br>
+      <strong>Objeto indireto (OI):</strong> com preposição — <em>"Gostei <u>do livro</u>."</em>
+    </div>
+    <p>⚠️ <strong>Verbo transitivo direto (VTD)</strong> → pede OD<br>
+       ⚠️ <strong>Verbo transitivo indireto (VTI)</strong> → pede OI<br>
+       ⚠️ <strong>Verbo bitransitivo (VTDI)</strong> → pede os dois:<br>
+       <em>"O professor entregou <u>as notas</u> <u>aos alunos</u>."</em></p>
+  </div>
+
+  <!-- TERMOS ACESSÓRIOS -->
+  <div class="card" style="border-left-color: var(--ouro);">
+    <span class="subtag">Termos Acessórios</span>
+    <h3>✨ Adjunto Adnominal</h3>
+    <p>Modifica, determina ou caracteriza um <strong>substantivo</strong>. Pode ser artigo, adjetivo, locução adjetiva, pronome ou numeral.</p>
+    <div class="destaque">
+      "<em><u>Aquele</u> <u>jovem</u> estudante <u>de medicina</u></em> passou no concurso."<br>
+      ➜ <em>aquele</em> (pronome dem.), <em>jovem</em> (adj.), <em>de medicina</em> (loc. adjetiva) = adjuntos adnominais de <em>estudante</em>
+    </div>
+  </div>
+
+  <div class="card" style="border-left-color: var(--ouro);">
+    <span class="subtag">Termos Acessórios</span>
+    <h3>🌍 Adjunto Adverbial</h3>
+    <p>Modifica o <strong>verbo, adjetivo ou advérbio</strong>, indicando circunstâncias (tempo, lugar, modo, causa, fim…).</p>
+    <div class="destaque">
+      "<em>Ontem, a escola abriu cedo por causa da reunião."</em><br>
+      ➜ <u>Ontem</u> (tempo) · <u>cedo</u> (modo) · <u>por causa da reunião</u> (causa) = adjuntos adverbiais
+    </div>
+  </div>
+
+  <div class="card" style="border-left-color: var(--ouro);">
+    <span class="subtag">Termos Acessórios</span>
+    <h3>💬 Aposto e Vocativo</h3>
+    <table>
+      <tr><th>Termo</th><th>Função</th><th>Exemplo</th></tr>
+      <tr>
+        <td>Aposto</td>
+        <td>Explica ou especifica um termo</td>
+        <td><em>"Camões, <u>o maior poeta português</u>, viveu no séc. XVI."</em></td>
+      </tr>
+      <tr>
+        <td>Vocativo</td>
+        <td>Chama ou interpela alguém</td>
+        <td><em>"<u>Maria</u>, venha aqui!" / "Preste atenção, <u>pessoal</u>."</em></td>
+      </tr>
+    </table>
+    <p style="margin-top:10px;">⚠️ O vocativo é <strong>isolado por vírgulas</strong> e <strong>não faz parte</strong> do sujeito nem do predicado.</p>
+  </div>
+
+  <!-- ===================== RESUMO ===================== -->
+  <div class="resumo-box">
+    <h2>📋 Resumo para o Caderno</h2>
+
+    <h3>Morfologia — 10 Classes de Palavras</h3>
+    <ul>
+      <li><strong>Substantivo</strong> — nomeia seres (comum/próprio, concreto/abstrato, coletivo)</li>
+      <li><strong>Adjetivo</strong> — qualifica o substantivo; varia em grau (comp. e superlativo)</li>
+      <li><strong>Artigo</strong> — determina o substantivo (definido: o/a; indefinido: um/uma)</li>
+      <li><strong>Numeral</strong> — indica quantidade/ordem (cardinal, ordinal, fracionário, multiplicativo)</li>
+      <li><strong>Pronome</strong> — substitui ou acompanha o substantivo (pessoal, possessivo, demonstrativo…)</li>
+      <li><strong>Verbo</strong> — ação/estado/fenômeno; flexiona em modo, tempo, número e pessoa</li>
+      <li><strong>Advérbio</strong> — modifica verbo, adj. ou outro advérbio; indica circunstâncias</li>
+      <li><strong>Preposição</strong> — invariável; liga termos (a, de, em, para, por, com…)</li>
+      <li><strong>Conjunção</strong> — liga orações ou termos (coord.: e, mas, ou; sub.: porque, se, embora…)</li>
+      <li><strong>Interjeição</strong> — exprime emoção (Ah! Ufa! Nossa!)</li>
+    </ul>
+
+    <h3>Verbo — Pontos-Chave</h3>
+    <ul>
+      <li>Modos: <strong>Indicativo</strong> (certeza) · <strong>Subjuntivo</strong> (dúvida) · <strong>Imperativo</strong> (ordem)</li>
+      <li>Vozes: <strong>Ativa</strong> · <strong>Passiva</strong> (analítica e sintética) · <strong>Reflexiva</strong></li>
+      <li>Formas nominais: <strong>Infinitivo</strong> (-ar/-er/-ir) · <strong>Gerúndio</strong> (-ndo) · <strong>Particípio</strong> (-do)</li>
+    </ul>
+
+    <h3>Sintaxe — Termos da Oração</h3>
+    <ul>
+      <li><strong>Essenciais:</strong> Sujeito + Predicado (verbal, nominal, verbo-nominal)</li>
+      <li><strong>Integrantes:</strong> Objeto Direto (sem prep.) · Objeto Indireto (com prep.)</li>
+      <li><strong>Acessórios:</strong></li>
+      <li>• <strong>Adjunto Adnominal</strong> — modifica substantivo</li>
+      <li>• <strong>Adjunto Adverbial</strong> — modifica verbo/adj./adv.</li>
+      <li>• <strong>Aposto</strong> — explica um termo (entre vírgulas)</li>
+      <li>• <strong>Vocativo</strong> — chama/interpela; isolado por vírgulas</li>
+    </ul>
+
+    <div class="aviso">✏️ Copie este resumo no caderno com atenção — ele será útil nas revisões!</div>
+  </div>
+
+  <!-- ===================== EXERCÍCIOS ===================== -->
+  <div class="exercicios-box">
+    <h2>📝 Exercícios</h2>
+
+    <!-- Q1 -->
+    <div class="questao">
+      <p><span class="num">1</span> Em "A <em>saudade</em> dói", a palavra destacada é um substantivo:</p>
+      <div class="alternativas" id="q1">
+        <label><input type="radio" name="q1" value="a"> a) próprio e concreto</label>
+        <label><input type="radio" name="q1" value="b"> b) comum e abstrato</label>
+        <label><input type="radio" name="q1" value="c"> c) coletivo e próprio</label>
+        <label><input type="radio" name="q1" value="d"> d) comum e concreto</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q1','b')">Verificar</button>
+      <div class="feedback" id="fb-q1"></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="questao">
+      <p><span class="num">2</span> Assinale a alternativa em que o verbo destacado é de <strong>ligação</strong>:</p>
+      <div class="alternativas" id="q2">
+        <label><input type="radio" name="q2" value="a"> a) "Ele <em>correu</em> muito."</label>
+        <label><input type="radio" name="q2" value="b"> b) "O menino <em>ficou</em> triste."</label>
+        <label><input type="radio" name="q2" value="c"> c) "Nós <em>compramos</em> pão."</label>
+        <label><input type="radio" name="q2" value="d"> d) "Ela <em>saiu</em> cedo."</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q2','b')">Verificar</button>
+      <div class="feedback" id="fb-q2"></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="questao">
+      <p><span class="num">3</span> "Estudamos muito para a prova." O sujeito da oração é:</p>
+      <div class="alternativas" id="q3">
+        <label><input type="radio" name="q3" value="a"> a) sujeito simples</label>
+        <label><input type="radio" name="q3" value="b"> b) sujeito indeterminado</label>
+        <label><input type="radio" name="q3" value="c"> c) sujeito oculto (elíptico)</label>
+        <label><input type="radio" name="q3" value="d"> d) oração sem sujeito</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q3','c')">Verificar</button>
+      <div class="feedback" id="fb-q3"></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="questao">
+      <p><span class="num">4</span> Em "Gostei <em>do filme</em>", o termo destacado é:</p>
+      <div class="alternativas" id="q4">
+        <label><input type="radio" name="q4" value="a"> a) Objeto Direto</label>
+        <label><input type="radio" name="q4" value="b"> b) Adjunto Adverbial</label>
+        <label><input type="radio" name="q4" value="c"> c) Objeto Indireto</label>
+        <label><input type="radio" name="q4" value="d"> d) Adjunto Adnominal</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q4','c')">Verificar</button>
+      <div class="feedback" id="fb-q4"></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="questao">
+      <p><span class="num">5</span> Qual alternativa apresenta um adjetivo no <strong>superlativo absoluto sintético</strong>?</p>
+      <div class="alternativas" id="q5">
+        <label><input type="radio" name="q5" value="a"> a) "mais bonita de todas"</label>
+        <label><input type="radio" name="q5" value="b"> b) "tão bonita quanto ela"</label>
+        <label><input type="radio" name="q5" value="c"> c) "boníssima"</label>
+        <label><input type="radio" name="q5" value="d"> d) "mais bonita do que ela"</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q5','c')">Verificar</button>
+      <div class="feedback" id="fb-q5"></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="questao">
+      <p><span class="num">6</span> "Amanhã haverá festa." O adjunto adverbial <em>Amanhã</em> indica circunstância de:</p>
+      <div class="alternativas" id="q6">
+        <label><input type="radio" name="q6" value="a"> a) Lugar</label>
+        <label><input type="radio" name="q6" value="b"> b) Modo</label>
+        <label><input type="radio" name="q6" value="c"> c) Causa</label>
+        <label><input type="radio" name="q6" value="d"> d) Tempo</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q6','d')">Verificar</button>
+      <div class="feedback" id="fb-q6"></div>
+    </div>
+
+    <!-- Q7 -->
+    <div class="questao">
+      <p><span class="num">7</span> Identifique a conjunção <strong>adversativa</strong>:</p>
+      <div class="alternativas" id="q7">
+        <label><input type="radio" name="q7" value="a"> a) "Estudou <em>e</em> passou."</label>
+        <label><input type="radio" name="q7" value="b"> b) "Estudou <em>mas</em> não passou."</label>
+        <label><input type="radio" name="q7" value="c"> c) "Estudou <em>porque</em> queria."</label>
+        <label><input type="radio" name="q7" value="d"> d) "Estudou <em>logo</em> passou."</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q7','b')">Verificar</button>
+      <div class="feedback" id="fb-q7"></div>
+    </div>
+
+    <!-- Q8 -->
+    <div class="questao">
+      <p><span class="num">8</span> Em "Camões, <em>o príncipe dos poetas</em>, nasceu em Portugal", o termo destacado é:</p>
+      <div class="alternativas" id="q8">
+        <label><input type="radio" name="q8" value="a"> a) Vocativo</label>
+        <label><input type="radio" name="q8" value="b"> b) Adjunto Adnominal</label>
+        <label><input type="radio" name="q8" value="c"> c) Aposto</label>
+        <label><input type="radio" name="q8" value="d"> d) Predicativo do sujeito</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q8','c')">Verificar</button>
+      <div class="feedback" id="fb-q8"></div>
+    </div>
+
+    <!-- Q9 -->
+    <div class="questao">
+      <p><span class="num">9</span> "As provas <em>foram corrigidas</em> pela professora." A voz verbal é:</p>
+      <div class="alternativas" id="q9">
+        <label><input type="radio" name="q9" value="a"> a) Ativa</label>
+        <label><input type="radio" name="q9" value="b"> b) Reflexiva</label>
+        <label><input type="radio" name="q9" value="c"> c) Passiva sintética</label>
+        <label><input type="radio" name="q9" value="d"> d) Passiva analítica</label>
+      </div>
+      <button class="btn-verificar" onclick="verificar('q9','d')">Verificar</button>
+      <div class="feedback" id="fb-q9"></div>
+    </div>
+
+    <!-- Q10 — dissertativa -->
+    <div class="questao dissertativa">
+      <p><span class="num">10</span> Reescreva a frase na voz passiva analítica: <em>"O aluno resolveu o exercício."</em></p>
+      <textarea rows="3" placeholder="Escreva sua resposta aqui…"></textarea>
+      <p style="font-size:.85rem; color:#888; margin-top:6px; font-style:italic;">
+        💡 Resposta esperada: <em>"O exercício foi resolvido pelo aluno."</em>
+      </p>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  Língua Portuguesa · Morfologia e Sintaxe · Material didático de apoio ao professor
+</footer>
+
+<script>
+  function verificar(id, certa) {
+    const container = document.getElementById(id);
+    const fb = document.getElementById('fb-' + id);
+    const selecionado = container.querySelector('input:checked');
+
+    if (!selecionado) {
+      fb.textContent = 'Selecione uma alternativa primeiro.';
+      fb.className = 'feedback err';
+      return;
+    }
+
+    const labels = container.querySelectorAll('label');
+    labels.forEach(lbl => {
+      lbl.classList.remove('certa', 'errada');
+      const inp = lbl.querySelector('input');
+      if (inp.value === certa) lbl.classList.add('certa');
+      else if (inp.checked && inp.value !== certa) lbl.classList.add('errada');
+    });
+
+    if (selecionado.value === certa) {
+      fb.textContent = '✅ Correto! Muito bem!';
+      fb.className = 'feedback ok';
+    } else {
+      fb.textContent = '❌ Incorreto. Veja a alternativa em verde.';
+      fb.className = 'feedback err';
+    }
+  }
+</script>
+
+</body>
+</html>
