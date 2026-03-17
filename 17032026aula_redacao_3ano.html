@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aula de Redação — 3º Ano | Proposta Dissertativo-Argumentativa</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet"/>
+  <style>
+	a {
+		text-decoration: none;
+		color: blue;
+	}
+    :root {
+      --ink: #1a1410;
+      --paper: #f5f0e8;
+      --cream: #ede7d5;
+      --red: #b5261e;
+      --gold: #c9a84c;
+      --gray: #6b6356;
+      --border: #c8bfad;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Source Serif 4', Georgia, serif;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3rem 2rem 2.5rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 39px,
+        rgba(255,255,255,.04) 39px,
+        rgba(255,255,255,.04) 40px
+      );
+    }
+    .header-label {
+      font-family: 'Source Serif 4', serif;
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: .8rem;
+    }
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900;
+      line-height: 1.15;
+      position: relative;
+    }
+    header h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+    .header-sub {
+      margin-top: 1rem;
+      font-size: .9rem;
+      color: rgba(245,240,232,.6);
+      letter-spacing: .05em;
+    }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    /* ── SECTION TITLES ── */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      margin-top: 3.5rem;
+    }
+    .section-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--border);
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .section-info h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    .section-info .badge {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 600;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      background: var(--gold);
+      color: var(--ink);
+      padding: .15rem .55rem;
+      border-radius: 2px;
+      margin-top: .3rem;
+    }
+
+    /* ── TEXT CARD ── */
+    .card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--ink);
+      padding: 2rem 2.2rem;
+      border-radius: 2px;
+      box-shadow: 4px 4px 0 var(--cream);
+      margin-bottom: 1rem;
+      animation: fadeUp .5s ease both;
+    }
+    .card.gold { border-left-color: var(--gold); }
+    .card.red  { border-left-color: var(--red); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card-source {
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--gray);
+      margin-bottom: .8rem;
+    }
+    .card p { font-size: 1rem; line-height: 1.8; }
+    .card p + p { margin-top: .9rem; }
+    blockquote {
+      border-left: 3px solid var(--gold);
+      padding-left: 1.2rem;
+      margin: 1rem 0;
+      font-style: italic;
+      color: var(--gray);
+    }
+
+    /* ── STATS ── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0 .5rem;
+    }
+    .stat-box {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 1.4rem 1.2rem;
+      text-align: center;
+      border-radius: 2px;
+    }
+    .stat-box .number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      display: block;
+      line-height: 1;
+    }
+    .stat-box .label {
+      font-size: .78rem;
+      letter-spacing: .05em;
+      margin-top: .5rem;
+      color: rgba(245,240,232,.75);
+      line-height: 1.4;
+    }
+    .stat-source { font-size: .72rem; color: var(--gray); margin-top: .6rem; }
+
+    /* ── CHARGE ── */
+    .charge-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      border-radius: 2px;
+      box-shadow: 4px 4px 0 var(--cream);
+    }
+    .charge-svg-area {
+      background: #f9f6ef;
+      border: 1px dashed var(--border);
+      border-radius: 2px;
+      padding: 1.5rem;
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .charge-caption {
+      font-size: .88rem;
+      color: var(--gray);
+      font-style: italic;
+      text-align: center;
+    }
+
+    /* ── PROPOSTA ── */
+    .proposta-box {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 2.5rem 2.8rem;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 3rem;
+    }
+    .proposta-box::before {
+      content: '❝';
+      font-family: 'Playfair Display', serif;
+      font-size: 10rem;
+      color: rgba(201,168,76,.12);
+      position: absolute;
+      top: -1.5rem;
+      left: 1rem;
+      line-height: 1;
+      pointer-events: none;
+    }
+    .proposta-label {
+      font-size: .7rem;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+    }
+    .proposta-box h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.2rem, 2.5vw, 1.7rem);
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 1.4rem;
+      position: relative;
+    }
+    .proposta-box p { font-size: .97rem; color: rgba(245,240,232,.82); line-height: 1.8; }
+
+    /* ── ORIENTAÇÕES ── */
+    .orientacoes {
+      margin-top: 2.5rem;
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+      background: var(--cream);
+      border-radius: 2px;
+    }
+    .orientacoes h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+    .orientacoes ul {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .6rem .8rem;
+    }
+    @media (max-width: 600px) {
+      .orientacoes ul { grid-template-columns: 1fr; }
+    }
+    .orientacoes li {
+      font-size: .9rem;
+      display: flex;
+      align-items: flex-start;
+      gap: .55rem;
+      line-height: 1.55;
+    }
+    .orientacoes li::before {
+      content: '▸';
+      color: var(--red);
+      flex-shrink: 0;
+      margin-top: .05rem;
+    }
+
+    /* ── COMPETÊNCIAS ── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: .7rem;
+      margin-top: 2rem;
+    }
+    @media (max-width: 700px) {
+      .comp-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .comp-item {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: .9rem .7rem;
+      text-align: center;
+      border-radius: 2px;
+    }
+    .comp-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      display: block;
+      color: var(--red);
+    }
+    .comp-name {
+      font-size: .68rem;
+      letter-spacing: .04em;
+      color: var(--gray);
+      margin-top: .3rem;
+      line-height: 1.35;
+    }
+
+    /* ── DIVIDER ── */
+    hr.fancy {
+      border: none;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--border), transparent);
+      margin: 3rem 0;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: .78rem;
+      color: var(--gray);
+      border-top: 1px solid var(--border);
+      letter-spacing: .05em;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">Língua Portuguesa · 3º Ano · Ensino Médio · Prof. Givanildo</div>
+  <h1>Aula de Redação<br><em>Dissertativa-Argumentativa</em></h1>
+  <p class="header-sub">Textos Motivadores &amp; Proposta de Escrita</p>
+</header>
+
+<main>
+
+  <!-- ══ TEXTO I — VERBAL ══ -->
+  <div class="section-header">
+    <span class="section-number">I</span>
+    <div class="section-info">
+      <h2>Texto Motivador — Verbal</h2>
+      <span class="badge">Fragmento de artigo acadêmico</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="card-source">Adaptado de: BULL, Hedley. <em>A Sociedade Anárquica</em>. Brasília: UnB/IPRI, 2002.</p>
+    <p>
+      A noção de soberania nacional é um dos pilares do sistema internacional moderno. Desde a Paz de Vestfália, em 1648, convencionou-se que cada Estado tem o direito exclusivo de governar seu próprio território sem interferência externa. Esse princípio tornou-se a base do direito internacional e das relações entre nações.
+    </p>
+    <p>
+      No entanto, o século XX — especialmente após a Segunda Guerra Mundial — trouxe um elemento complicador: a internacionalização dos direitos humanos. A criação da ONU em 1945 e a Declaração Universal de 1948 estabeleceram que certas violações graves de direitos humanos não podem ser tratadas como "assuntos internos" de um Estado.
+    </p>
+    <blockquote>
+      "A soberania não pode ser escudo para a barbárie. Mas também não pode ser pretexto para a dominação dos fracos pelos fortes."<br>
+      <small>— Kofi Annan, ex-secretário-geral da ONU, 1999</small>
+    </blockquote>
+    <p>
+      Essa tensão entre soberania e responsabilidade internacional nunca foi resolvida de forma definitiva. Intervenções como as da OTAN nos Bálcãs (1999), a invasão do Iraque (2003) e o conflito na Líbia (2011) foram justificadas por razões humanitárias ou de segurança internacional — mas deixaram um rastro de controvérsias sobre quem tem o direito de intervir, em nome de quê, e a que custo.
+    </p>
+  </div>
+
+  <!-- ══ TEXTO II — DADO ESTATÍSTICO ══ -->
+  <div class="section-header">
+    <span class="section-number">II</span>
+    <div class="section-info">
+      <h2>Texto Motivador — Dado Estatístico</h2>
+      <span class="badge">Dados e Infográfico</span>
+    </div>
+  </div>
+
+  <div class="card gold">
+    <p class="card-source">Fontes: Stockholm International Peace Research Institute (SIPRI), 2023 · ACNUR, 2024 · ONU, Relatório de Operações de Paz, 2023</p>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="number">110+</span>
+        <span class="label">conflitos armados ativos no mundo em 2023</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">117M</span>
+        <span class="label">pessoas deslocadas à força globalmente (ACNUR, 2024)</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">12</span>
+        <span class="label">missões de paz da ONU em andamento em 2023, com ~87 mil militares</span>
+      </div>
+      <div class="stat-box">
+        <span class="number">$2,2T</span>
+        <span class="label">gasto militar global em 2023 — recorde histórico</span>
+      </div>
+    </div>
+
+    <p class="stat-source">▸ Nos últimos 30 anos, mais de 80% das intervenções militares internacionais ocorreram em países do hemisfério Sul, levantando debates sobre assimetria de poder no cenário geopolítico.</p>
+    <p class="stat-source">▸ Segundo o SIPRI, apenas 3 dos 5 membros permanentes do Conselho de Segurança da ONU (EUA, Rússia e França) respondem por mais de 60% de todas as intervenções militares fora de suas fronteiras desde 1990.</p>
+  </div>
+
+  <!-- ══ TEXTO III — CHARGE ══ -->
+  <div class="section-header">
+    <span class="section-number">III</span>
+    <div class="section-info">
+      <h2>Texto Motivador — Charge</h2>
+      <span class="badge">Texto não-verbal / Crítica política</span>
+    </div>
+  </div>
+
+  <div class="card red">
+    <div class="charge-wrap">
+      <div class="charge-svg-area">
+        <!-- Charge em SVG -->
+        <svg viewBox="0 0 680 370" xmlns="http://www.w3.org/2000/svg" width="100%" style="max-width:640px;font-family:'Source Serif 4',Georgia,serif;">
+
+          <!-- Fundo -->
+          <rect width="680" height="370" fill="#f9f6ef"/>
+
+          <!-- ── BANDEIRA DO PAÍS A (grande potência) ── -->
+          <!-- Capacete militar -->
+          <ellipse cx="145" cy="118" rx="52" ry="18" fill="#3a3a3a"/>
+          <rect x="105" y="118" width="80" height="8" rx="4" fill="#2a2a2a"/>
+          <!-- Cabeça -->
+          <ellipse cx="145" cy="148" rx="32" ry="35" fill="#f5c8a0"/>
+          <!-- Olhos determinados -->
+          <ellipse cx="133" cy="143" rx="6" ry="5" fill="#fff"/>
+          <ellipse cx="157" cy="143" rx="6" ry="5" fill="#fff"/>
+          <circle cx="135" cy="143" r="3" fill="#1a1410"/>
+          <circle cx="159" cy="143" r="3" fill="#1a1410"/>
+          <!-- Sobrancelhas sérias -->
+          <line x1="127" y1="136" x2="141" y2="138" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="153" y1="138" x2="167" y2="136" stroke="#3a3a3a" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Boca firme -->
+          <line x1="133" y1="162" x2="157" y2="162" stroke="#b07050" stroke-width="2" stroke-linecap="round"/>
+          <!-- Corpo / uniforme -->
+          <rect x="105" y="180" width="80" height="90" rx="6" fill="#4a5a3a"/>
+          <!-- Estrelas no uniforme -->
+          <text x="135" y="210" font-size="13" fill="#c9a84c">★★</text>
+          <!-- Braços -->
+          <rect x="70" y="182" width="38" height="16" rx="8" fill="#4a5a3a"/>
+          <rect x="182" y="182" width="38" height="16" rx="8" fill="#4a5a3a"/>
+          <!-- Mãos -->
+          <ellipse cx="68" cy="190" rx="12" ry="10" fill="#f5c8a0"/>
+          <ellipse cx="222" cy="190" rx="12" ry="10" fill="#f5c8a0"/>
+
+          <!-- ── BANDEIRA DO PAÍS B (menor, ao lado) ── -->
+          <!-- Cabeça -->
+          <ellipse cx="530" cy="155" rx="26" ry="30" fill="#f5c8a0"/>
+          <!-- Cabelo -->
+          <ellipse cx="530" cy="128" rx="28" ry="12" fill="#3a2a1a"/>
+          <!-- Olhos assustados -->
+          <ellipse cx="520" cy="152" rx="7" ry="8" fill="#fff"/>
+          <ellipse cx="540" cy="152" rx="7" ry="8" fill="#fff"/>
+          <circle cx="521" cy="153" r="4" fill="#1a1410"/>
+          <circle cx="541" cy="153" r="4" fill="#1a1410"/>
+          <!-- Boca aberta -->
+          <path d="M 521 168 Q 530 176 539 168" fill="#8b3a2a" stroke="#3a2020" stroke-width="1"/>
+          <!-- Corpo -->
+          <rect x="508" y="182" width="44" height="75" rx="5" fill="#4a7a9b"/>
+          <!-- Braço levantado (assustado) -->
+          <rect x="550" y="175" width="14" height="38" rx="7" fill="#4a7a9b" transform="rotate(-35 557 175)"/>
+          <ellipse cx="568" cy="162" rx="10" ry="9" fill="#f5c8a0"/>
+          <!-- Pernas -->
+          <rect x="514" y="252" width="14" height="30" rx="6" fill="#2a3a5a"/>
+          <rect x="532" y="252" width="14" height="30" rx="6" fill="#2a3a5a"/>
+
+          <!-- ── BANDEIRA (país B) ── -->
+          <rect x="575" y="100" width="42" height="28" rx="2" fill="#e53e3e"/>
+          <line x1="575" y1="100" x2="575" y2="72" stroke="#555" stroke-width="2"/>
+          <text x="578" y="119" font-size="9" fill="#fff" font-weight="bold">PAZ</text>
+          <text x="581" y="131" font-size="7" fill="#fff">★</text>
+
+          <!-- ── GRANDE MÃO (intervenção) empurrando ── -->
+          <!-- Braço vindo da esquerda -->
+          <rect x="60" y="183" width="330" height="16" rx="8" fill="#4a5a3a" opacity=".85"/>
+          <!-- Mão gigante -->
+          <ellipse cx="400" cy="191" rx="32" ry="24" fill="#f5c8a0"/>
+          <!-- Dedos -->
+          <rect x="396" y="166" width="10" height="28" rx="5" fill="#f5c8a0"/>
+          <rect x="410" y="163" width="10" height="30" rx="5" fill="#f5c8a0"/>
+          <rect x="422" y="167" width="10" height="28" rx="5" fill="#f5c8a0"/>
+          <rect x="382" y="170" width="10" height="24" rx="5" fill="#f5c8a0"/>
+
+          <!-- ── SETA / EFEITO DE EMPURRÃO ── -->
+          <path d="M 438 191 L 490 191" stroke="#b5261e" stroke-width="3" stroke-dasharray="8,4" marker-end="url(#arr)"/>
+          <defs>
+            <marker id="arr" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#b5261e"/>
+            </marker>
+          </defs>
+
+          <!-- ── BALÃO DE FALA (general) ── -->
+          <rect x="60" y="30" width="210" height="56" rx="10" fill="#fff" stroke="#3a3a3a" stroke-width="2"/>
+          <polygon points="145,86 130,100 160,86" fill="#fff" stroke="#3a3a3a" stroke-width="1.5"/>
+          <text x="80" y="55" font-size="13" fill="#1a1410" font-weight="bold">Viemos trazer</text>
+          <text x="80" y="73" font-size="13" fill="#b5261e" font-weight="bold">a democracia!</text>
+
+          <!-- ── BALÃO DE PENSAMENTO (país B) ── -->
+          <rect x="390" y="28" width="240" height="56" rx="10" fill="#fff" stroke="#4a7a9b" stroke-width="2"/>
+          <polygon points="530,84 515,98 545,84" fill="#fff" stroke="#4a7a9b" stroke-width="1.5"/>
+          <text x="405" y="53" font-size="12" fill="#1a1410">Mas não foi</text>
+          <text x="405" y="69" font-size="12" fill="#4a7a9b" font-weight="bold">nossa escolha...</text>
+
+          <!-- ── RÓTULO LATERAL ── -->
+          <rect x="0" y="310" width="680" height="60" rx="0" fill="#1a1410" opacity=".06"/>
+          <text x="340" y="338" font-size="11" text-anchor="middle" fill="#6b6356" font-style="italic">Charge ilustrativa — Adaptado de charges publicadas em revistas de geopolítica internacional (2003–2011)</text>
+          <text x="340" y="356" font-size="10" text-anchor="middle" fill="#6b6356">Representa o debate entre "exportação de democracia" e violação da autodeterminação dos povos</text>
+        </svg>
+      </div>
+      <p class="charge-caption">
+        <strong>Análise orientadora:</strong> A charge apresenta um soldado de uma grande potência empurrando um cidadão de outro país enquanto declara trazer a democracia. A expressão assustada do cidadão e seu balão de pensamento — "mas não foi nossa escolha" — revelam a contradição entre o discurso humanitário da intervenção e a supressão da autodeterminação do povo receptor. O tamanho desproporcional dos personagens reforça a crítica à assimetria de poder nas relações internacionais.
+      </p>
+    </div>
+  </div>
+
+  <hr class="fancy"/>
+
+  <!-- ══ PROPOSTA ══ -->
+  <div class="proposta-box">
+    <p class="proposta-label">✦ Proposta de Redação</p>
+    <h3>Intervenção militar em outros países:<br>defesa da liberdade ou violação da soberania?</h3>
+    <p>
+      A partir da leitura dos textos motivadores e de seus conhecimentos sobre o tema, redija um texto <strong>dissertativo-argumentativo</strong> sobre os limites e as implicações da intervenção militar de um país em outro. Apresente argumentos consistentes, considere diferentes perspectivas e proponha reflexões sobre os limites da atuação internacional na política interna de outros Estados.
+    </p>
+  </div>
+
+  <!-- ══ ORIENTAÇÕES ══ -->
+  <div class="orientacoes">
+    <h4>📋 Orientações para a escrita</h4>
+    <ul>
+      <li>Texto dissertativo-argumentativo em norma culta da língua portuguesa</li>
+      <li>Mínimo de 25 e máximo de 30 linhas (folha oficial do ENEM)</li>
+      <li>Estrutura obrigatória: introdução, desenvolvimento e conclusão</li>
+      <li>Mínimo 2 parágrafos de desenvolvimento com argumentos distintos</li>
+      <li>Utilize referências aos textos motivadores, sem copiá-los</li>
+      <li>Dados, fatos históricos e exemplos concretos enriquecem a argumentação</li>
+      <li>Proposta de intervenção detalhada e articulada ao tema no final</li>
+      <li>Evite generalizar; prefira argumentos específicos e embasados</li>
+      <li>Atenção: textos que fogem ao tema recebem nota zero</li>
+      <li>Respeite os direitos humanos em toda a argumentação</li>
+    </ul>
+  </div>
+
+  <!-- ══ COMPETÊNCIAS ENEM ══ -->
+  <hr class="fancy"/>
+  <div class="section-header" style="margin-top:0">
+    <span class="section-number" style="font-size:2rem">▲</span>
+    <div class="section-info">
+      <h2>Competências Avaliadas (ENEM)</h2>
+      <span class="badge">Grade de Correção — 200 pts cada</span>
+    </div>
+  </div>
+  <div class="comp-grid">
+    <div class="comp-item">
+      <span class="comp-num">I</span>
+      <p class="comp-name">Domínio da norma culta</p>
+    </div>
+    <div class="comp-item">
+      <span class="comp-num">II</span>
+      <p class="comp-name">Compreensão da proposta dissertativo-argumentativa</p>
+    </div>
+    <div class="comp-item">
+      <span class="comp-num">III</span>
+      <p class="comp-name">Seleção e organização de argumentos</p>
+    </div>
+    <div class="comp-item">
+      <span class="comp-num">IV</span>
+      <p class="comp-name">Coesão e coerência textual</p>
+    </div>
+    <div class="comp-item">
+      <span class="comp-num">V</span>
+      <p class="comp-name">Proposta de intervenção social respeitosa aos D.H.</p>
+    </div>
+  </div>
+
+  <!-- ══ VOCABULÁRIO DE APOIO ══ -->
+  <hr class="fancy"/>
+  <div class="card" style="margin-top:0; animation-delay:.1s">
+    <p class="card-source">💡 Vocabulário temático de apoio</p>
+    <p>
+      <a href="https://www.youtube.com/watch?v=uP_1-K6DcyU" target="_blank"><strong>Soberania nacional</strong></a> · 
+	  <a href="https://youtube.com/shorts/Z1BAiPJyU44?si=RwYOZ7I4kMLWF2QZ" target="_blank"><strong>Autodeterminação dos povos</strong></a> · 
+	  <a href="https://youtu.be/d-abrvhAnb4?si=ACMY0E-bl6dpeykR" target="_blank"><strong>Responsabilidade de Proteger (R2P)</a></strong></a> · 
+	  <strong>Direito internacional humanitário</strong> · 
+	  <strong>Geopolítica</strong> · 
+	  <strong>Imperialismo</strong> · 
+	  <strong>Multipolaridade</strong> · 
+	  <strong>Intervencionismo</strong> · 
+	  <strong>Direitos humanos universais</strong> · 
+	  <strong>ONU / Conselho de Segurança</strong> · 
+	  <a href="https://youtu.be/-306BZmEYUQ?si=Jz5O0esQs4DXInFF" target="_blank"><strong>Paz de Vestfália (1648)</strong></a> · 
+	  <strong>OTAN</strong> · 
+	  <strong>Conflito assimétrico</strong> · 
+	  <strong>Legitimidade democrática</strong>
+    </p>
+  </div>
+
+</main>
+
+<footer>
+  Aula de Redação · 3º Ano do Ensino Médio · Língua Portuguesa<br>
+  Material didático de uso pedagógico
+</footer>
+
+</body>
+</html>
