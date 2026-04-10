@@ -3,256 +3,392 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎮 Aluno - Artemis 2 Quiz</title>
+    <title>👨‍🏫 PROFESSOR - Artemis 2 Quiz Control</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #0b1a2e 0%, #1a2f3f 100%);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             padding: 20px;
+            color: white;
         }
-        .container {
-            max-width: 600px;
-            width: 100%;
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .question-panel {
+            flex: 2;
+            min-width: 300px;
             background: #0a1622;
             border-radius: 2rem;
             padding: 2rem;
             border: 2px solid #f9a826;
-            text-align: center;
         }
-        .header {
-            margin-bottom: 1.5rem;
-        }
-        .room-code {
-            background: #1e2a36;
-            padding: 0.5rem;
-            border-radius: 30px;
-            font-family: monospace;
-            font-size: 0.9rem;
-        }
-        .join-area {
-            background: #0f1a24;
-            padding: 1.5rem;
-            border-radius: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        .join-area input {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 40px;
-            border: none;
-            margin: 0.5rem 0;
-            font-size: 1rem;
-            text-align: center;
-        }
-        .join-btn {
-            background: #f9a826;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 40px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        .quiz-area {
-            display: none;
+        .question-number {
+            font-size: 1.2rem;
+            color: #f9a826;
+            margin-bottom: 1rem;
         }
         .question-text {
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 700;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
             line-height: 1.3;
         }
-        .answer-buttons {
+        .options {
             display: flex;
-            gap: 20px;
             justify-content: center;
+            gap: 30px;
             margin: 2rem 0;
         }
-        .answer-btn {
+        .reveal-btn {
             font-size: 1.8rem;
             font-weight: bold;
             padding: 0.8rem 2rem;
             border: none;
             border-radius: 60px;
             cursor: pointer;
-            flex: 1;
         }
-        .btn-yes { background: #2e7d32; color: white; }
-        .btn-no { background: #c62828; color: white; }
-        .waiting-message {
-            background: #1e2a36;
-            padding: 1rem;
-            border-radius: 1rem;
-            margin: 1rem 0;
-        }
-        .score-display {
+        .reveal-yes { background: #2e7d32; color: white; }
+        .reveal-no { background: #c62828; color: white; }
+        .next-btn {
             background: #f9a826;
             color: #0a1622;
-            padding: 0.5rem;
-            border-radius: 40px;
-            margin-top: 1rem;
+            font-size: 1.2rem;
             font-weight: bold;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
         }
-        .correct-feedback {
+        .feedback {
             background: #2e7d32;
             padding: 0.8rem;
             border-radius: 30px;
             margin-top: 1rem;
+            text-align: center;
             display: none;
         }
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
+        .leaderboard-panel {
+            flex: 1;
+            min-width: 280px;
+            background: #0f1a24;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #2a3a48;
         }
-        @media (max-width: 500px) {
-            .answer-btn { font-size: 1.2rem; padding: 0.5rem; }
-            .question-text { font-size: 1.2rem; }
+        .leaderboard-panel h3 {
+            color: #f9a826;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .room-info {
+            background: #1e2a36;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        .students-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        .student-item {
+            background: #1e2a36;
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .add-points-btn {
+            background: #f9a826;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .add-student-btn {
+            background: #f9a826;
+            border: none;
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .instructions {
+            background: #0d1822;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .status-badge {
+            background: #2e7d32;
+            color: white;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 800px) {
+            .dashboard { flex-direction: column; }
+            .question-text { font-size: 1.3rem; }
+            .reveal-btn { font-size: 1.2rem; padding: 0.5rem 1.2rem; }
         }
     </style>
 </head>
 <body>
-<div class="container">
-    <div class="header">
-        <h2>🌕 Artemis 2 Quiz</h2>
-        <div class="room-code">🚀 Room: ARTEMIS-2</div>
+<div class="dashboard">
+    <div class="question-panel">
+        <div class="status-badge" id="connectionStatus">🟢 Conectado ao Firebase</div>
+        <div class="question-number" id="questionNumber">Question 1 / 10</div>
+        <div class="question-text" id="questionText">Loading...</div>
+        <div class="options">
+            <button class="reveal-btn reveal-yes" id="revealYesBtn">✅ Reveal YES</button>
+            <button class="reveal-btn reveal-no" id="revealNoBtn">❌ Reveal NO</button>
+        </div>
+        <button class="next-btn" id="nextBtn">➡ NEXT QUESTION</button>
+        <div class="feedback" id="feedbackMsg"></div>
     </div>
 
-    <!-- JOIN SCREEN -->
-    <div id="joinScreen" class="join-area">
-        <p>Enter your name to join:</p>
-        <input type="text" id="studentName" placeholder="Your name" maxlength="20">
-        <button class="join-btn" id="joinBtn">Join Game →</button>
-    </div>
-
-    <!-- QUIZ SCREEN -->
-    <div id="quizScreen" class="quiz-area">
-        <div class="score-display" id="scoreDisplay">Score: 0</div>
-        <div class="question-text" id="questionText">Waiting for next question...</div>
-        <div class="answer-buttons">
-            <button class="answer-btn btn-yes" id="yesBtn" disabled>YES</button>
-            <button class="answer-btn btn-no" id="noBtn" disabled>NO</button>
+    <div class="leaderboard-panel">
+        <h3>🏆 LEADERBOARD</h3>
+        <div class="room-info">🚀 Artemis 2 Quiz - Ao Vivo</div>
+        <div id="studentsList" class="students-list">
+            <div style="text-align:center; color:#888;">Aguardando alunos...</div>
         </div>
-        <div class="waiting-message" id="waitingMsg">
-            ⏳ Wait for the question...
+        <button class="add-student-btn" id="addStudentBtn">+ Add Student (manual)</button>
+        <div class="instructions">
+            📺 <strong>Como jogar:</strong><br>
+            1. Alunos acessam aluno.html no Chromebook<br>
+            2. Eles digitam o nome e clicam JOIN<br>
+            3. Eles aparecerão aqui automaticamente!<br>
+            4. Revele a resposta correta<br>
+            5. Clique +10 nos alunos que acertaram<br>
+            6. Clique NEXT QUESTION
         </div>
-        <div class="correct-feedback" id="correctFeedback"></div>
     </div>
 </div>
 
-<script>
-    let studentId = null;
-    let studentName = null;
-    let currentQuestionLocked = false;
-    let myScore = 0;
-    let currentQuestionText = "";
-    
-    const channel = new BroadcastChannel('artemis2_quiz');
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-app.js";
+    import { getDatabase, ref, set, onValue, push, update, get } from "https://www.gstatic.com/firebasejs/12.12.0/firebase-database.js";
 
-    // Listen for messages from professor
-    channel.onmessage = (event) => {
-        const msg = event.data;
-        
-        if (msg.type === 'state') {
-            // Update question
-            currentQuestionText = msg.questionText;
-            currentQuestionLocked = msg.questionLocked;
-            
-            document.getElementById('questionText').innerHTML = msg.questionText;
-            document.getElementById('waitingMsg').style.display = currentQuestionLocked ? 'none' : 'block';
-            
-            // Enable/disable answer buttons
-            const canAnswer = !currentQuestionLocked && studentId !== null;
-            document.getElementById('yesBtn').disabled = !canAnswer;
-            document.getElementById('noBtn').disabled = !canAnswer;
-            
-            // Show correct answer if locked
-            const feedbackDiv = document.getElementById('correctFeedback');
-            if (currentQuestionLocked && msg.correctAnswer) {
-                feedbackDiv.style.display = 'block';
-                feedbackDiv.innerHTML = `📢 The correct answer was: ${msg.correctAnswer.toUpperCase()}!`;
-                feedbackDiv.style.background = "#f9a826";
-                feedbackDiv.style.color = "#0a1622";
-            } else {
-                feedbackDiv.style.display = 'none';
-            }
-            
-            // Update leaderboard scores (optional: update personal score if found)
-            if (msg.students && studentId) {
-                const me = msg.students.find(s => s.id === studentId);
-                if (me) {
-                    myScore = me.score;
-                    document.getElementById('scoreDisplay').innerText = `Score: ${myScore}`;
-                }
-            }
-            
-            // Check if quiz finished
-            if (msg.questionIndex === msg.totalQuestions - 1 && currentQuestionLocked && document.getElementById('nextBtn')) {
-                // No next button for students, just show
-            }
-        }
+    const firebaseConfig = {
+        apiKey: "AIzaSyDvbiZPatbx_T-WMQRupkhius5bL1VnggY",
+        authDomain: "artemis2quiz.firebaseapp.com",
+        projectId: "artemis2quiz",
+        storageBucket: "artemis2quiz.firebasestorage.app",
+        messagingSenderId: "1094569584623",
+        appId: "1:1094569584623:web:40fa7bc77de5548af9381a"
     };
 
-    function joinGame() {
-        const nameInput = document.getElementById('studentName');
-        const name = nameInput.value.trim();
-        if (name === "") {
-            alert("Please enter your name!");
-            return;
-        }
-        studentName = name;
-        studentId = Date.now() + Math.random() * 10000;
-        
-        // Send join message
-        channel.postMessage({
-            type: 'join',
-            studentName: studentName,
-            studentId: studentId
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // QUESTIONS
+    const questions = [
+        { text: "The Artemis 2 mission happens after more than 53 years.", correct: "yes" },
+        { text: "The rocket launches from Texas.", correct: "no" },
+        { text: "Four astronauts travel on the Orion spacecraft.", correct: "yes" },
+        { text: "The astronauts spend eight days in space.", correct: "yes" },
+        { text: "They land on the Moon's surface.", correct: "no" },
+        { text: "On April 10th, 2026, the capsule returns to Earth.", correct: "yes" },
+        { text: "The Orion lands in the Atlantic Ocean.", correct: "no" },
+        { text: "The Artemis 3 mission will land on the Moon in 2027.", correct: "yes" },
+        { text: "Only two astronauts participate in Artemis 2.", correct: "no" },
+        { text: "The whole world celebrates the return of humans to the Moon.", correct: "yes" }
+    ];
+
+    let currentIndex = 0;
+    let questionLocked = false;
+    let students = [];
+
+    // Load game state from Firebase
+    function loadGameState() {
+        const gameRef = ref(db, 'game');
+        onValue(gameRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.currentIndex !== undefined) currentIndex = data.currentIndex;
+                if (data.questionLocked !== undefined) questionLocked = data.questionLocked;
+                updateQuestionUI();
+            }
         });
         
-        // Switch screens
-        document.getElementById('joinScreen').style.display = 'none';
-        document.getElementById('quizScreen').style.display = 'block';
-        
-        // Request current state (professor will broadcast automatically, but we can also request)
-        // Professor will send state on its own, but just in case:
-        setTimeout(() => {
-            channel.postMessage({ type: 'requestState' });
-        }, 500);
+        // Load students
+        const studentsRef = ref(db, 'students');
+        onValue(studentsRef, (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                students = Object.entries(data).map(([id, student]) => ({
+                    id: id,
+                    name: student.name,
+                    score: student.score || 0
+                }));
+            } else {
+                students = [];
+            }
+            renderLeaderboard();
+        });
     }
 
-    function sendAnswer(answer) {
-        if (currentQuestionLocked) {
-            alert("This question is already closed!");
+    function saveGameState() {
+        const gameRef = ref(db, 'game');
+        set(gameRef, {
+            currentIndex: currentIndex,
+            questionLocked: questionLocked,
+            currentQuestion: questions[currentIndex],
+            totalQuestions: questions.length
+        });
+    }
+
+    function renderLeaderboard() {
+        const container = document.getElementById('studentsList');
+        if (students.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#888;">Nenhum aluno conectado. Peça para acessarem aluno.html</div>';
             return;
         }
-        channel.postMessage({
-            type: 'answer',
-            studentId: studentId,
-            studentName: studentName,
-            answer: answer
+        const sorted = [...students].sort((a,b) => b.score - a.score);
+        container.innerHTML = sorted.map(s => `
+            <div class="student-item">
+                <span>${escapeHtml(s.name)}</span>
+                <span style="background:#f9a826; padding:2px 8px; border-radius:20px;">${s.score} pts</span>
+                <button class="add-points-btn" onclick="window.addPoints('${s.id}', 10)">+10</button>
+            </div>
+        `).join('');
+    }
+
+    window.addPoints = async function(studentId, points) {
+        const studentRef = ref(db, `students/${studentId}`);
+        const snapshot = await get(studentRef);
+        const currentScore = snapshot.val()?.score || 0;
+        set(studentRef, {
+            name: snapshot.val()?.name,
+            score: currentScore + points
+        });
+    };
+
+    function addStudentManually() {
+        let name = prompt("Digite o nome do aluno:");
+        if (name && name.trim()) {
+            const newStudentRef = push(ref(db, 'students'));
+            set(newStudentRef, {
+                name: name.trim().substring(0, 20),
+                score: 0
+            });
+        }
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    function updateQuestionUI() {
+        const q = questions[currentIndex];
+        document.getElementById('questionNumber').innerText = `Question ${currentIndex+1} / ${questions.length}`;
+        document.getElementById('questionText').innerText = q.text;
+        
+        const fb = document.getElementById('feedbackMsg');
+        if (!questionLocked) {
+            fb.style.display = 'none';
+        }
+        
+        // Broadcast to students via Firebase
+        const currentQuestionRef = ref(db, 'currentQuestion');
+        set(currentQuestionRef, {
+            index: currentIndex,
+            text: q.text,
+            total: questions.length,
+            locked: questionLocked,
+            correctAnswer: questionLocked ? q.correct : null
         });
         
-        // Disable buttons after answering
-        document.getElementById('yesBtn').disabled = true;
-        document.getElementById('noBtn').disabled = true;
-        document.getElementById('waitingMsg').innerHTML = "✅ You answered! Wait for the teacher to reveal the correct answer.";
-        document.getElementById('waitingMsg').style.background = "#2e7d32";
+        saveGameState();
+    }
+
+    function revealCorrect(answer) {
+        if (questionLocked) return;
+        const currentQ = questions[currentIndex];
+        const isCorrect = (answer === currentQ.correct);
+        const fb = document.getElementById('feedbackMsg');
+        fb.style.display = 'block';
+        if (isCorrect) {
+            fb.innerHTML = `✅ CORRECT! Answer is ${currentQ.correct.toUpperCase()}. Give +10 points!`;
+            fb.style.background = "#2e7d32";
+        } else {
+            fb.innerHTML = `❌ Correct answer is ${currentQ.correct.toUpperCase()}. Give points to those who said that!`;
+            fb.style.background = "#c62828";
+        }
+        questionLocked = true;
+        
+        // Update Firebase
+        const currentQuestionRef = ref(db, 'currentQuestion');
+        set(currentQuestionRef, {
+            index: currentIndex,
+            text: currentQ.text,
+            total: questions.length,
+            locked: true,
+            correctAnswer: currentQ.correct
+        });
+        saveGameState();
+    }
+
+    function nextQuestion() {
+        if (currentIndex + 1 < questions.length) {
+            currentIndex++;
+            questionLocked = false;
+            updateQuestionUI();
+        } else {
+            document.getElementById('questionText').innerHTML = "🎉 QUIZ COMPLETE! 🎉";
+            document.getElementById('questionNumber').innerText = "FINISHED!";
+            document.querySelector('.options').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            const fb = document.getElementById('feedbackMsg');
+            fb.style.display = 'block';
+            fb.innerHTML = "🏆 Game Over! Check final leaderboard!";
+            fb.style.background = "#f9a826";
+            fb.style.color = "#0a1622";
+            
+            // Mark game as finished in Firebase
+            const gameRef = ref(db, 'game');
+            set(gameRef, { finished: true });
+            const currentQuestionRef = ref(db, 'currentQuestion');
+            set(currentQuestionRef, { finished: true });
+        }
+        saveGameState();
     }
 
     // Event listeners
-    document.getElementById('joinBtn').onclick = joinGame;
-    document.getElementById('yesBtn').onclick = () => sendAnswer('yes');
-    document.getElementById('noBtn').onclick = () => sendAnswer('no');
+    document.getElementById('revealYesBtn').onclick = () => revealCorrect('yes');
+    document.getElementById('revealNoBtn').onclick = () => revealCorrect('no');
+    document.getElementById('nextBtn').onclick = nextQuestion;
+    document.getElementById('addStudentBtn').onclick = addStudentManually;
+
+    // Initialize
+    loadGameState();
+    updateQuestionUI();
     
-    // Allow Enter key on name input
-    document.getElementById('studentName').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') joinGame();
-    });
+    document.getElementById('connectionStatus').innerText = '🟢 Conectado ao Firebase';
 </script>
 </body>
 </html>
