@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>👨‍🏫 PROFESSOR - Artemis 2 Quiz Control</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0b1a2e 0%, #1a2f3f 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+        }
+        .dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        /* Question Panel */
+        .question-panel {
+            flex: 2;
+            min-width: 300px;
+            background: #0a1622;
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 2px solid #f9a826;
+        }
+        .question-number {
+            font-size: 1.2rem;
+            color: #f9a826;
+            margin-bottom: 1rem;
+        }
+        .question-text {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 1.5rem 0;
+            line-height: 1.3;
+        }
+        .options {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 2rem 0;
+        }
+        .reveal-btn {
+            font-size: 1.8rem;
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+        }
+        .reveal-yes { background: #2e7d32; color: white; }
+        .reveal-no { background: #c62828; color: white; }
+        .next-btn {
+            background: #f9a826;
+            color: #0a1622;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            width: 100%;
+        }
+        .feedback {
+            background: #2e7d32;
+            padding: 0.8rem;
+            border-radius: 30px;
+            margin-top: 1rem;
+            text-align: center;
+            display: none;
+        }
+        /* Leaderboard Panel */
+        .leaderboard-panel {
+            flex: 1;
+            min-width: 280px;
+            background: #0f1a24;
+            border-radius: 2rem;
+            padding: 1.5rem;
+            border: 1px solid #2a3a48;
+        }
+        .leaderboard-panel h3 {
+            color: #f9a826;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+        .room-info {
+            background: #1e2a36;
+            padding: 0.5rem;
+            text-align: center;
+            border-radius: 20px;
+            margin: 1rem 0;
+            font-family: monospace;
+        }
+        .students-list {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        .student-item {
+            background: #1e2a36;
+            margin: 0.5rem 0;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .add-points-btn {
+            background: #f9a826;
+            border: none;
+            border-radius: 20px;
+            padding: 4px 12px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .add-student-btn {
+            background: #f9a826;
+            border: none;
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .instructions {
+            background: #0d1822;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        .status-badge {
+            background: #f9a826;
+            color: #0a1622;
+            display: inline-block;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+        }
+        @media (max-width: 800px) {
+            .dashboard { flex-direction: column; }
+            .question-text { font-size: 1.3rem; }
+            .reveal-btn { font-size: 1.2rem; padding: 0.5rem 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- LEFT: Question Control -->
+    <div class="question-panel">
+        <div class="status-badge" id="connectionStatus">🟢 Professor Mode</div>
+        <div class="question-number" id="questionNumber">Question 1 / 10</div>
+        <div class="question-text" id="questionText">Loading...</div>
+        <div class="options">
+            <button class="reveal-btn reveal-yes" id="revealYesBtn">✅ Reveal YES</button>
+            <button class="reveal-btn reveal-no" id="revealNoBtn">❌ Reveal NO</button>
+        </div>
+        <button class="next-btn" id="nextBtn">➡ NEXT QUESTION</button>
+        <div class="feedback" id="feedbackMsg"></div>
+    </div>
+
+    <!-- RIGHT: Leaderboard -->
+    <div class="leaderboard-panel">
+        <h3>🏆 LEADERBOARD</h3>
+        <div class="room-info">🚀 Room: ARTEMIS-2</div>
+        <div id="studentsList" class="students-list">
+            <div style="text-align:center; color:#888;">No students yet. Add below.</div>
+        </div>
+        <button class="add-student-btn" id="addStudentBtn">+ Add Student</button>
+        <div class="instructions">
+            📺 <strong>How to play:</strong><br>
+            1. Students join via aluno.html on Chromebooks<br>
+            2. Ask the question aloud<br>
+            3. Click REVEAL to show correct answer<br>
+            4. Click +10 next to students who got it right<br>
+            5. Click NEXT QUESTION
+        </div>
+    </div>
+</div>
+
+<script>
+    // QUESTIONS
+    const questions = [
+        { text: "The Artemis 2 mission happens after more than 53 years.", correct: "yes" },
+        { text: "The rocket launches from Texas.", correct: "no" },
+        { text: "Four astronauts travel on the Orion spacecraft.", correct: "yes" },
+        { text: "The astronauts spend eight days in space.", correct: "yes" },
+        { text: "They land on the Moon's surface.", correct: "no" },
+        { text: "On April 10th, 2026, the capsule returns to Earth.", correct: "yes" },
+        { text: "The Orion lands in the Atlantic Ocean.", correct: "no" },
+        { text: "The Artemis 3 mission will land on the Moon in 2027.", correct: "yes" },
+        { text: "Only two astronauts participate in Artemis 2.", correct: "no" },
+        { text: "The whole world celebrates the return of humans to the Moon.", correct: "yes" }
+    ];
+
+    let currentIndex = 0;
+    let questionLocked = false;
+    let students = [];
+    let nextId = 1;
+
+    // BroadcastChannel for communication with students
+    const channel = new BroadcastChannel('artemis2_quiz');
+
+    // Load students from localStorage
+    function loadStudents() {
+        const saved = localStorage.getItem('artemis2_professor_students');
+        if (saved) {
+            try {
+                students = JSON.parse(saved);
+                if (students.length) nextId = Math.max(...students.map(s => s.id)) + 1;
+            } catch(e) { students = []; }
+        }
+        renderLeaderboard();
+        broadcastState();
+    }
+
+    function saveStudents() {
+        localStorage.setItem('artemis2_professor_students', JSON.stringify(students));
+        broadcastState();
+    }
+
+    function renderLeaderboard() {
+        const container = document.getElementById('studentsList');
+        if (students.length === 0) {
+            container.innerHTML = '<div style="text-align:center; color:#888;">No students yet. Click "+ Add Student"</div>';
+            return;
+        }
+        const sorted = [...students].sort((a,b) => b.score - a.score);
+        container.innerHTML = sorted.map(s => `
+            <div class="student-item">
+                <span>${escapeHtml(s.name)}</span>
+                <span style="background:#f9a826; padding:2px 8px; border-radius:20px;">${s.score} pts</span>
+                <button class="add-points-btn" onclick="addPoints(${s.id}, 10)">+10</button>
+            </div>
+        `).join('');
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        });
+    }
+
+    window.addPoints = function(studentId, points) {
+        const student = students.find(s => s.id === studentId);
+        if (student) {
+            student.score += points;
+            saveStudents();
+            renderLeaderboard();
+        }
+    };
+
+    function addStudent() {
+        let name = prompt("Enter student name:");
+        if (name && name.trim()) {
+            students.push({
+                id: nextId++,
+                name: name.trim().substring(0, 20),
+                score: 0
+            });
+            saveStudents();
+            renderLeaderboard();
+        }
+    }
+
+    // Broadcast current question and state to all students
+    function broadcastState() {
+        const currentQ = questions[currentIndex];
+        channel.postMessage({
+            type: 'state',
+            questionIndex: currentIndex,
+            questionText: currentQ.text,
+            totalQuestions: questions.length,
+            questionLocked: questionLocked,
+            correctAnswer: questionLocked ? currentQ.correct : null,
+            students: students.map(s => ({ id: s.id, name: s.name, score: s.score }))
+        });
+    }
+
+    // Receive answers from students
+    channel.onmessage = (event) => {
+        const msg = event.data;
+        if (msg.type === 'answer' && !questionLocked) {
+            // Record that a student answered (optional: store their answer)
+            // For now, just log - teacher gives points manually
+            console.log(`${msg.studentName} answered: ${msg.answer}`);
+            // Optionally show notification
+            const feedback = document.getElementById('feedbackMsg');
+            feedback.style.display = 'block';
+            feedback.innerHTML = `📢 ${msg.studentName} answered ${msg.answer.toUpperCase()}!`;
+            feedback.style.background = "#3a6ea5";
+            setTimeout(() => {
+                if (feedback.innerHTML.includes(msg.studentName)) feedback.style.display = 'none';
+            }, 2000);
+        }
+        if (msg.type === 'join') {
+            // Auto-add student if not exists? Let's not auto-add for security
+            const feedback = document.getElementById('feedbackMsg');
+            feedback.style.display = 'block';
+            feedback.innerHTML = `👋 ${msg.studentName} joined the game!`;
+            feedback.style.background = "#2e7d32";
+            setTimeout(() => {
+                if (feedback.innerHTML.includes(msg.studentName)) feedback.style.display = 'none';
+            }, 2000);
+        }
+    };
+
+    function updateQuestionUI() {
+        const q = questions[currentIndex];
+        document.getElementById('questionNumber').innerText = `Question ${currentIndex+1} / ${questions.length}`;
+        document.getElementById('questionText').innerText = q.text;
+        questionLocked = false;
+        const fb = document.getElementById('feedbackMsg');
+        fb.style.display = 'none';
+        fb.innerHTML = '';
+        broadcastState();
+    }
+
+    function revealCorrect(answer) {
+        if (questionLocked) return;
+        const currentQ = questions[currentIndex];
+        const isCorrect = (answer === currentQ.correct);
+        const fb = document.getElementById('feedbackMsg');
+        fb.style.display = 'block';
+        if (isCorrect) {
+            fb.innerHTML = `✅ CORRECT! Answer is ${currentQ.correct.toUpperCase()}. Give +10 points!`;
+            fb.style.background = "#2e7d32";
+        } else {
+            fb.innerHTML = `❌ Correct answer is ${currentQ.correct.toUpperCase()}. Give points to those who said that!`;
+            fb.style.background = "#c62828";
+        }
+        questionLocked = true;
+        broadcastState();
+    }
+
+    function nextQuestion() {
+        if (currentIndex + 1 < questions.length) {
+            currentIndex++;
+            updateQuestionUI();
+        } else {
+            document.getElementById('questionText').innerHTML = "🎉 QUIZ COMPLETE! 🎉";
+            document.getElementById('questionNumber').innerText = "FINISHED!";
+            document.querySelector('.options').style.display = 'none';
+            document.getElementById('nextBtn').style.display = 'none';
+            const fb = document.getElementById('feedbackMsg');
+            fb.style.display = 'block';
+            fb.innerHTML = "🏆 Game Over! Check final leaderboard!";
+            fb.style.background = "#f9a826";
+            fb.style.color = "#0a1622";
+            broadcastState();
+        }
+    }
+
+    // Event listeners
+    document.getElementById('revealYesBtn').onclick = () => revealCorrect('yes');
+    document.getElementById('revealNoBtn').onclick = () => revealCorrect('no');
+    document.getElementById('nextBtn').onclick = nextQuestion;
+    document.getElementById('addStudentBtn').onclick = addStudent;
+
+    // Initialize
+    loadStudents();
+    updateQuestionUI();
+</script>
+</body>
+</html>
