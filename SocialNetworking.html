@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Networking: Good or Bad? | EF09LI06 Activity</title>
+    <!-- Biblioteca estável html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Impede cópia do texto (Anti-IA/Ctrl+C) */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background: #eef2f7;
+            font-family: 'Inter', 'Segoe UI', system-ui, 'Roboto', sans-serif;
+            padding: 24px 16px;
+            color: #1e2a3e;
+        }
+
+        /* Permite que os campos de resposta sejam selecionáveis */
+        input, textarea, select, .match-select, .answer-input, #studentName {
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+        }
+
+        .lesson-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(112deg, #1e3c72 0%, #2a5298 100%);
+            padding: 20px 28px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 1.9rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .hero h1 span {
+            background: #f9b43a;
+            color: #1e2a3e;
+            font-size: 0.8rem;
+            padding: 4px 14px;
+            border-radius: 60px;
+            font-weight: 600;
+        }
+
+        .name-field {
+            margin-top: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: rgba(255,255,240,0.12);
+            padding: 8px 16px;
+            border-radius: 50px;
+        }
+
+        .name-field label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .name-field input {
+            flex: 1;
+            min-width: 200px;
+            padding: 8px 16px;
+            border-radius: 40px;
+            border: none;
+            font-size: 0.9rem;
+            background: #fef9e3;
+            color: #1e293b;
+            font-weight: 500;
+            outline: none;
+        }
+
+        .content-padded {
+            padding: 24px 28px;
+        }
+
+        .article-box {
+            background: #fefcf5;
+            border-radius: 20px;
+            padding: 18px 22px;
+            margin-bottom: 28px;
+            border: 1px solid #e9e2d0;
+        }
+
+        .article-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-left: 6px solid #f9b43a;
+            padding-left: 16px;
+            margin-bottom: 12px;
+            color: #1e293b;
+        }
+
+        .article-meta {
+            font-size: 0.7rem;
+            color: #5b6e8c;
+            margin-bottom: 16px;
+            border-bottom: 1px dashed #ddd3c0;
+            padding-bottom: 8px;
+        }
+
+        .article-text p {
+            margin-bottom: 0.9rem;
+            line-height: 1.45;
+            font-size: 0.92rem;
+            color: #1f2d3d;
+        }
+
+        .exercises-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .exercise-card {
+            background: #ffffff;
+            border-radius: 22px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eef2f6;
+            overflow: hidden;
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .exercise-header {
+            background: #f8fafc;
+            padding: 10px 22px;
+            font-weight: 700;
+            font-size: 1.15rem;
+            border-bottom: 2px solid #e2edf2;
+            color: #0c4e6e;
+        }
+
+        .exercise-body {
+            padding: 16px 22px;
+        }
+
+        /* Exercício 1 - com letra maiúscula e ponto final */
+        .match-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 10px 0;
+        }
+        .match-terms {
+            flex: 1;
+            min-width: 170px;
+        }
+        .match-terms ul {
+            list-style: none;
+        }
+        .match-terms li {
+            background: #f1f5f9;
+            margin: 10px 0;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: 1px solid #cfdfed;
+            font-size: 0.9rem;
+        }
+        .match-definitions {
+            flex: 1.3;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .def-item {
+            background: #ffffff;
+            border: 1px solid #cfdfed;
+            border-radius: 16px;
+            padding: 8px 14px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: space-between;
+        }
+        .def-item p {
+            font-weight: 500;
+            margin: 0;
+            font-size: 0.85rem;
+            color: #2c3e66;
+            flex: 2;
+        }
+        .def-item select {
+            width: 80px;
+            padding: 6px 8px;
+            border-radius: 40px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 14px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #f1f5f9;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.82rem;
+            cursor: pointer;
+        }
+
+        textarea, input[type="text"], select {
+            font-family: 'Inter', system-ui;
+            font-size: 0.88rem;
+        }
+
+        .answer-input {
+            width: 100%;
+            padding: 8px 14px;
+            border-radius: 40px;
+            border: 1px solid #ccc;
+            margin-top: 6px;
+            margin-bottom: 14px;
+        }
+
+        .footer-credits {
+            background: #f1f5f9;
+            padding: 14px 24px;
+            text-align: center;
+            font-size: 0.72rem;
+            color: #475569;
+            border-top: 1px solid #e0e7ef;
+            margin-top: 20px;
+        }
+
+        .pdf-button-container {
+            text-align: center;
+            margin: 16px 0 20px;
+        }
+        .btn-pdf {
+            background: #f9b43a;
+            color: #1e2a3e;
+            border: none;
+            padding: 12px 32px;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .btn-pdf:hover {
+            background: #ffcd74;
+            transform: scale(0.98);
+        }
+
+        @media (max-width: 700px) {
+            .content-padded {
+                padding: 16px;
+            }
+            .hero h1 {
+                font-size: 1.4rem;
+            }
+            .match-grid {
+                flex-direction: column;
+            }
+            .def-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .def-item select {
+                width: 100%;
+            }
+        }
+
+        /* Estilos para impressão / PDF - Garantia total */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .btn-pdf, .pdf-button-container {
+                display: none !important;
+            }
+            .lesson-wrapper {
+                box-shadow: none;
+                border-radius: 0;
+                max-width: 100%;
+                margin: 0;
+            }
+            .hero {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .exercise-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .content-padded {
+                padding: 0.2in;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="lesson-wrapper" id="printableArea">
+    <div class="hero">
+        <h1>
+            📱 Social Networking: good or bad?
+            <span>EF09LI06</span>
+        </h1>
+        <div class="name-field">
+            <label>👤 Student's name:</label>
+            <input type="text" id="studentName" placeholder="Type your full name" autocomplete="off">
+        </div>
+        <div style="margin-top: 10px; font-size: 0.72rem; opacity:0.85;">
+            ✍️ Opinion piece by Kelsey Hines • High School Journalism
+        </div>
+    </div>
+
+    <div class="content-padded">
+        <!-- TEXTO ORIGINAL -->
+        <div class="article-box">
+            <div class="article-title">📖 Social Networking: good or bad?</div>
+            <div class="article-meta">Friday, November 11, By Kelsey Hines • The HSJ (High School Journalism)</div>
+            <div class="article-text">
+                <p>The popularity of social networking is skyrocketing, and people of all ages find themselves devoting more time to these sites, but is social networking really making your life social?</p>
+                <p>Nielsen has recently reported that Americans are now spending more time on social networking websites than on their email accounts. The report noted that Internet users spend around 8.3% of their time on their email accounts and 23% of their time on various social networking platforms. [...]</p>
+                <p>People, especially students, can spend hours on different social networking sites, updating their every move and commenting on what their friends have posted. Constantly being glued to the computer by yourself doesn't seem very social to me, and it will ultimately lead to people failing to have successful interpersonal relationships. Just because you have over 1,000 friends on Facebook to create the image of being popular, but in reality, they don't know or talk to half of their "friends" on Facebook.</p>
+                <p>I don't think there is anything wrong with wanting to have a Facebook or Myspace, as long as you are responsible and safe about it. Make sure to never put anything too personal on it, and remember there is more to interacting with people than talking to them through a computer screen.</p>
+            </div>
+        </div>
+
+        <!-- EXERCÍCIOS -->
+        <div class="exercises-grid">
+            <!-- Exercício 1: Com letra maiúscula e ponto final -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    📌 1) Match the words to their meanings in the text.
+                </div>
+                <div class="exercise-body">
+                    <div class="match-grid">
+                        <div class="match-terms">
+                            <ul>
+                                <li>a) skyrocketing</li>
+                                <li>b) reported</li>
+                                <li>c) every move</li>
+                                <li>d) glued to the computer</li>
+                            </ul>
+                        </div>
+                        <div class="match-definitions">
+                            <div class="def-item">
+                                <p>When something is told based on research.</p>
+                                <select id="match1" class="match-select">
+                                    <option value="">--</option>
+                                    <option value="a">a</option>
+                                    <option value="b">b</option>
+                                    <option value="c">c</option>
+                                    <option value="d">d</option>
+                                </select>
+                            </div>
+                            <div class="def-item">
+                                <p>Everything they do.</p>
+                                <select id="match2" class="match-select">
+                                    <option value="">--</option>
+                                    <option value="a">a</option>
+                                    <option value="b">b</option>
+                                    <option value="c">c</option>
+                                    <option value="d">d</option>
+                                </select>
+                            </div>
+                            <div class="def-item">
+                                <p>Increasing very fast.</p>
+                                <select id="match3" class="match-select">
+                                    <option value="">--</option>
+                                    <option value="a">a</option>
+                                    <option value="b">b</option>
+                                    <option value="c">c</option>
+                                    <option value="d">d</option>
+                                </select>
+                            </div>
+                            <div class="def-item">
+                                <p>Using it all day long.</p>
+                                <select id="match4" class="match-select">
+                                    <option value="">--</option>
+                                    <option value="a">a</option>
+                                    <option value="b">b</option>
+                                    <option value="c">c</option>
+                                    <option value="d">d</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Exercício 2 -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    ❓ 2) Answer these questions according to the text.
+                </div>
+                <div class="exercise-body">
+                    <p><strong>a) Who is the author of this opinion piece?</strong></p>
+                    <input type="text" id="authorAnswer" placeholder="Your answer" class="answer-input">
+                    
+                    <p><strong>b) Does the author provide information to sustain her opinion?</strong></p>
+                    <div class="radio-group">
+                        <label><input type="radio" name="opinionSupport" value="no"> No, only opinion without reliable information.</label>
+                        <label><input type="radio" name="opinionSupport" value="yes"> Yes, she provides reliable information.</label>
+                        <label><input type="radio" name="opinionSupport" value="unclear"> Unclear / no information.</label>
+                    </div>
+
+                    <p><strong>c) In the author's opinion, is social networking good or bad? Give examples from the text.</strong></p>
+                    <textarea rows="3" id="opinionText" placeholder="Write your answer here using evidence from the text." style="width: 100%; border-radius: 20px; border: 1px solid #ccc; padding: 10px;"></textarea>
+                </div>
+            </div>
+
+            <!-- Exercício 3 -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    🧩 3) Classify the sentences: introduction, argument or conclusion.
+                </div>
+                <div class="exercise-body">
+                    <p><strong>a)</strong> "Nielsen has recently reported that Americans are now spending more time on social networking websites than on their email accounts."</p>
+                    <select id="funcA" style="margin-bottom: 18px; padding: 6px; border-radius: 40px; width: 200px;">
+                        <option value="">-- Select --</option>
+                        <option value="intro">Introduction</option>
+                        <option value="argument">Argument</option>
+                        <option value="conclusion">Conclusion</option>
+                    </select>
+
+                    <p><strong>b)</strong> "The popularity of social networking is skyrocketing, and people of all ages find themselves devoting more time to these sites, but is social networking really making your life social?"</p>
+                    <select id="funcB" style="margin-bottom: 18px; padding: 6px; border-radius: 40px; width: 200px;">
+                        <option value="">-- Select --</option>
+                        <option value="intro">Introduction</option>
+                        <option value="argument">Argument</option>
+                        <option value="conclusion">Conclusion</option>
+                    </select>
+
+                    <p><strong>c)</strong> "I don't think there is anything wrong with wanting to have a Facebook or Myspace, as long as you are responsible and safe about it."</p>
+                    <select id="funcC" style="margin-bottom: 8px; padding: 6px; border-radius: 40px; width: 200px;">
+                        <option value="">-- Select --</option>
+                        <option value="intro">Introduction</option>
+                        <option value="argument">Argument</option>
+                        <option value="conclusion">Conclusion</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Exercício 4 -->
+            <div class="exercise-card">
+                <div class="exercise-header">
+                    💭 4) Critical thinking – Do you agree with Kelsey Hines?
+                </div>
+                <div class="exercise-body">
+                    <p><strong>Did her arguments convince you? Write your answer in English (3-5 sentences).</strong></p>
+                    <textarea rows="4" id="criticalAnswer" placeholder="Write your personal response here. Explain whether you agree or disagree and why." style="width: 100%; border-radius: 20px; border: 1px solid #ccc; padding: 10px;"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão PDF -->
+        <div class="pdf-button-container">
+            <button class="btn-pdf" id="generatePdfBtn">📄 Generate PDF (save & send to teacher)</button>
+        </div>
+
+        <div class="footer-credits">
+            📖 Text: "Social Networking: good or bad?" by Kelsey Hines – The HSJ. Activity for 9th grade (EF09LI06) - distinguishing facts from opinions in argumentative texts.
+        </div>
+    </div>
+</div>
+
+<script>
+    (function() {
+        // Garantir que a biblioteca html2pdf está carregada
+        function waitForHtml2Pdf(callback) {
+            if (typeof html2pdf !== 'undefined') {
+                callback();
+            } else {
+                setTimeout(function() { waitForHtml2Pdf(callback); }, 100);
+            }
+        }
+
+        function generatePDF() {
+            const studentName = document.getElementById('studentName').value.trim();
+            let filename = "Social_Networking_Activity";
+            if (studentName !== "") {
+                filename = `Social_Networking_${studentName.replace(/\s+/g, '_')}`;
+            }
+
+            const element = document.getElementById('printableArea');
+            
+            // Configuração robusta para evitar folhas em branco
+            const opt = {
+                margin:        [0.5, 0.5, 0.5, 0.5],
+                filename:     `${filename}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, letterRendering: true, useCORS: false, logging: false },
+                jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save();
+        }
+
+        document.getElementById('generatePdfBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const nameField = document.getElementById('studentName');
+            if (!nameField.value.trim()) {
+                if (confirm("You haven't entered your name. The PDF will be saved as 'Student'. Continue?")) {
+                    waitForHtml2Pdf(generatePDF);
+                }
+            } else {
+                waitForHtml2Pdf(generatePDF);
+            }
+        });
+    })();
+</script>
+</body>
+</html>
