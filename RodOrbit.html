@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RodORBit — Simulador de Voo Orbital</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&display=swap');
+:root{--bg:#000408;--panel:#020c18;--panel2:#040e1c;--accent:#00ffe7;--accent2:#ff6a00;--accent3:#a8ff3e;--warn:#ff3e3e;--text:#b0e0ff;--dim:#2a4a6a;--glow:0 0 8px #00ffe7,0 0 20px #00ffe780;--glow2:0 0 8px #ff6a00,0 0 20px #ff6a0080;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);color:var(--text);font-family:'Share Tech Mono',monospace;display:flex;height:100vh;overflow:hidden;user-select:none;}
+#sim-side{flex:1;position:relative;overflow:hidden;background:radial-gradient(ellipse at 30% 50%,#020a18 0%,#000204 70%);}
+#sim-canvas{display:block;width:100%;height:100%;cursor:crosshair;}
+#sim-side::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:10;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,255,231,0.012) 3px,rgba(0,255,231,0.012) 4px);}
+.sim-label{position:absolute;top:14px;left:18px;font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:4px;color:var(--dim);text-transform:uppercase;z-index:20;}
+#zoom-hint{position:absolute;bottom:14px;left:18px;font-size:9px;letter-spacing:2px;color:var(--dim);z-index:20;}
+
+#dsky{width:340px;min-width:340px;background:var(--panel);border-left:1px solid #0a2a40;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;position:relative;}
+#dsky::-webkit-scrollbar{width:4px;}
+#dsky::-webkit-scrollbar-track{background:#020c18;}
+#dsky::-webkit-scrollbar-thumb{background:#0a2a40;border-radius:2px;}
+#dsky::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,transparent,var(--accent),transparent);box-shadow:var(--glow);}
+
+.dsky-header{padding:14px 20px 10px;border-bottom:1px solid #0a2a40;flex-shrink:0;}
+.dsky-title{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--accent);text-shadow:var(--glow);letter-spacing:3px;}
+.dsky-sub{font-size:9px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-top:2px;}
+.status-bar{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.status-dot{width:8px;height:8px;border-radius:50%;background:var(--accent3);box-shadow:0 0 6px var(--accent3);animation:pulse 2s infinite;}
+.status-dot.warn{background:var(--warn);box-shadow:0 0 6px var(--warn);}
+.status-dot.off{background:var(--dim);box-shadow:none;animation:none;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.status-text{font-size:10px;letter-spacing:2px;color:var(--accent3);}
+.status-text.warn{color:var(--warn);}
+
+.dsky-section{padding:8px 16px;border-bottom:1px solid #061520;flex-shrink:0;}
+.section-label{font-size:8px;letter-spacing:3px;color:var(--dim);text-transform:uppercase;margin-bottom:7px;}
+
+.tele-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.tele-item{background:var(--panel2);border:1px solid #0a2030;border-radius:3px;padding:6px 9px;position:relative;overflow:hidden;}
+.tele-item::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:var(--accent);opacity:.15;}
+.tele-label{font-size:7px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:2px;}
+.tele-value{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--accent);text-shadow:0 0 6px #00ffe780;}
+.tele-value.accent2{color:var(--accent2);text-shadow:var(--glow2);}
+.tele-value.accent3{color:var(--accent3);text-shadow:0 0 6px #a8ff3e80;}
+.tele-value.warn{color:var(--warn);text-shadow:0 0 6px #ff3e3e80;}
+.tele-unit{font-size:7px;color:var(--dim);margin-left:1px;}
+
+.bar-row{display:flex;align-items:center;gap:7px;margin-bottom:5px;}
+.bar-label{font-size:7px;letter-spacing:1px;color:var(--dim);width:52px;flex-shrink:0;}
+.bar-track{flex:1;height:5px;background:#06131e;border-radius:3px;overflow:hidden;border:1px solid #0a2030;}
+.bar-fill{height:100%;border-radius:3px;transition:width .08s linear;}
+.bar-fill.speed{background:linear-gradient(to right,#00ffe7,#00a8ff);box-shadow:0 0 5px #00ffe780;}
+.bar-fill.grav{background:linear-gradient(to right,#ff6a00,#ffaa00);box-shadow:0 0 5px #ff6a0080;}
+.bar-fill.angle{background:linear-gradient(to right,#a8ff3e,#00ff99);box-shadow:0 0 5px #a8ff3e80;}
+.bar-val{font-size:8px;color:var(--text);width:38px;text-align:right;flex-shrink:0;}
+
+.param-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.param-item{display:flex;flex-direction:column;gap:3px;}
+.param-label{font-size:7px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;}
+.param-input{background:#040e1c;border:1px solid #0a2a40;border-radius:3px;padding:5px 8px;color:var(--accent);font-family:'Share Tech Mono',monospace;font-size:11px;width:100%;outline:none;transition:border-color .15s;}
+.param-input:focus{border-color:var(--accent);box-shadow:0 0 6px #00ffe740;}
+.param-sub{font-size:7px;color:var(--dim);margin-top:1px;}
+.param-apply{margin-top:7px;width:100%;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;padding:7px;border:1px solid var(--accent3);border-radius:3px;color:var(--accent3);background:transparent;cursor:pointer;transition:all .15s;}
+.param-apply:hover{background:var(--accent3);color:#000;box-shadow:0 0 10px #a8ff3e80;}
+.param-computed{margin-top:6px;background:#020a14;border:1px solid #0a2030;border-radius:3px;padding:7px 10px;font-size:9px;line-height:1.9;color:var(--dim);}
+.param-computed b{color:var(--accent3);}
+
+.key-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;}
+.key-btn{background:#061520;border:1px solid #0a2a40;border-radius:4px;padding:6px 4px;text-align:center;cursor:pointer;transition:all .1s;}
+.key-btn:hover{border-color:var(--accent);box-shadow:var(--glow);}
+.key-btn.active{background:#0a2a40;border-color:var(--accent);box-shadow:var(--glow);}
+.key-name{font-family:'Orbitron',sans-serif;font-size:9px;color:var(--accent);display:block;}
+.key-desc{font-size:7px;letter-spacing:1px;color:var(--dim);margin-top:1px;display:block;}
+
+.simspeed-row{display:flex;align-items:center;gap:5px;margin-top:6px;}
+.simspeed-btn{flex:1;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;padding:5px 2px;border:1px solid #0a2a40;border-radius:3px;color:var(--dim);background:transparent;cursor:pointer;transition:all .1s;letter-spacing:1px;}
+.simspeed-btn.sel{border-color:var(--accent2);color:var(--accent2);box-shadow:var(--glow2);}
+.simspeed-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+.log-section{flex:1;display:flex;flex-direction:column;padding:8px 16px;min-height:60px;overflow:hidden;}
+#mission-log{flex:1;overflow-y:auto;font-size:8px;letter-spacing:1px;line-height:1.8;color:var(--dim);scrollbar-width:none;}
+.log-entry{color:var(--text);}
+.log-entry.warn{color:var(--warn);}
+.log-entry.ok{color:var(--accent3);}
+.log-entry span{color:var(--dim);margin-right:5px;}
+
+.launch-row{padding:10px 16px;border-top:1px solid #0a2a40;display:flex;gap:7px;flex-shrink:0;}
+.btn{flex:1;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;padding:9px 4px;border:1px solid;border-radius:4px;cursor:pointer;text-transform:uppercase;transition:all .15s;background:transparent;}
+.btn-launch{border-color:var(--accent3);color:var(--accent3);}
+.btn-launch:hover:not(:disabled){background:var(--accent3);color:#000;box-shadow:0 0 12px #a8ff3e80;}
+.btn-reset{border-color:var(--warn);color:var(--warn);flex:.55;}
+.btn-reset:hover{background:var(--warn);color:#000;box-shadow:0 0 12px #ff3e3e80;}
+.btn:disabled{opacity:.3;cursor:default;}
+</style>
+</head>
+<body>
+
+<div id="sim-side">
+  <div class="sim-label">SIMULAÇÃO ORBITAL // CAMPO GRAVITACIONAL</div>
+  <div id="zoom-hint">🖱 Roda: Zoom · Arrastar: Pan · W/A/D: Controle</div>
+  <canvas id="sim-canvas"></canvas>
+</div>
+
+<div id="dsky">
+  <div class="dsky-header">
+    <div class="dsky-title">RoDSKY</div>
+    <div class="dsky-sub">Display &amp; Keyboard — Orbital Nav</div>
+    <div class="status-bar">
+      <div class="status-dot off" id="status-dot"></div>
+      <div class="status-text" id="status-text">AGUARDANDO LANÇAMENTO</div>
+    </div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Telemetria</div>
+    <div class="tele-grid">
+      <div class="tele-item"><div class="tele-label">Altitude</div><div class="tele-value accent2" id="t-alt">0<span class="tele-unit">km</span></div></div>
+      <div class="tele-item"><div class="tele-label">Velocidade Total</div><div class="tele-value" id="t-spd">0<span class="tele-unit">m/s</span></div></div>
+      <div class="tele-item"><div class="tele-label">V. Orbital Req.</div><div class="tele-value accent3" id="t-vorb">—<span class="tele-unit">m/s</span></div></div>
+      <div class="tele-item"><div class="tele-label">Ângulo Foguete</div><div class="tele-value" id="t-ang">90<span class="tele-unit">°</span></div></div>
+      <div class="tele-item"><div class="tele-label">g Local</div><div class="tele-value" id="t-acc">—<span class="tele-unit">m/s²</span></div></div>
+      <div class="tele-item"><div class="tele-label">Fase</div><div class="tele-value accent3" id="t-phase" style="font-size:9px">SOLO</div></div>
+      <div class="tele-item"><div class="tele-label">Vr Radial</div><div class="tele-value" id="t-vr">0<span class="tele-unit">m/s</span></div></div>
+      <div class="tele-item"><div class="tele-label">Vt Tangencial</div><div class="tele-value" id="t-vt">0<span class="tele-unit">m/s</span></div></div>
+    </div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Dinâmica</div>
+    <div class="bar-row"><div class="bar-label">VELOCIDADE</div><div class="bar-track"><div class="bar-fill speed" id="bar-spd" style="width:0%"></div></div><div class="bar-val" id="bv-spd">0</div></div>
+    <div class="bar-row"><div class="bar-label">g LOCAL</div><div class="bar-track"><div class="bar-fill grav" id="bar-grav" style="width:60%"></div></div><div class="bar-val" id="bv-grav">9.8</div></div>
+    <div class="bar-row" style="margin-bottom:0"><div class="bar-label">ÂNGULO</div><div class="bar-track"><div class="bar-fill angle" id="bar-ang" style="width:25%"></div></div><div class="bar-val" id="bv-ang">90°</div></div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Parâmetros do Planeta / Foguete</div>
+    <div class="param-grid">
+      <div class="param-item">
+        <div class="param-label">Gravidade</div>
+        <input class="param-input" id="p-grav" type="number" value="9.8" step="0.1" min="0.1">
+        <div class="param-sub">m/s²</div>
+      </div>
+      <div class="param-item">
+        <div class="param-label">Diâmetro</div>
+        <input class="param-input" id="p-diam" type="number" value="1000" step="100" min="100">
+        <div class="param-sub">km</div>
+      </div>
+      <div class="param-item">
+        <div class="param-label">Massa Foguete</div>
+        <input class="param-input" id="p-mass" type="number" value="10000" step="1000" min="100">
+        <div class="param-sub">kg</div>
+      </div>
+      <div class="param-item">
+        <div class="param-label">Empuxo</div>
+        <input class="param-input" id="p-thrust" type="number" value="500000" step="10000" min="1000">
+        <div class="param-sub">N</div>
+      </div>
+    </div>
+    <button class="param-apply" id="btn-apply">↺ APLICAR E REINICIAR</button>
+    <div class="param-computed" id="computed-info">Calculando…</div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Velocidade de Simulação</div>
+    <div class="simspeed-row">
+      <button class="simspeed-btn sel" data-speed="1">1×</button>
+      <button class="simspeed-btn" data-speed="2">2×</button>
+      <button class="simspeed-btn" data-speed="5">5×</button>
+      <button class="simspeed-btn" data-speed="10">10×</button>
+      <button class="simspeed-btn" data-speed="20">20×</button>
+    </div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Programa de Voo (Autopilot)</div>
+    <div style="display:flex;gap:6px;margin-bottom:8px;">
+      <button class="simspeed-btn" id="ap-off" style="flex:1">MANUAL</button>
+      <button class="simspeed-btn sel" id="ap-on" style="flex:1">AUTO</button>
+    </div>
+    <div class="param-computed" id="ap-status" style="margin-top:0;font-size:8px;line-height:1.6;">
+      <b>Gravity Turn Program</b><br>
+      Status: <span id="ap-phase">AGUARDANDO</span><br>
+      Ângulo alvo: <span id="ap-target">90°</span>
+    </div>
+  </div>
+
+  <div class="dsky-section">
+    <div class="section-label">Controles</div>
+    <div class="key-grid">
+      <div class="key-btn" id="kb-thu"><span class="key-name">W / ↑</span><span class="key-desc">+ empuxo</span></div>
+      <div class="key-btn" id="kb-thd"><span class="key-name">S / ↓</span><span class="key-desc">− empuxo</span></div>
+      <div class="key-btn" id="kb-anl"><span class="key-name">A / ←</span><span class="key-desc">girar ←</span></div>
+      <div class="key-btn" id="kb-anr"><span class="key-name">D / →</span><span class="key-desc">girar →</span></div>
+      <div class="key-btn" id="kb-bst"><span class="key-name">SPACE</span><span class="key-desc">boost ×2</span></div>
+      <div class="key-btn" id="kb-brk"><span class="key-name">X</span><span class="key-desc">freio</span></div>
+    </div>
+  </div>
+
+  <div class="log-section">
+    <div class="section-label">Log de Missão</div>
+    <div id="mission-log"></div>
+  </div>
+
+  <div class="launch-row">
+    <button class="btn btn-launch" id="btn-launch">⬆ LANÇAR</button>
+    <button class="btn btn-reset" id="btn-reset">↺ RESET</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════
+//  ORBITAL ROCKET SIMULATOR
+//
+//  Física polar (coordenadas polares, centro = planeta):
+//    r   = distância ao centro do planeta (m)
+//    θ   = ângulo (rad)
+//    vr  = dr/dt  (velocidade radial, positivo = afastando)
+//    vt  = r·dθ/dt (velocidade tangencial)
+//
+//  Equações de movimento:
+//    dvr/dt = vt²/r  −  GM/r²  +  Fr/m
+//    dvt/dt = −vr·vt/r          +  Ft/m
+//    dr/dt  = vr
+//    dθ/dt  = vt / r
+//
+//  Velocidade orbital circular:  v_orb = √(GM/r)
+//  Velocidade de fuga:           v_esc = √(2·GM/r)
+//  GM = g_surface · R²
+// ═══════════════════════════════════════════════════════════════════════
+
+const canvas = document.getElementById('sim-canvas');
+const ctx    = canvas.getContext('2d');
+
+// ── Parâmetros (mutáveis pelo painel) ────────────────────────────
+let P = {  // planet
+  radius:    500_000,   // m  (diâm 1000 km)
+  g_surface: 9.8,
+  GM:        0,
+};
+let R = {  // rocket
+  mass:   10_000,
+  thrust: 500_000,      // N  → T/W=5 → decola facilmente
+};
+function calcGM(){ P.GM = P.g_surface * P.radius * P.radius; }
+calcGM();
+
+const orbV = r => Math.sqrt(P.GM / r);
+const escV = r => Math.sqrt(2 * P.GM / r);
+const gAt  = r => P.GM / (r * r);
+
+// ── Câmera ────────────────────────────────────────────────────────
+const cam = { zoom: 0, px: 0, py: 0, ok: false };
+
+function camInit(){
+  const s = Math.min(canvas.width, canvas.height);
+  cam.zoom = (s * 0.22) / P.radius;
+  cam.px   = canvas.width  / 2;
+  cam.py   = canvas.height / 2;
+  cam.ok   = true;
+}
+
+const w2s = (wx, wy) => ({ sx: cam.px + wx*cam.zoom, sy: cam.py - wy*cam.zoom });
+
+canvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const f = e.deltaY < 0 ? 1.13 : 1/1.13;
+  cam.px = e.offsetX + (cam.px - e.offsetX)*f;
+  cam.py = e.offsetY + (cam.py - e.offsetY)*f;
+  cam.zoom = Math.max(1e-10, Math.min(cam.zoom*f, 5));
+}, {passive:false});
+
+let drag=null;
+canvas.addEventListener('mousedown', e=>{ drag={sx:e.offsetX,sy:e.offsetY,px:cam.px,py:cam.py}; });
+canvas.addEventListener('mousemove', e=>{ if(drag){cam.px=drag.px+(e.offsetX-drag.sx);cam.py=drag.py+(e.offsetY-drag.sy);} });
+canvas.addEventListener('mouseup',   ()=>drag=null);
+canvas.addEventListener('mouseleave',()=>drag=null);
+
+// ── Estado ────────────────────────────────────────────────────────
+let S;
+function newState(){
+  return {
+    r:     P.radius + 5,          // começa na superfície +5m
+    theta: Math.PI/2,             // topo do planeta
+    vr:    0,
+    vt:    0,
+    angle: Math.PI/2,             // ângulo do foguete no mundo (0=leste)
+    tLevel:0,                     // 0-1
+    phase: 'ground',
+    time:  0,
+    trail: [],
+    firing:false,
+    lastOrbitLog:0,
+    launched:false,
+  };
+}
+S = newState();
+let simSpeed = 1;
+let logTime  = 0;
+let autopilot = true;  // começa ativado
+
+// ── Física ────────────────────────────────────────────────────────
+function step(dt){
+  if(!S.launched || S.phase==='crashed') return;
+
+  const TURN=0.9, TACC=0.6;
+  
+  // ── AUTOPILOT: Gravity Turn Program ──
+  if(autopilot && S.launched){
+    const alt = (S.r - P.radius) / 1000;  // altitude em km
+    const spd = Math.hypot(S.vr, S.vt);
+    const vo  = orbV(S.r);
+    
+    let targetAngle = S.theta + Math.PI/2;  // default: vertical (radial)
+    let apPhase = 'AGUARDANDO';
+    
+    if(alt < 2){
+      // Fase 1: VERTICAL ASCENT (0-2 km)
+      targetAngle = S.theta + Math.PI/2;  // mantém vertical
+      apPhase = 'SUBIDA VERTICAL';
+      S.tLevel = 1.0;  // empuxo total
+    } else if(alt < 25){
+      // Fase 2: GRAVITY TURN (2-25 km)
+      // Inclina gradualmente de 90° para ~30°
+      const progress = (alt - 2) / (25 - 2);  // 0 a 1
+      const pitchAngle = 90 - progress * 60;  // de 90° para 30°
+      targetAngle = S.theta + pitchAngle * Math.PI/180;
+      apPhase = `GRAVITY TURN ${pitchAngle.toFixed(0)}°`;
+      S.tLevel = 1.0;
+    } else if(alt < 50){
+      // Fase 3: CIRCULARIZAÇÃO (25-50 km)
+      // Continua inclinando para horizontal (0°)
+      const progress = (alt - 25) / (25);
+      const pitchAngle = 30 - progress * 30;  // de 30° para 0°
+      targetAngle = S.theta + pitchAngle * Math.PI/180;
+      apPhase = `CIRCULARIZAÇÃO ${pitchAngle.toFixed(0)}°`;
+      
+      // Ajusta empuxo baseado na velocidade orbital
+      const vRatio = spd / vo;
+      if(vRatio < 0.85){
+        S.tLevel = 1.0;  // acelera
+      } else if(vRatio < 0.95){
+        S.tLevel = 0.6;  // suave
+      } else if(vRatio < 1.05){
+        S.tLevel = 0.3;  // muito suave
+      } else {
+        S.tLevel = 0.0;  // corta
+      }
+    } else {
+      // Fase 4: MANUTENÇÃO ORBITAL (>50 km)
+      targetAngle = S.theta + 0.02;  // ~horizontal (ligeiramente acima do horizonte)
+      apPhase = 'ÓRBITA ESTÁVEL';
+      
+      // PID simples para manter órbita
+      const vRatio = spd / vo;
+      const vrAbs  = Math.abs(S.vr);
+      
+      if(vrAbs > 50){
+        // Está subindo ou descendo muito — corrigir
+        if(S.vr > 0){
+          targetAngle = S.theta - 0.1;  // aponta pra baixo
+        } else {
+          targetAngle = S.theta + 0.1;  // aponta pra cima
+        }
+      }
+      
+      if(vRatio < 0.97){
+        S.tLevel = 0.4;
+      } else if(vRatio > 1.03){
+        S.tLevel = 0.0;
+      } else {
+        S.tLevel = 0.1;  // manutenção
+      }
+    }
+    
+    // Gira suavemente em direção ao ângulo alvo
+    const angleDiff = targetAngle - S.angle;
+    const turnRate = TURN * 1.5;  // autopilot gira mais rápido
+    if(Math.abs(angleDiff) > 0.01){
+      S.angle += Math.sign(angleDiff) * Math.min(Math.abs(angleDiff), turnRate * dt);
+    }
+    
+    // Atualiza display do autopilot
+    document.getElementById('ap-phase').textContent = apPhase;
+    document.getElementById('ap-target').textContent = ((targetAngle - S.theta)*180/Math.PI).toFixed(1) + '°';
+  } else {
+    // MANUAL MODE
+    if(keys.KeyA||keys.ArrowLeft)  S.angle -= TURN*dt;
+    if(keys.KeyD||keys.ArrowRight) S.angle += TURN*dt;
+    if(keys.KeyW||keys.ArrowUp)    S.tLevel = Math.min(1, S.tLevel+TACC*dt);
+    if(keys.KeyS||keys.ArrowDown)  S.tLevel = Math.max(0, S.tLevel-TACC*dt);
+    if(keys.KeyX)                  S.tLevel = Math.max(0, S.tLevel-2*TACC*dt);
+    
+    document.getElementById('ap-phase').textContent = 'MANUAL';
+    document.getElementById('ap-target').textContent = '—';
+  }
+
+  const boost = keys.Space ? 2 : 1;
+  const F     = R.thrust * S.tLevel * boost;
+  S.firing    = F > 1;
+
+  // decomposição do empuxo em polar
+  const cosT = Math.cos(S.theta), sinT = Math.sin(S.theta);
+  const Fx   = (F/R.mass)*Math.cos(S.angle);
+  const Fy   = (F/R.mass)*Math.sin(S.angle);
+  const Fr   = Fx*cosT + Fy*sinT;    // aceleração radial do empuxo
+  const Ft   = -Fx*sinT + Fy*cosT;   // aceleração tangencial do empuxo
+
+  const g = P.GM / (S.r*S.r);
+
+  // EOM polar
+  const ar = S.vt*S.vt/S.r - g + Fr;
+  const at = -S.vr*S.vt/S.r      + Ft;
+
+  S.vr  += ar*dt;
+  S.vt  += at*dt;
+  S.r   += S.vr*dt;
+  S.theta += S.vt/S.r * dt;
+  S.time  += dt;
+
+  // trilha
+  S.trail.push({x:S.r*Math.cos(S.theta), y:S.r*Math.sin(S.theta)});
+  if(S.trail.length>1400) S.trail.shift();
+
+  // checagem de estado
+  const alt  = S.r - P.radius;
+  const spd  = Math.hypot(S.vr, S.vt);
+  const vo   = orbV(S.r);
+
+  if(S.r <= P.radius+0.5){
+    S.r=P.radius; S.vr=0; S.vt=0; S.tLevel=0;
+    if(S.phase!=='crashed'){ S.phase='crashed'; setStatus('💥 IMPACTO','warn'); log('💥 Impacto no planeta!','warn'); }
+    return;
+  }
+  if(spd >= escV(S.r)*0.998 && S.phase!=='escaped'){
+    S.phase='escaped'; setStatus('⚠ FUGA ORBITAL','warn');
+    log(`⚠ Velocidade de fuga! v=${spd.toFixed(0)} ≥ v_esc=${escV(S.r).toFixed(0)} m/s`,'warn');
+    return;
+  }
+
+  const dvRel = Math.abs(spd-vo)/vo;
+  const vrRel = Math.abs(S.vr)/vo;
+  if(S.phase==='ascent' && dvRel<0.05 && vrRel<0.05 && alt>P.radius*0.01){
+    S.phase='orbit'; setStatus('✦ ÓRBITA ESTÁVEL','ok');
+    log(`✦ Órbita! Alt=${(alt/1000).toFixed(1)}km  v=${spd.toFixed(0)}m/s  v_orb=${vo.toFixed(0)}m/s`,'ok');
+  } else if(S.phase==='orbit' && (dvRel>0.18||vrRel>0.18)){
+    S.phase='ascent'; setStatus('↑ ASCENSÃO','ok');
+  }
+}
+
+// ── Teclado ────────────────────────────────────────────────────────
+const keys={};
+const kmap={'KeyW':'kb-thu','ArrowUp':'kb-thu','KeyS':'kb-thd','ArrowDown':'kb-thd',
+            'KeyA':'kb-anl','ArrowLeft':'kb-anl','KeyD':'kb-anr','ArrowRight':'kb-anr',
+            'Space':'kb-bst','KeyX':'kb-brk'};
+
+window.addEventListener('keydown',e=>{
+  if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight'].includes(e.code)) e.preventDefault();
+  keys[e.code]=true;
+  const id=kmap[e.code]; if(id) document.getElementById(id)?.classList.add('active');
+  if(!S.launched&&['KeyW','ArrowUp','Space'].includes(e.code)) launch();
+});
+window.addEventListener('keyup',e=>{
+  keys[e.code]=false;
+  const id=kmap[e.code]; if(id) document.getElementById(id)?.classList.remove('active');
+});
+document.querySelectorAll('.param-input').forEach(i=>i.addEventListener('keydown',e=>e.stopPropagation()));
+
+// ── Launch / Reset ────────────────────────────────────────────────
+document.getElementById('btn-launch').addEventListener('click',launch);
+document.getElementById('btn-reset').addEventListener('click',reset);
+
+function launch(){
+  if(S.launched) return;
+  const TW = R.thrust/(R.mass*P.g_surface);
+  if(TW<=1){ log(`⚠ T/W=${TW.toFixed(2)} ≤ 1 — foguete não levanta! Aumente Empuxo.`,'warn'); return; }
+  S.launched=true; S.phase='ascent'; S.tLevel=1;
+  // Foguete começa VERTICAL (90° em relação ao horizonte local)
+  // Na posição theta=π/2 (topo do planeta), vertical = π/2 + π/2 = π (aponta norte/cima no mundo)
+  S.angle = S.theta + Math.PI/2;  // ângulo radial para fora = vertical
+  document.getElementById('btn-launch').disabled=true;
+  setStatus('↑ LANÇAMENTO','ok');
+  log(`🚀 T+0  T/W=${TW.toFixed(2)}  Decolar! Ângulo inicial: VERTICAL (90°)`,'ok');
+}
+
+function reset(){
+  S=newState(); logTime=0;
+  document.getElementById('mission-log').innerHTML='';
+  document.getElementById('btn-launch').disabled=false;
+  camInit(); logInit(); setStatus('AGUARDANDO LANÇAMENTO','off');
+}
+
+// ── Painel de Parâmetros ──────────────────────────────────────────
+function computeInfo(){
+  const g  = parseFloat(document.getElementById('p-grav').value)||9.8;
+  const dm = parseFloat(document.getElementById('p-diam').value)||1000;
+  const m  = parseFloat(document.getElementById('p-mass').value)||10000;
+  const th = parseFloat(document.getElementById('p-thrust').value)||500000;
+  const Rl = (dm*1000)/2;
+  const GM = g*Rl*Rl;
+  const vo  = Math.sqrt(GM/(Rl*1.05));
+  const ve  = Math.sqrt(2*GM/Rl);
+  const TW  = th/(m*g);
+  document.getElementById('computed-info').innerHTML =
+    `<b>v_orbital</b> (sup+5%): <b>${vo.toFixed(0)}</b> m/s<br>`+
+    `<b>v_escape</b> (superfície): <b>${ve.toFixed(0)}</b> m/s<br>`+
+    `<b>T/W ratio</b>: <b style="color:${TW>1?'#a8ff3e':'#ff3e3e'}">${TW.toFixed(2)}</b> ${TW>1?'✓ decola':'✗ insuficiente'}<br>`+
+    `<b>GM</b>: ${GM.toExponential(3)} m³/s²`;
+}
+
+document.querySelectorAll('.param-input').forEach(i=>i.addEventListener('input',computeInfo));
+
+document.getElementById('btn-apply').addEventListener('click',()=>{
+  P.g_surface= parseFloat(document.getElementById('p-grav').value)||9.8;
+  P.radius   = (parseFloat(document.getElementById('p-diam').value)||1000)*1000/2;
+  R.mass     = parseFloat(document.getElementById('p-mass').value)||10000;
+  R.thrust   = parseFloat(document.getElementById('p-thrust').value)||500000;
+  calcGM(); reset();
+  const TW=R.thrust/(R.mass*P.g_surface);
+  log(`Parâmetros aplicados: g=${P.g_surface}  D=${P.radius*2/1000}km  T/W=${TW.toFixed(2)}`,'ok');
+  log(`v_orbital(sup+5%): ${orbV(P.radius*1.05).toFixed(0)} m/s`,'ok');
+  computeInfo();
+});
+
+// ── Velocidade de Simulação ───────────────────────────────────────
+document.querySelectorAll('.simspeed-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    simSpeed=parseInt(b.dataset.speed);
+    document.querySelectorAll('.simspeed-btn').forEach(x=>x.classList.remove('sel'));
+    b.classList.add('sel');
+  });
+});
+
+// ── Autopilot Toggle ──────────────────────────────────────────────
+document.getElementById('ap-off').addEventListener('click', () => {
+  autopilot = false;
+  document.getElementById('ap-off').classList.add('sel');
+  document.getElementById('ap-on').classList.remove('sel');
+  log('Autopilot DESATIVADO — controle manual', 'ok');
+});
+document.getElementById('ap-on').addEventListener('click', () => {
+  autopilot = true;
+  document.getElementById('ap-on').classList.add('sel');
+  document.getElementById('ap-off').classList.remove('sel');
+  log('Autopilot ATIVADO — Gravity Turn Program', 'ok');
+});
+
+// ── Log / Status ──────────────────────────────────────────────────
+function log(msg,cls=''){
+  const t=Math.floor(logTime);
+  const div=document.createElement('div');
+  div.className='log-entry'+(cls?' '+cls:'');
+  div.innerHTML=`<span>T+${String(Math.floor(t/60)).padStart(2,'0')}:${String(t%60).padStart(2,'0')}</span>${msg}`;
+  document.getElementById('mission-log').prepend(div);
+  const el=document.getElementById('mission-log');
+  if(el.children.length>80) el.lastChild.remove();
+}
+function setStatus(t,type='ok'){
+  document.getElementById('status-text').textContent=t;
+  document.getElementById('status-text').className='status-text'+(type==='warn'?' warn':'');
+  document.getElementById('status-dot').className='status-dot'+(type==='off'?' off':type==='warn'?' warn':'');
+}
+function logInit(){
+  log(`Planeta: R=${(P.radius/1000).toFixed(0)}km  g=${P.g_surface}m/s²`);
+  log(`Foguete: ${(R.mass/1000).toFixed(1)}t  Empuxo=${(R.thrust/1000).toFixed(0)}kN`);
+  log(`v_orbital(sup+5%): ${orbV(P.radius*1.05).toFixed(0)} m/s`,'ok');
+  log(`T/W=${(R.thrust/(R.mass*P.g_surface)).toFixed(2)} — ${R.thrust/(R.mass*P.g_surface)>1?'APTO A DECOLAR':'⚠ INSUFICIENTE'}`,(R.thrust/(R.mass*P.g_surface)>1?'ok':'warn'));
+}
+
+// ── Desenho ────────────────────────────────────────────────────────
+function resizeCanvas(){
+  const W=canvas.clientWidth,H=canvas.clientHeight;
+  if(canvas.width===W&&canvas.height===H) return;
+  canvas.width=W; canvas.height=H;
+  if(!cam.ok) camInit();
+}
+
+// Estrelas (estáticas)
+const STARS=Array.from({length:320},()=>({nx:Math.random(),ny:Math.random(),r:Math.random()*1.4+0.3,a:Math.random()*0.7+0.2}));
+
+function drawBG(){
+  const W=canvas.width,H=canvas.height;
+  let g=ctx.createRadialGradient(W*.28,H*.42,0,W*.28,H*.42,W*.7);
+  g.addColorStop(0,'rgba(0,35,110,.13)'); g.addColorStop(1,'transparent');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  g=ctx.createRadialGradient(W*.78,H*.28,0,W*.78,H*.28,W*.35);
+  g.addColorStop(0,'rgba(65,0,85,.09)'); g.addColorStop(1,'transparent');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  for(const s of STARS){
+    ctx.beginPath(); ctx.arc(s.nx*W,s.ny*H,s.r,0,Math.PI*2);
+    ctx.fillStyle=`rgba(200,220,255,${s.a})`; ctx.fill();
+  }
+}
+
+function drawPlanet(){
+  const o=w2s(0,0), pr=P.radius*cam.zoom;
+  const atmR=(P.radius*1.16)*cam.zoom;
+  // atm
+  let g=ctx.createRadialGradient(o.sx,o.sy,pr*.88,o.sx,o.sy,atmR);
+  g.addColorStop(0,'rgba(0,160,255,.22)'); g.addColorStop(1,'rgba(0,45,180,0)');
+  ctx.beginPath(); ctx.arc(o.sx,o.sy,atmR,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+  // body
+  g=ctx.createRadialGradient(o.sx-pr*.28,o.sy-pr*.28,pr*.08,o.sx,o.sy,pr);
+  g.addColorStop(0,'#2a6aaa'); g.addColorStop(.55,'#1a4a8a'); g.addColorStop(1,'#0a1a40');
+  ctx.beginPath(); ctx.arc(o.sx,o.sy,pr,0,Math.PI*2); ctx.fillStyle=g; ctx.fill();
+  // continentes
+  ctx.save(); ctx.beginPath(); ctx.arc(o.sx,o.sy,pr,0,Math.PI*2); ctx.clip();
+  ctx.globalAlpha=.30;
+  [[0.13,0.18],[0.40,0.16],[0.70,0.22],[0.22,0.30],[0.58,0.14],[0.85,0.19],[0.33,0.25],[0.77,0.13]]
+    .forEach(([da,dr],i)=>{
+      const a=da*Math.PI*2+0.4, d=pr*(.18+dr);
+      ctx.beginPath(); ctx.arc(o.sx+Math.cos(a)*d,o.sy+Math.sin(a)*d,pr*(.06+(i%2)*.07),0,Math.PI*2);
+      ctx.fillStyle=i%2===0?'#3a8a4a':'#2a7060'; ctx.fill();
+    });
+  ctx.restore(); ctx.globalAlpha=1;
+  // rim
+  ctx.beginPath(); ctx.arc(o.sx,o.sy,pr,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,180,255,.35)'; ctx.lineWidth=1.5; ctx.stroke();
+  // órbita de referência
+  const refR=(P.radius*1.08)*cam.zoom;
+  ctx.beginPath(); ctx.arc(o.sx,o.sy,refR,0,Math.PI*2);
+  ctx.strokeStyle='rgba(0,255,231,.10)'; ctx.lineWidth=1;
+  ctx.setLineDash([5,9]); ctx.stroke(); ctx.setLineDash([]);
+}
+
+function drawTrail(){
+  const t=S.trail; if(t.length<2) return;
+  ctx.beginPath();
+  const p0=w2s(t[0].x,t[0].y); ctx.moveTo(p0.sx,p0.sy);
+  for(let i=1;i<t.length;i++){ const p=w2s(t[i].x,t[i].y); ctx.lineTo(p.sx,p.sy); }
+  const pN=w2s(t[t.length-1].x,t[t.length-1].y);
+  const gr=ctx.createLinearGradient(p0.sx,p0.sy,pN.sx,pN.sy);
+  const c=S.phase==='orbit'?'0,255,231':'255,106,0';
+  gr.addColorStop(0,`rgba(${c},0)`); gr.addColorStop(1,`rgba(${c},.55)`);
+  ctx.strokeStyle=gr; ctx.lineWidth=1.4; ctx.stroke();
+}
+
+function drawRocket(){
+  const wx=S.r*Math.cos(S.theta), wy=S.r*Math.sin(S.theta);
+  const o=w2s(wx,wy);
+  const sz=16;
+  ctx.save(); ctx.translate(o.sx,o.sy);
+  ctx.rotate(-(S.angle)+Math.PI/2);  // y-flip + nose up
+
+  // chama
+  if(S.launched && S.firing && S.tLevel>0.04){
+    const pL=sz*2.4*S.tLevel;
+    const pg=ctx.createLinearGradient(0,sz*.5,0,sz*.5+pL);
+    pg.addColorStop(0,'rgba(255,215,70,.95)'); pg.addColorStop(.4,'rgba(255,85,15,.6)'); pg.addColorStop(1,'rgba(255,30,0,0)');
+    ctx.beginPath(); ctx.moveTo(-sz*.18,sz*.42);
+    ctx.bezierCurveTo(-sz*.46,sz*.78,-sz*.38,sz*.5+pL*.82,0,sz*.5+pL);
+    ctx.bezierCurveTo(sz*.38,sz*.5+pL*.82,sz*.46,sz*.78,sz*.18,sz*.42);
+    ctx.fillStyle=pg; ctx.fill();
+    const pg2=ctx.createLinearGradient(0,sz*.5,0,sz*.5+pL*.5);
+    pg2.addColorStop(0,'rgba(255,255,180,.9)'); pg2.addColorStop(1,'rgba(255,150,30,0)');
+    ctx.beginPath(); ctx.moveTo(-sz*.07,sz*.48); ctx.lineTo(0,sz*.5+pL*.52); ctx.lineTo(sz*.07,sz*.48);
+    ctx.fillStyle=pg2; ctx.fill();
+  }
+
+  // corpo
+  ctx.beginPath(); ctx.moveTo(0,-sz);
+  ctx.bezierCurveTo(sz*.27,-sz*.52,sz*.33,0,sz*.22,sz*.42);
+  ctx.lineTo(-sz*.22,sz*.42);
+  ctx.bezierCurveTo(-sz*.33,0,-sz*.27,-sz*.52,0,-sz);
+  ctx.fillStyle='#c8dcff'; ctx.fill();
+  ctx.strokeStyle=S.launched?'#00ffe7':'rgba(0,255,231,.4)'; ctx.lineWidth=.9; ctx.stroke();
+
+  // vigia
+  ctx.beginPath(); ctx.arc(0,-sz*.37,sz*.13,0,Math.PI*2);
+  const wg=ctx.createRadialGradient(0,-sz*.37,0,0,-sz*.37,sz*.13);
+  wg.addColorStop(0,'#aaffff'); wg.addColorStop(1,'#00ffe7');
+  ctx.globalAlpha=S.launched?.9:.4; ctx.fillStyle=wg; ctx.fill(); ctx.globalAlpha=1;
+
+  // aletas
+  [[sz*.22,sz*.22,sz*.66,sz*.6,sz*.22,sz*.44],[-sz*.22,sz*.22,-sz*.66,sz*.6,-sz*.22,sz*.44]].forEach(f=>{
+    ctx.beginPath(); ctx.moveTo(f[0],f[1]); ctx.lineTo(f[2],f[3]); ctx.lineTo(f[4],f[5]);
+    ctx.fillStyle='#5878b0'; ctx.fill();
+  });
+
+  // bocal
+  ctx.beginPath(); ctx.rect(-sz*.17,sz*.4,sz*.34,sz*.15); ctx.fillStyle='#303860'; ctx.fill();
+
+  ctx.restore();
+}
+
+function drawHUD(){
+  if(!S.launched){
+    ctx.fillStyle='rgba(0,255,231,.5)'; ctx.font='11px "Share Tech Mono"';
+    ctx.textAlign='center';
+    ctx.fillText('W ou LANÇAR para decolar · A/D girar · roda = zoom',canvas.width/2,canvas.height-26);
+    ctx.textAlign='left';
+  }
+  const now=Date.now();
+  if(S.phase==='orbit'){
+    ctx.save(); ctx.font='bold 11px "Orbitron"'; ctx.fillStyle='#a8ff3e';
+    ctx.globalAlpha=.4+.4*Math.sin(now/450); ctx.textAlign='right';
+    ctx.fillText('✦ ÓRBITA ESTÁVEL',canvas.width-14,canvas.height-16);
+    ctx.restore();
+  }
+  if(S.phase==='escaped'){
+    ctx.save(); ctx.font='bold 11px "Orbitron"'; ctx.fillStyle='#ff3e3e';
+    ctx.globalAlpha=.5+.5*Math.sin(now/280); ctx.textAlign='right';
+    ctx.fillText('⚠ VELOCIDADE DE FUGA',canvas.width-14,canvas.height-16);
+    ctx.restore();
+  }
+  ctx.textAlign='left';
+}
+
+// ── Telemetria ────────────────────────────────────────────────────
+function updateTelemetry(){
+  const alt=Math.max(0,S.r-P.radius);
+  const spd=Math.hypot(S.vr,S.vt);
+  const vo=orbV(S.r);
+  const g=gAt(S.r);
+  const angDeg=((S.angle*180/Math.PI)%360+360)%360;
+
+  document.getElementById('t-alt').innerHTML=`${(alt/1000).toFixed(2)}<span class="tele-unit">km</span>`;
+  document.getElementById('t-spd').innerHTML=`${spd.toFixed(1)}<span class="tele-unit">m/s</span>`;
+  document.getElementById('t-vorb').innerHTML=`${vo.toFixed(0)}<span class="tele-unit">m/s</span>`;
+  document.getElementById('t-ang').innerHTML=`${angDeg.toFixed(1)}<span class="tele-unit">°</span>`;
+  document.getElementById('t-acc').innerHTML=`${g.toFixed(3)}<span class="tele-unit">m/s²</span>`;
+  document.getElementById('t-vr').innerHTML=`${S.vr.toFixed(1)}<span class="tele-unit">m/s</span>`;
+  document.getElementById('t-vt').innerHTML=`${S.vt.toFixed(1)}<span class="tele-unit">m/s</span>`;
+
+  const pm={ground:'SOLO',ascent:'SUBIDA',orbit:'ÓRBITA',escaped:'FUGA',crashed:'IMPACTO'};
+  const pc={ground:'',ascent:'accent2',orbit:'accent3',escaped:'warn',crashed:'warn'};
+  const pe=document.getElementById('t-phase');
+  pe.textContent=pm[S.phase]||'—'; pe.className='tele-value '+(pc[S.phase]||'');
+
+  document.getElementById('bar-spd').style.width=Math.min(100,spd/(vo*2.2)*100)+'%';
+  document.getElementById('bar-grav').style.width=Math.min(100,g/P.g_surface*110)+'%';
+  document.getElementById('bar-ang').style.width=(angDeg/360*100)+'%';
+  document.getElementById('bv-spd').textContent=spd.toFixed(0);
+  document.getElementById('bv-grav').textContent=g.toFixed(2);
+  document.getElementById('bv-ang').textContent=angDeg.toFixed(0)+'°';
+
+  if(S.phase==='orbit'&&S.time-S.lastOrbitLog>60){
+    S.lastOrbitLog=S.time;
+    const dv=((spd-vo)/vo*100).toFixed(1);
+    log(`Órbita: v=${spd.toFixed(0)} v_orb=${vo.toFixed(0)} Δ${dv>=0?'+':''}${dv}%`);
+  }
+}
+
+// ── Loop principal ────────────────────────────────────────────────
+let lastT=null;
+function loop(ts){
+  if(!lastT) lastT=ts;
+  let wall=Math.min((ts-lastT)/1000,0.05);
+  lastT=ts;
+
+  resizeCanvas();
+  if(!cam.ok) camInit();
+
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  drawBG();
+  drawPlanet();
+  drawTrail();
+  drawRocket();
+  drawHUD();
+  updateTelemetry();
+
+  if(S.launched && S.phase!=='crashed'){
+    const simDt=wall*simSpeed;
+    const sub=0.004;
+    const n=Math.max(1,Math.ceil(simDt/sub));
+    const dt=simDt/n;
+    for(let i=0;i<n;i++){ step(dt); logTime=S.time; if(S.phase==='crashed') break; }
+  }
+
+  requestAnimationFrame(loop);
+}
+
+// ── Boot ──────────────────────────────────────────────────────────
+resizeCanvas();
+camInit();
+computeInfo();
+logInit();
+setStatus('AGUARDANDO LANÇAMENTO','off');
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
