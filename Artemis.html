@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Artemis 2 - Moon Mission | English Activities - 9th Grade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b1a2e 0%, #1a2f3f 100%);
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 1rem;
+            color: #eef4ff;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(10, 25, 40, 0.92);
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0,0,0,0.5);
+            backdrop-filter: blur(2px);
+            overflow: hidden;
+            padding: 2rem 2rem 2.5rem;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,215,0,0.2);
+        }
+
+        .story-card {
+            background: #0a1622;
+            border-left: 12px solid #f9a826;
+            border-radius: 1.5rem;
+            padding: 1.8rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 8px 18px rgba(0,0,0,0.3);
+            font-size: 1.1rem;
+            line-height: 1.55;
+            color: #e2e8f0;
+        }
+
+        .story-card h2 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffcd7e;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            font-size: 1.8rem;
+            border-bottom: 2px dashed #f9a826;
+            display: inline-block;
+            padding-right: 1rem;
+        }
+
+        .story-card p {
+            margin: 1rem 0;
+            text-align: justify;
+        }
+
+        .story-card em {
+            color: #ffb347;
+            font-weight: 500;
+            background: #1e2a3a;
+            padding: 0.1rem 0.3rem;
+            border-radius: 8px;
+            font-style: normal;
+        }
+
+        .story-card strong {
+            color: #ffcd7e;
+        }
+
+        .exercise {
+            background: #0f1a24;
+            border-radius: 1.5rem;
+            padding: 1.6rem 2rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+            border: 1px solid #2a3a48;
+        }
+
+        .exercise h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffcd7e, #f9a826);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.2rem;
+            border-left: 6px solid #f9a826;
+            padding-left: 1rem;
+        }
+
+        .yesno-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        .statement-item {
+            background: #1e2a36;
+            border-radius: 2rem;
+            padding: 0.75rem 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #3a4a5a;
+        }
+
+        .statement-text {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #f0f4f8;
+            flex: 2;
+        }
+
+        .yesno-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn-yes, .btn-no {
+            border: none;
+            background: #2d3e4e;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+            font-family: monospace;
+            letter-spacing: 1px;
+            color: white;
+        }
+
+        .btn-yes {
+            border: 1px solid #6fbf6f;
+        }
+        .btn-no {
+            border: 1px solid #e07a5f;
+        }
+
+        .btn-yes.active {
+            background: #2e7d32;
+            color: white;
+            border-color: #81c784;
+        }
+        .btn-no.active {
+            background: #c62828;
+            color: white;
+            border-color: #ef9a9a;
+        }
+
+        .feedback-area {
+            background: #0f1a24;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 500;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            border: 1px solid #2a3a48;
+        }
+        .check-btn {
+            background: #f9a826;
+            border: none;
+            color: #0a1622;
+            font-weight: bold;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+        .check-btn:hover {
+            background: #ffb74d;
+            transform: scale(0.97);
+        }
+        .result-message {
+            font-size: 1rem;
+        }
+
+        .verb-box {
+            background: #0d1822;
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            font-family: 'Courier New', monospace;
+            border: 1px solid #f9a82655;
+        }
+        .verb-card {
+            background: #1e2a36;
+            border-radius: 60px;
+            padding: 0.4rem 1rem;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            color: #ffcd7e;
+        }
+        .verb-card span {
+            font-weight: 800;
+            color: #f9a826;
+        }
+
+        .past-sentences {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .sentence-past-item {
+            background: #1e2a36;
+            border-radius: 1rem;
+            padding: 0.8rem 1.2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+        }
+        .sentence-text {
+            flex: 3;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #e2e8f0;
+        }
+        .past-input {
+            flex: 2;
+            min-width: 180px;
+            padding: 0.5rem 0.8rem;
+            border-radius: 60px;
+            border: 1px solid #3a4a5a;
+            font-family: monospace;
+            font-size: 0.95rem;
+            background: #0f1a24;
+            color: #ffcd7e;
+        }
+        .past-input:focus {
+            outline: none;
+            border-color: #f9a826;
+            box-shadow: 0 0 0 2px #f9a82655;
+        }
+        .btn-check-past {
+            background: #3b82f6;
+            border: none;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .past-feedback {
+            font-size: 0.85rem;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #8ba0b0;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 680px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .statement-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .yesno-buttons {
+                align-self: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- STORY: ARTEMIS 2 - PRESENT SIMPLE TENSE - WITH ORDINAL DATE -->
+    <div class="story-card">
+        <h2>🌕 ARTEMIS 2: Humans Return to the Moon 🚀</h2>
+        <p><strong>April 10th, 2026</strong> – After more than <strong>53 years</strong>, humans travel around the Moon again. The <strong>Artemis 2</strong> mission launches from <strong>Florida</strong>, at the <strong>Kennedy Space Center</strong>. Four astronauts are on board: <em>Reid Wiseman, Victor Glover, Christina Koch, and Jeremy Hansen</em>.</p>
+        <p>The <strong>Orion spacecraft</strong> flies toward the Moon. During the trip, the astronauts send messages to Earth and make scientific experiments. They spend <strong>eight days in space</strong>. For <strong>three days</strong>, they go around the Moon.</p>
+        <p>Today, <strong>April 10th, 2026</strong>, the Orion capsule <strong>returns to Earth</strong>. It lands in the <strong>Pacific Ocean</strong> with a giant parachute. The whole world celebrates: <strong>humanity returns to the Moon after a long time!</strong></p>
+        <p>The success of Artemis 2 opens the way for <strong>Artemis 3</strong>, which will land on the lunar surface in 2027. Children and young people all over the planet feel inspired by this new space era. 🌎🚀</p>
+        <p><em>“One small step for Orion, one giant leap for the new generation.”</em></p>
+    </div>
+
+    <!-- EXERCISE 1: YES / NO (10 statements) -->
+    <div class="exercise">
+        <h3>📝 Exercise 1 – YES or NO?</h3>
+        <p><strong>Listen to each sentence. Answer ONLY "YES" or "NO".</strong><br> 
+        (Click the buttons below, then check your answers.)</p>
+        <div class="yesno-grid" id="statementsContainer"></div>
+        <div class="feedback-area">
+            <button class="check-btn" id="checkYesNoBtn">✅ Check my answers</button>
+            <div class="result-message" id="yesnoResult"></div>
+        </div>
+    </div>
+
+    <!-- EXERCISE 2: PAST TENSE + VERB BOX -->
+    <div class="exercise">
+        <h3>📖 Exercise 2 – Change to PAST TENSE</h3>
+        <p>Use the verbs in the box below to complete each sentence <strong>in the past</strong>. 
+            Write the full past sentence in the field.</p>
+        <div class="verb-box">
+            <div class="verb-card">🚀 <span>launch → launched</span></div>
+            <div class="verb-card">✈️ <span>fly → flew</span></div>
+            <div class="verb-card">📨 <span>send → sent</span></div>
+            <div class="verb-card">🔬 <span>make → made</span></div>
+            <div class="verb-card">🌊 <span>land → landed</span></div>
+            <div class="verb-card">🌕 <span>go → went</span></div>
+            <div class="verb-card">🏠 <span>return → returned</span></div>
+            <div class="verb-card">🎉 <span>celebrate → celebrated</span></div>
+        </div>
+        <div id="pastSentencesList" class="past-sentences"></div>
+        <div class="feedback-area" style="justify-content: flex-end; margin-top: 1rem;">
+            <button class="check-btn" id="checkPastBtn">🔁 Check Past Sentences</button>
+            <div id="pastGlobalFeedback" class="result-message"></div>
+        </div>
+    </div>
+    <footer>✨ 9th Grade - Elementary School | Artemis 2 Moon Mission | Present Simple & Past Tense ✨</footer>
+</div>
+
+<script>
+    // ---------- EXERCISE 1: 10 statements ----------
+    const statements = [
+        { text: "The Artemis 2 mission happens after more than 53 years.", correct: "yes" },
+        { text: "The rocket launches from Texas.", correct: "no" },
+        { text: "Four astronauts travel on the Orion spacecraft.", correct: "yes" },
+        { text: "The astronauts spend eight days in space.", correct: "yes" },
+        { text: "They land on the Moon's surface.", correct: "no" },
+        { text: "On April 10th, 2026, the capsule returns to Earth.", correct: "yes" },
+        { text: "The Orion lands in the Atlantic Ocean.", correct: "no" },
+        { text: "The Artemis 3 mission will land on the Moon in 2027.", correct: "yes" },
+        { text: "Only two astronauts participate in Artemis 2.", correct: "no" },
+        { text: "The whole world celebrates the return of humans to the Moon.", correct: "yes" }
+    ];
+
+    let userYesNo = new Array(statements.length).fill(null);
+
+    function renderYesNo() {
+        const container = document.getElementById('statementsContainer');
+        container.innerHTML = '';
+        statements.forEach((stmt, idx) => {
+            const div = document.createElement('div');
+            div.className = 'statement-item';
+            const textSpan = document.createElement('span');
+            textSpan.className = 'statement-text';
+            textSpan.innerText = `${idx+1}. ${stmt.text}`;
+            
+            const btnGroup = document.createElement('div');
+            btnGroup.className = 'yesno-buttons';
+            
+            const btnYes = document.createElement('button');
+            btnYes.innerText = 'YES';
+            btnYes.className = 'btn-yes';
+            const btnNo = document.createElement('button');
+            btnNo.innerText = 'NO';
+            btnNo.className = 'btn-no';
+            
+            if (userYesNo[idx] === 'yes') btnYes.classList.add('active');
+            if (userYesNo[idx] === 'no') btnNo.classList.add('active');
+            
+            btnYes.addEventListener('click', () => {
+                userYesNo[idx] = 'yes';
+                updateActiveStyles(div, idx);
+            });
+            btnNo.addEventListener('click', () => {
+                userYesNo[idx] = 'no';
+                updateActiveStyles(div, idx);
+            });
+            
+            btnGroup.appendChild(btnYes);
+            btnGroup.appendChild(btnNo);
+            div.appendChild(textSpan);
+            div.appendChild(btnGroup);
+            container.appendChild(div);
+        });
+    }
+    
+    function updateActiveStyles(containerElem, idx) {
+        const btns = containerElem.querySelectorAll('.btn-yes, .btn-no');
+        btns.forEach(btn => btn.classList.remove('active'));
+        if (userYesNo[idx] === 'yes') containerElem.querySelector('.btn-yes').classList.add('active');
+        if (userYesNo[idx] === 'no') containerElem.querySelector('.btn-no').classList.add('active');
+    }
+    
+    function checkYesNoAnswers() {
+        let correctCount = 0;
+        let allAnswered = true;
+        for (let i = 0; i < statements.length; i++) {
+            if (userYesNo[i] === null) {
+                allAnswered = false;
+                continue;
+            }
+            if (userYesNo[i] === statements[i].correct) correctCount++;
+        }
+        const resultDiv = document.getElementById('yesnoResult');
+        if (!allAnswered) {
+            resultDiv.innerHTML = `⚠️ You have ${statements.length - userYesNo.filter(v => v !== null).length} unanswered question(s). Answer all YES/NO first!`;
+            resultDiv.style.color = "#f9a826";
+            return;
+        }
+        if (correctCount === statements.length) {
+            resultDiv.innerHTML = `🎉 PERFECT! All ${statements.length} answers are correct! 🎉`;
+            resultDiv.style.color = "#81c784";
+        } else {
+            resultDiv.innerHTML = `📌 You got ${correctCount} out of ${statements.length} correct. Review the story and try again!`;
+            resultDiv.style.color = "#e07a5f";
+        }
+    }
+    
+    // -------------- EXERCISE 2: past sentences --------------
+    const pastSentencesData = [
+        { present: "The Orion spacecraft flies to the Moon.", expectedVerb: "flew", fullExpected: "The Orion spacecraft flew to the Moon." },
+        { present: "The astronauts send messages to Earth.", expectedVerb: "sent", fullExpected: "The astronauts sent messages to Earth." },
+        { present: "They make scientific experiments in space.", expectedVerb: "made", fullExpected: "They made scientific experiments in space." },
+        { present: "The capsule lands in the Pacific Ocean.", expectedVerb: "landed", fullExpected: "The capsule landed in the Pacific Ocean." },
+        { present: "The crew goes around the Moon for three days.", expectedVerb: "went", fullExpected: "The crew went around the Moon for three days." },
+        { present: "The astronauts return to Earth on April 10th, 2026.", expectedVerb: "returned", fullExpected: "The astronauts returned to Earth on April 10th, 2026." },
+        { present: "People celebrate the success of Artemis 2.", expectedVerb: "celebrated", fullExpected: "People celebrated the success of Artemis 2." },
+        { present: "The rocket launches from Florida.", expectedVerb: "launched", fullExpected: "The rocket launched from Florida." }
+    ];
+    
+    let userPastAnswers = pastSentencesData.map(() => "");
+    
+    function renderPastExercise() {
+        const container = document.getElementById('pastSentencesList');
+        container.innerHTML = '';
+        pastSentencesData.forEach((item, idx) => {
+            const div = document.createElement('div');
+            div.className = 'sentence-past-item';
+            div.setAttribute('data-idx', idx);
+            
+            const sentenceSpan = document.createElement('div');
+            sentenceSpan.className = 'sentence-text';
+            sentenceSpan.innerText = `✏️ ${item.present}`;
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'past-input';
+            input.placeholder = 'Write past sentence...';
+            input.value = userPastAnswers[idx];
+            input.addEventListener('input', (e) => {
+                userPastAnswers[idx] = e.target.value;
+                const existingSpan = div.querySelector('.past-feedback');
+                if (existingSpan) existingSpan.remove();
+            });
+            
+            const checkBtn = document.createElement('button');
+            checkBtn.innerText = '✓ Check';
+            checkBtn.className = 'btn-check-past';
+            const feedbackSpan = document.createElement('span');
+            feedbackSpan.className = 'past-feedback';
+            
+            checkBtn.addEventListener('click', () => {
+                const userAnswer = input.value.trim();
+                const expectedNormalized = item.fullExpected.toLowerCase().replace(/[^\w\s:]/g, '').replace(/\s+/g, ' ');
+                let userNormalized = userAnswer.toLowerCase().replace(/[^\w\s:]/g, '').replace(/\s+/g, ' ');
+                const hasCorrectVerb = userAnswer.toLowerCase().includes(item.expectedVerb.toLowerCase());
+                let isOk = false;
+                if (hasCorrectVerb && userAnswer.length > 3) {
+                    if (userNormalized === expectedNormalized) {
+                        isOk = true;
+                    } else {
+                        const expectedKeywords = item.fullExpected.toLowerCase().split(' ').filter(w => w.length>2 && !['the','a','in','on','to','for','of','with'].includes(w));
+                        const userKeywords = userAnswer.toLowerCase().split(' ').filter(w => w.length>2 && !['the','a','in','on','to','for','of','with'].includes(w));
+                        let matchCount = 0;
+                        for(let kw of expectedKeywords) {
+                            if(userKeywords.includes(kw)) matchCount++;
+                        }
+                        if(matchCount >= expectedKeywords.length-1 && hasCorrectVerb) isOk = true;
+                        else isOk = false;
+                    }
+                }
+                if(isOk) {
+                    feedbackSpan.innerText = '✅ Correct!';
+                    feedbackSpan.style.color = '#81c784';
+                } else {
+                    feedbackSpan.innerText = `❌ Try again! Expected: "${item.fullExpected}"`;
+                    feedbackSpan.style.color = '#e07a5f';
+                }
+                const oldSpan = div.querySelector('.past-feedback');
+                if(oldSpan) oldSpan.remove();
+                div.appendChild(feedbackSpan);
+            });
+            
+            div.appendChild(sentenceSpan);
+            div.appendChild(input);
+            div.appendChild(checkBtn);
+            container.appendChild(div);
+        });
+    }
+    
+    function checkAllPastSentences() {
+        let correctCount = 0;
+        for (let i = 0; i < pastSentencesData.length; i++) {
+            const userAnswer = userPastAnswers[i]?.trim() || "";
+            const item = pastSentencesData[i];
+            const expectedNormalized = item.fullExpected.toLowerCase().replace(/[^\w\s:]/g, '').replace(/\s+/g, ' ');
+            let userNormalized = userAnswer.toLowerCase().replace(/[^\w\s:]/g, '').replace(/\s+/g, ' ');
+            const hasCorrectVerb = userAnswer.toLowerCase().includes(item.expectedVerb.toLowerCase());
+            let isOk = false;
+            if (hasCorrectVerb && userAnswer.length > 3) {
+                if (userNormalized === expectedNormalized) {
+                    isOk = true;
+                } else {
+                    const expectedKeywords = item.fullExpected.toLowerCase().split(' ').filter(w => w.length>2 && !['the','a','in','on','to','for','of','with'].includes(w));
+                    const userKeywords = userAnswer.toLowerCase().split(' ').filter(w => w.length>2 && !['the','a','in','on','to','for','of','with'].includes(w));
+                    let matchCount = 0;
+                    for(let kw of expectedKeywords) {
+                        if(userKeywords.includes(kw)) matchCount++;
+                    }
+                    if(matchCount >= expectedKeywords.length-1 && hasCorrectVerb) isOk = true;
+                }
+            }
+            if (isOk) correctCount++;
+        }
+        const feedbackDiv = document.getElementById('pastGlobalFeedback');
+        if (correctCount === pastSentencesData.length) {
+            feedbackDiv.innerHTML = `🎉 EXCELLENT! All ${pastSentencesData.length} sentences are in the past tense! 🎉`;
+            feedbackDiv.style.color = "#81c784";
+        } else {
+            feedbackDiv.innerHTML = `📝 You got ${correctCount} out of ${pastSentencesData.length} correct. Use the verb box and check each sentence!`;
+            feedbackDiv.style.color = "#e07a5f";
+        }
+    }
+    
+    // INIT
+    renderYesNo();
+    renderPastExercise();
+    
+    document.getElementById('checkYesNoBtn').addEventListener('click', checkYesNoAnswers);
+    document.getElementById('checkPastBtn').addEventListener('click', checkAllPastSentences);
+    
+    window.addEventListener('load', () => {
+        const inputs = document.querySelectorAll('.past-input');
+        inputs.forEach((input, idx) => {
+            input.addEventListener('change', (e) => {
+                if (idx < userPastAnswers.length) userPastAnswers[idx] = e.target.value;
+            });
+        });
+    });
+</script>
+</body>
+</html>
