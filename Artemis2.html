@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Aula de Inglês: Fatos vs. Opiniões em Textos Jornalísticos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.5;
+            padding: 24px 16px;
+        }
+
+        /* Container principal estilo card */
+        .lesson-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.15);
+            overflow: hidden;
+            padding: 24px 28px 40px 28px;
+            transition: all 0.2s;
+        }
+
+        /* Cabeçalho da aula */
+        .header {
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 16px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        .title-section h1 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e3c72, #2b4c7c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.3px;
+        }
+        .title-section p {
+            color: #334155;
+            font-weight: 500;
+            margin-top: 6px;
+        }
+        .badge {
+            background: #eef2ff;
+            padding: 8px 16px;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #1e40af;
+        }
+        .duration {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #f8fafc;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+        }
+
+        /* Grade de objetivos e destaque */
+        .skill-highlight {
+            background: #fef9e3;
+            border-left: 6px solid #f59e0b;
+            padding: 16px 20px;
+            border-radius: 20px;
+            margin-bottom: 28px;
+        }
+        .skill-highlight h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #b45309;
+        }
+        .skill-highlight ul {
+            margin-top: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            list-style: none;
+        }
+        .skill-highlight li {
+            background: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #2c3e66;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        /* Estrutura de dois blocos principais */
+        .two-columns {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 32px;
+            margin: 28px 0 32px;
+        }
+        .col {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        /* cards de contexto e artigo */
+        .article-card {
+            background: #ffffff;
+            border-radius: 28px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+            border: 1px solid #e9eef3;
+            overflow: hidden;
+            margin-bottom: 24px;
+        }
+        .article-header {
+            background: #0f172a;
+            color: white;
+            padding: 16px 20px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+        .article-header a {
+            color: #ffe6b3;
+            text-decoration: underline;
+            font-weight: 500;
+        }
+        .article-body {
+            padding: 20px;
+        }
+        .fact-opinion-box {
+            background: #f9fafb;
+            border-radius: 20px;
+            padding: 14px 18px;
+            margin: 18px 0;
+            border: 1px solid #e2edf7;
+        }
+        .fact {
+            background: #e0f2fe;
+            border-left: 5px solid #0284c7;
+            padding: 12px 16px;
+            margin: 12px 0;
+            border-radius: 16px;
+        }
+        .opinion {
+            background: #fff1f0;
+            border-left: 5px solid #dc2626;
+            padding: 12px 16px;
+            margin: 12px 0;
+            border-radius: 16px;
+        }
+        .verifiable {
+            font-weight: 700;
+            color: #075985;
+        }
+        .judgment {
+            font-weight: 700;
+            color: #b91c1c;
+        }
+        .quote {
+            font-style: italic;
+            background: #fef9e3;
+            padding: 12px;
+            border-radius: 14px;
+            margin: 10px 0;
+        }
+
+        .btn-toggle {
+            background: none;
+            border: none;
+            color: #2563eb;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            font-size: 0.85rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #f8fafc;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #cbd5e1;
+            vertical-align: top;
+            text-align: left;
+        }
+        .comparison-table th {
+            background: #e2e8f0;
+            font-weight: 700;
+        }
+
+        .activity-timer {
+            background: #f1f5f9;
+            border-radius: 24px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px dashed #94a3b8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .btn {
+            background: #1e293b;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-primary {
+            background: #2c5282;
+        }
+        .btn-primary:hover {
+            background: #1e3a5f;
+        }
+
+        footer {
+            margin-top: 32px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #475569;
+            border-top: 1px solid #e2e8f0;
+            padding-top: 20px;
+        }
+        @media (max-width: 700px) {
+            .lesson-container {
+                padding: 16px;
+            }
+            .header {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+        .highlight-green {
+            background-color: #d1fae5;
+            transition: 0.1s;
+        }
+    </style>
+</head>
+<body>
+<div class="lesson-container">
+    <div class="header">
+        <div class="title-section">
+            <h1>📰 Argumentação na mídia inglesa</h1>
+            <p>Habilidade EF09LI06 · Distinguir fatos de opiniões · 40 minutos</p>
+        </div>
+        <div class="duration">
+            ⏱️ 40 min | 🎯 9º ano
+        </div>
+    </div>
+
+    <div class="skill-highlight">
+        <h3>🎯 Objetivos cognitivos da aula</h3>
+        <ul>
+            <li>🔍 Reconhecer afirmações com dados verificáveis</li>
+            <li>⚖️ Identificar sentenças com julgamento/interpretação</li>
+            <li>📌 Relacionar fatos e opiniões ao objetivo do texto</li>
+            <li>🔄 Comparar textos sobre o mesmo tema (fake vs. real)</li>
+            <li>📊 Avaliar proporção fatos/opiniões e credibilidade</li>
+        </ul>
+    </div>
+
+    <!-- contexto do tema: missão Artemis II e imagem viral -->
+    <div class="two-columns">
+        <div class="col">
+            <div class="article-card">
+                <div class="article-header">
+                    🌕 Análise principal: Full Fact (fact-checking)
+                </div>
+                <div class="article-body">
+                    <p><strong>Tema:</strong> <em>“Photo from Artemis II of moon crater with Earth in background is fake”</em><br>
+                    <strong>Fonte:</strong> <a href="https://fullfact.org/technology/artemis-2-photo-orientale-basin-fake-ai-picture/" target="_blank" rel="noopener noreferrer">Full Fact (acessado em 2026)</a></p>
+                    <p>📢 <strong>Contexto:</strong> Uma imagem viral mostra a Bacia Orientale (cratera lunar) com a Terra ao fundo, supostamente fotografada pela missão Artemis II. O Full Fact investigou e classificou a imagem como <strong>falsa, gerada por IA</strong>.</p>
+                    
+                    <div class="fact-opinion-box">
+                        <p>✅ <span class="verifiable">FATO (dado verificável)</span> — “The image is fake and almost certainly generated by artificial intelligence. It features a Gemini AI watermark.”</p>
+                        <p>📌 <span class="verifiable">FATO</span> — “Artemis II crew photographed the Orientale Basin, a nearly 600-mile-wide impact crater.” (NASA confirma)</p>
+                        <p>💬 <span class="judgment">OPINIÃO / JULGAMENTO</span> — “This breathtaking view marks a monumental milestone in deep-space exploration.” (presente nas legendas virais – interpretação emotiva)</p>
+                        <p>⚙️ <span class="judgment">OPINIÃO / INFERÊNCIA</span> — “The image has almost certainly been generated with AI” (conclusão baseada em evidências, mas com grau de inferência – análise especializada).</p>
+                    </div>
+
+                    <button id="showFactsBtn" class="btn-toggle">📌 Destacar apenas FATOS verificáveis</button>
+                    <button id="showOpinionsBtn" class="btn-toggle" style="margin-left: 8px;">🗣️ Destacar OPINIÕES / julgamentos</button>
+                    <button id="resetHighlightsBtn" class="btn-toggle" style="margin-left: 8px;">🔄 Remover destaques</button>
+                </div>
+            </div>
+
+            <div class="article-card">
+                <div class="article-header">
+                    🧠 Comparação: Texto jornalístico (Full Fact) vs. Postagem Viral
+                </div>
+                <div class="article-body">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr><th>Elemento</th><th>Full Fact (checagem)</th><th>Publicação viral (Facebook)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>📌 Afirmação sobre imagem</td><td>A imagem é falsa, gerada por IA, contém marca d'água Gemini</td><td>“Foto real da missão Artemis II – Bacia Orientale vista pela primeira vez”</td></tr>
+                            <tr><td>🔎 Evidência/fato</td><td>Cita marca d'água, compara com fotos reais da NASA, diferenças geográficas</td><td>Nenhum dado verificável; apenas texto emotivo</td></tr>
+                            <tr><td>🗣️ Opinião / carga subjetiva</td><td>“Almost certainly generated by AI” (inferência baseada em indícios)</td><td>“Breathtaking view”, “monumental milestone” (julgamento estético/emocional)</td></tr>
+                            <tr><td>🎯 Objetivo do texto</td><td>Informar e combater desinformação, apresentar provas</td><td>Engajar, viralizar, gerar admiração (sem compromisso factual)</td></tr>
+                        </tbody>
+                    </table>
+                    <p style="margin-top: 12px; font-size: 0.9rem;"><strong>💡 Proporção fatos/opiniões:</strong> Full Fact ≈ 80% fatos + 20% inferência fundamentada. Postagem viral ≈ 95% opinião/julgamento, 5% alegação não comprovada. Impacto na credibilidade: textos com muitos fatos e fontes verificáveis aumentam confiança.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="article-card">
+                <div class="article-header">
+                    📝 Atividade prática (15 min) - Destaque colaborativo
+                </div>
+                <div class="article-body">
+                    <p><strong>Instrução:</strong> Leia os trechos abaixo extraídos do artigo do Full Fact (adaptado). Classifique cada um como <span style="background:#e0f2fe; padding:2px 6px; border-radius:12px;">🔵 FATO (dado verificável)</span> ou <span style="background:#fff1f0; padding:2px 6px; border-radius:12px;">🔴 OPINIÃO / JULGAMENTO</span>. Clique nas sentenças para alternar a cor.</p>
+                    <div id="interactiveSentences" style="margin: 20px 0;">
+                        <div class="sentence-item" data-type="none" style="padding: 12px; margin: 8px 0; background: #f9f9fc; border-radius: 16px; cursor: pointer; transition: 0.1s;">
+                            1. “An image showing the moon's Orientale Basin with the Earth in the background was photographed by astronauts aboard the Orion spacecraft during the Artemis II mission.”
+                        </div>
+                        <div class="sentence-item" data-type="none" style="padding: 12px; margin: 8px 0; background: #f9f9fc; border-radius: 16px; cursor: pointer;">
+                            2. “The image is fake and almost certainly generated by artificial intelligence. It features a Gemini AI watermark and doesn’t match real photos.”
+                        </div>
+                        <div class="sentence-item" data-type="none" style="padding: 12px; margin: 8px 0; background: #f9f9fc; border-radius: 16px; cursor: pointer;">
+                            3. “According to NASA, the Orion crew ‘are the first people to ever see the full’ basin.”
+                        </div>
+                        <div class="sentence-item" data-type="none" style="padding: 12px; margin: 8px 0; background: #f9f9fc; border-radius: 16px; cursor: pointer;">
+                            4. “This widely-shared image is breathtaking, and represents a monumental milestone for humanity.” (adaptado da legenda viral)
+                        </div>
+                        <div class="sentence-item" data-type="none" style="padding: 12px; margin: 8px 0; background: #f9f9fc; border-radius: 16px; cursor: pointer;">
+                            5. “A NASA computer modelled image of the terrain of the basin in high relief shows clear differences with the picture being shared.”
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button id="checkAnswersBtn" class="btn btn-primary">✅ Verificar classificação esperada</button>
+                        <button id="clearClassificationBtn" class="btn">🔄 Limmar classificações</button>
+                    </div>
+                    <div id="feedbackMsg" style="margin-top: 12px; font-weight: 500; font-size: 0.9rem;"></div>
+                </div>
+            </div>
+
+            <div class="activity-timer">
+                <h3>🗂️ Debate rápido: credibilidade & proporção</h3>
+                <p><strong>Questões para discussão (5-7 min):</strong></p>
+                <ul style="margin-left: 20px;">
+                    <li>Por que o texto do Full Fact é mais confiável? Que evidências ele apresenta?</li>
+                    <li>Identifique trechos em que o próprio Full Fact expressa interpretação ("almost certainly"). Isso reduz a credibilidade? Por quê?</li>
+                    <li>Como a falta de fatos verificáveis na postagem viral prejudica sua confiabilidade?</li>
+                    <li>Qual a importância de distinguir fato de opinião ao consumir notícias sobre ciência/tecnologia?</li>
+                </ul>
+                <p style="margin-top: 12px;">📌 <strong>Síntese:</strong> Textos jornalísticos sólidos priorizam dados, fontes (NASA, imagens oficiais) e explicam metodologia. Já posts virais abusam de adjetivos e apelo emocional sem evidências.</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="background: #eef2ff; border-radius: 20px; padding: 18px; margin: 10px 0 20px;">
+        <h3 style="display: flex; align-items: center; gap: 10px;">🧩 Reflexão final (5 min) – Fechamento da habilidade</h3>
+        <p>✅ <strong>Fatos:</strong> são afirmações verificáveis (data, nome da missão, marca d'água Gemini, citação da NASA). <br>
+        💭 <strong>Opiniões:</strong> envolvem julgamento, emoção ou inferência subjetiva (“breathtaking”, “almost certainly”, “monumental milestone”). <br>
+        📈 <strong>Proporção ideal:</strong> reportagens confiáveis apresentam maioria de fatos e revelam claramente quando estão interpretando. Ao comparar textos, a análise crítica aumenta o letramento midiático.</p>
+        <p><strong>🎓 Para casa (opcional):</strong> Encontre uma notícia em inglês sobre exploração espacial ou tecnologia. Identifique 3 fatos e 2 opiniões. Compartilhe na próxima aula.</p>
+    </div>
+    <footer>
+        🌐 Baseado no artigo Full Fact (technology/artemis-2-photo-orientale-basin-fake-ai-picture) · Aula desenvolvida para EF09LI06 · Material interativo
+    </footer>
+</div>
+
+<script>
+    // Funções de destaque da primeira seção (artigo principal)
+    const factElements = document.querySelectorAll('.fact-opinion-box .fact, .fact-opinion-box .opinion');
+    // Mas para destacar de forma dinâmica no box "Fato/Opinião" vamos usar seletores específicos
+    // Na verdade já temos classes, vamos criar eventos para modificar background extra?
+    // Melhor: criar destaque nos parágrafos da .fact-opinion-box
+    const factParagraphs = document.querySelectorAll('.fact-opinion-box .fact');
+    const opinionParagraphs = document.querySelectorAll('.fact-opinion-box .opinion');
+    
+    function resetHighlights() {
+        factParagraphs.forEach(p => {
+            p.style.transition = '0.2s';
+            p.style.boxShadow = 'none';
+            p.style.transform = 'scale(1)';
+        });
+        opinionParagraphs.forEach(p => {
+            p.style.boxShadow = 'none';
+            p.style.transform = 'scale(1)';
+        });
+        // Remove qualquer classe extra
+        document.querySelectorAll('.fact, .opinion').forEach(el => {
+            el.style.backgroundColor = '';
+            el.style.borderLeftWidth = '5px';
+        });
+        // restaurar cores originais via reset inline
+        factParagraphs.forEach(p => { p.style.backgroundColor = '#e0f2fe'; p.style.borderLeftColor = '#0284c7';});
+        opinionParagraphs.forEach(p => { p.style.backgroundColor = '#fff1f0'; p.style.borderLeftColor = '#dc2626';});
+    }
+    
+    document.getElementById('showFactsBtn')?.addEventListener('click', () => {
+        resetHighlights();
+        factParagraphs.forEach(p => {
+            p.style.backgroundColor = '#bae6fd';
+            p.style.boxShadow = '0 0 0 2px #0284c7';
+            p.style.transform = 'scale(1.01)';
+        });
+    });
+    document.getElementById('showOpinionsBtn')?.addEventListener('click', () => {
+        resetHighlights();
+        opinionParagraphs.forEach(p => {
+            p.style.backgroundColor = '#ffe4e2';
+            p.style.boxShadow = '0 0 0 2px #dc2626';
+            p.style.transform = 'scale(1.01)';
+        });
+    });
+    document.getElementById('resetHighlightsBtn')?.addEventListener('click', resetHighlights);
+    
+    // Sessão interativa de classificação de sentenças
+    const sentences = document.querySelectorAll('.sentence-item');
+    let classificationState = []; // 0 = não classificado, 1 = fato, 2 = opinião
+    
+    function updateSentenceVisual(index, type) {
+        const el = sentences[index];
+        if (!el) return;
+        if (type === 'fact') {
+            el.style.backgroundColor = '#e0f2fe';
+            el.style.borderLeft = '6px solid #0284c7';
+            el.style.paddingLeft = '12px';
+            el.setAttribute('data-classified', 'fact');
+        } else if (type === 'opinion') {
+            el.style.backgroundColor = '#fff1f0';
+            el.style.borderLeft = '6px solid #dc2626';
+            el.style.paddingLeft = '12px';
+            el.setAttribute('data-classified', 'opinion');
+        } else {
+            el.style.backgroundColor = '#f9f9fc';
+            el.style.borderLeft = 'none';
+            el.setAttribute('data-classified', 'none');
+        }
+    }
+    
+    // Inicializar array
+    for (let i = 0; i < sentences.length; i++) {
+        classificationState[i] = 'none';
+        sentences[i].addEventListener('click', (e) => {
+            e.stopPropagation();
+            let current = classificationState[i];
+            if (current === 'none') {
+                // pergunta simples: se clicar primeiro como fato, depois opinião, etc
+                // podemos alternar entre fato e opinião e nenhum: ciclo
+                if (confirm(`Classificar como FATO (dado verificável) ou OPINIÃO?\nClique em "OK" para FATO, "Cancelar" para OPINIÃO.`)) {
+                    classificationState[i] = 'fact';
+                    updateSentenceVisual(i, 'fact');
+                } else {
+                    classificationState[i] = 'opinion';
+                    updateSentenceVisual(i, 'opinion');
+                }
+            } else if (current === 'fact') {
+                // trocar para opinião
+                classificationState[i] = 'opinion';
+                updateSentenceVisual(i, 'opinion');
+            } else if (current === 'opinion') {
+                classificationState[i] = 'none';
+                updateSentenceVisual(i, 'none');
+            }
+        });
+    }
+    
+    // Respostas esperadas (de acordo com análise do artigo)
+    const expected = [ 'opinion', 'fact', 'fact', 'opinion', 'fact' ]; 
+    // sentença 1: alegação falsa que a imagem foi fotografada pela Orion -> É uma alegação falsa mas no contexto do artigo é uma "claim" que é opinião/afirmação não verificada, trata-se de uma opinião/julgamento ou pseudofato? Consideramos que no artigo Full Fact isso é uma declaração da postagem viral, não fato. Logo OPINIÃO.
+    // sentença 2: "the image is fake and almost certainly AI" - após investigação Full Fact traz evidências, é apresentado como conclusão factual com base em dados -> classificamos como FATO (reportagem baseada em evidências).
+    // sentença 3: citação NASA, fato puro.
+    // sentença 4: trecho viral com julgamento "breathtaking milestone" -> opinião.
+    // sentença 5: modelo computacional da NASA mostra diferenças -> fato verificável.
+    
+    document.getElementById('checkAnswersBtn')?.addEventListener('click', () => {
+        let feedback = '';
+        let allCorrect = true;
+        for (let i = 0; i < expected.length; i++) {
+            const userChoice = classificationState[i];
+            const expectedType = expected[i];
+            if (userChoice !== expectedType) {
+                allCorrect = false;
+                let sentText = sentences[i].innerText.substring(0, 60);
+                feedback += `❌ Sentença ${i+1}: esperado ${expectedType === 'fact' ? 'FATO' : 'OPINIÃO'}, você classificou como ${userChoice === 'fact' ? 'FATO' : (userChoice === 'opinion' ? 'OPINIÃO' : 'não classificado')}. \n`;
+            }
+        }
+        if (allCorrect) {
+            feedback = '✅ Parabéns! Todas as classificações estão corretas! Você demonstrou excelente distinção entre fatos e opiniões.';
+        } else {
+            feedback += '💡 Revisão: Sentença 1 é opinião (alegação não comprovada). Sentença 2 é fato (checagem com evidências). Sentença 3 fato (NASA). Sentença 4 opinião (elogios subjetivos). Sentença 5 fato (dado comparativo).';
+        }
+        document.getElementById('feedbackMsg').innerHTML = `<span style="background:#f1f5f9; padding: 10px; display:block; border-radius: 20px;">${feedback}</span>`;
+    });
+    
+    document.getElementById('clearClassificationBtn')?.addEventListener('click', () => {
+        for (let i = 0; i < sentences.length; i++) {
+            classificationState[i] = 'none';
+            updateSentenceVisual(i, 'none');
+        }
+        document.getElementById('feedbackMsg').innerHTML = '';
+    });
+    
+    // Pequeno ajuste para garantir que a comparação de textos fique responsiva
+    console.log("Aula interativa carregada - Habilidade EF09LI06");
+</script>
+</body>
+</html>
