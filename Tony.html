@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Tony's Journey: Reading, Vocabulary & Answer Sheet</title>
+    <!-- Biblioteca html2pdf.js para gerar PDF real -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #eef3fa;
+            margin: 0;
+            padding: 30px 20px;
+            color: #1a2c3e;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+            padding: 30px 32px 50px;
+            transition: all 0.2s;
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #145c7a;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        h1 small {
+            font-size: 0.8rem;
+            font-weight: normal;
+            background: #e2edf5;
+            padding: 5px 14px;
+            border-radius: 40px;
+            color: #2c5a7a;
+        }
+
+        .action-bar {
+            background: #ffffffdd;
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 12px 24px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            border: 1px solid #cde1ed;
+        }
+        .student-field {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            flex: 2;
+        }
+        .student-field label {
+            font-weight: 800;
+            background: #f4a26120;
+            padding: 6px 14px;
+            border-radius: 40px;
+            color: #c45a1b;
+        }
+        #studentName {
+            padding: 10px 18px;
+            border-radius: 60px;
+            border: 1px solid #caddf0;
+            font-size: 1rem;
+            width: 280px;
+            font-family: inherit;
+            background: white;
+            transition: 0.2s;
+        }
+        #studentName:focus {
+            border-color: #f4a261;
+            outline: none;
+            box-shadow: 0 0 0 2px #f4a26140;
+        }
+        .btn-pdf {
+            background-color: #2c6e9e;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 60px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.95rem;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn-pdf:hover {
+            background-color: #1f4e6e;
+            transform: scale(0.97);
+        }
+
+        .story-card {
+            background: #fefcf6;
+            border-radius: 28px;
+            padding: 18px 26px;
+            margin: 20px 0 28px 0;
+            border-left: 8px solid #f4a261;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            line-height: 1.55;
+            font-size: 1rem;
+        }
+
+        .story-card p {
+            margin: 12px 0;
+        }
+
+        .vocab-section {
+            background: #e9f2f0;
+            border-radius: 28px;
+            padding: 12px 22px 22px 22px;
+            margin: 28px 0 30px 0;
+        }
+
+        .vocab-section h3 {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #1c6d5e;
+            margin-top: 8px;
+            margin-bottom: 18px;
+        }
+
+        .vocab-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .vocab-item {
+            background: white;
+            border-radius: 24px;
+            padding: 12px 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+            border-bottom: 2px solid #cbdbe2;
+        }
+
+        .vocab-word {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #1f6d8a;
+            font-family: monospace;
+        }
+
+        .vocab-meaning {
+            font-size: 0.9rem;
+            margin-top: 8px;
+            color: #2c3e44;
+            line-height: 1.4;
+        }
+
+        .exercise {
+            background: #ffffff;
+            border-radius: 24px;
+            margin-bottom: 26px;
+            padding: 6px 0 10px 0;
+            border-bottom: 1px solid #e2edf2;
+        }
+
+        .statement {
+            font-weight: 700;
+            font-size: 1.02rem;
+            margin-bottom: 12px;
+            background: #fef7e8;
+            padding: 10px 18px;
+            border-radius: 32px;
+            color: #2d3e50;
+        }
+
+        .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            padding-left: 18px;
+            margin-bottom: 8px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            background: #fafcff;
+            padding: 5px 14px;
+            border-radius: 100px;
+            transition: background 0.1s;
+        }
+
+        .option:hover {
+            background: #eef3fc;
+        }
+
+        input[type="radio"] {
+            accent-color: #f4a261;
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            cursor: pointer;
+        }
+
+        label {
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .footer-info {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5f7f9a;
+            border-top: 1px solid #d4e2ec;
+            padding-top: 20px;
+        }
+
+        /* Estilos específicos para o PDF */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                box-shadow: none;
+                padding: 20px;
+                max-width: 100%;
+            }
+            .btn-pdf, .action-bar, .footer-info {
+                display: none;
+            }
+            .exercise {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+            .vocab-item {
+                break-inside: avoid;
+            }
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 20px;
+            }
+            .options {
+                gap: 12px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .action-bar {
+                flex-direction: column;
+                align-items: stretch;
+                border-radius: 32px;
+            }
+            .btn-pdf {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container" id="exerciseContainer">
+    <h1>
+        ✈️ Tony's Journey · Reading & Answer Sheet
+        <small>Student copy — no answers shown</small>
+    </h1>
+
+    <!-- TOP ACTION BAR: NOME + BOTÃO PDF -->
+    <div class="action-bar">
+        <div class="student-field">
+            <label>📋 Student's full name:</label>
+            <input type="text" id="studentName" placeholder="e.g., Ana Carolina Silva" autocomplete="off">
+        </div>
+        <button class="btn-pdf" id="saveAsPdfBtn">📄 Save as PDF (my answers)</button>
+    </div>
+
+    <!-- ÁREA QUE SERÁ CONVERTIDA PARA PDF -->
+    <div id="pdfContent">
+        <!-- TEXTO COMPLETO DA HISTÓRIA -->
+        <div class="story-card">
+            <p><strong>📖 The Story: “The Right Bench”</strong></p>
+            <p>Tony traveled alone to <strong>Japan</strong> during the <strong>Cherry Blossom Festival (Hanami)</strong> in early April. The parks were crowded with families laughing under pink trees, but Tony felt lost among all the joy. One afternoon, tired of the noise, he found a quiet square in an old part of Kyoto. He sat on a wooden bench. A moment later, a beautiful woman in a floral dress sat next to him, holding a book. She didn't say a word.</p>
+            <p>Tony ignored her at first and just watched the falling petals. He was tired of useless small talk. The woman spoke without looking up. “You're the first one who didn't try to talk to me. How strange.” Tony replied quietly. “Maybe I'm just tired of empty words.” She closed her book and introduced herself as <strong>Yuki</strong>. She came to that square every day since her husband left without explanation two years before.</p>
+            <p>She pointed to the horizon and said the sunset looked beautiful between the old rooftops. Tony stayed. They watched the pink sky turn gold. When night fell, Yuki stood up. “I'm making <strong>Tori Gohan</strong> (chicken and rice). There's enough for two.” Tony picked up his backpack and followed her. And as he walked behind her down the old street, he understood that <em>traveling was not about finding new places, but about sitting in the right place to be found</em>.</p>
+        </div>
+
+        <!-- VOCABULARY SECTION -->
+        <div class="vocab-section">
+            <h3>📚 Vocabulary Builder (10 words from the story)</h3>
+            <div class="vocab-grid">
+                <div class="vocab-item"><span class="vocab-word">1. crowded</span><div class="vocab-meaning"><strong>Context:</strong> "The parks were crowded with families..." <br> <strong>Meaning:</strong> filled with too many people; very full of people.</div></div>
+                <div class="vocab-item"><span class="vocab-word">2. petals</span><div class="vocab-meaning"><strong>Context:</strong> "watched the falling petals" <br> <strong>Meaning:</strong> the separate, colored parts of a flower (cherry blossom petals).</div></div>
+                <div class="vocab-item"><span class="vocab-word">3. small talk</span><div class="vocab-meaning"><strong>Context:</strong> "tired of useless small talk" <br> <strong>Meaning:</strong> polite, casual conversation about unimportant matters.</div></div>
+                <div class="vocab-item"><span class="vocab-word">4. horizon</span><div class="vocab-meaning"><strong>Context:</strong> "She pointed to the horizon" <br> <strong>Meaning:</strong> the line where the sky seems to meet the earth.</div></div>
+                <div class="vocab-item"><span class="vocab-word">5. rooftops</span><div class="vocab-meaning"><strong>Context:</strong> "sunset between the old rooftops" <br> <strong>Meaning:</strong> the top surfaces of buildings.</div></div>
+                <div class="vocab-item"><span class="vocab-word">6. explanation</span><div class="vocab-meaning"><strong>Context:</strong> "husband left without explanation" <br> <strong>Meaning:</strong> a reason or justification given for an action.</div></div>
+                <div class="vocab-item"><span class="vocab-word">7. backpack</span><div class="vocab-meaning"><strong>Context:</strong> "Tony picked up his backpack" <br> <strong>Meaning:</strong> a bag with shoulder straps carried on the back.</div></div>
+                <div class="vocab-item"><span class="vocab-word">8. understood</span><div class="vocab-meaning"><strong>Context:</strong> "he understood that traveling..." <br> <strong>Meaning:</strong> grasped the meaning or importance of something.</div></div>
+                <div class="vocab-item"><span class="vocab-word">9. floral</span><div class="vocab-meaning"><strong>Context:</strong> "a woman in a floral dress" <br> <strong>Meaning:</strong> decorated with patterns of flowers.</div></div>
+                <div class="vocab-item"><span class="vocab-word">10. vanished</span><div class="vocab-meaning"><strong>Context:</strong> husband left without explanation — suddenly gone. <br> <strong>Meaning:</strong> disappeared suddenly, no longer visible.</div></div>
+            </div>
+        </div>
+
+        <!-- 10 QUESTÕES DE MÚLTIPLA ESCOLHA (RADIO BUTTONS) -->
+        <h3 style="margin-top: 0px;">✅ 10 Comprehension Questions (choose one option each)</h3>
+        
+        <div class="exercise" data-qid="1">
+            <div class="statement">1️⃣ Tony traveled to which country during a festive season?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q1" value="Japan"> 🇯🇵 Japan</label>
+                <label class="option"><input type="radio" name="q1" value="China"> 🇨🇳 China</label>
+                <label class="option"><input type="radio" name="q1" value="Russia"> 🇷🇺 Russia</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="2">
+            <div class="statement">2️⃣ What was the name of the festive date / festival mentioned?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q2" value="Cherry Blossom Festival (Hanami)"> 🌸 Cherry Blossom Festival (Hanami)</label>
+                <label class="option"><input type="radio" name="q2" value="Golden Week"> 🎏 Golden Week</label>
+                <label class="option"><input type="radio" name="q2" value="Obon Festival"> 🕯️ Obon Festival</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="3">
+            <div class="statement">3️⃣ Where did Tony sit and meet the woman?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q3" value="On a crowded metro station"> 🚇 On a crowded metro station</label>
+                <label class="option"><input type="radio" name="q3" value="On a wooden bench in a quiet square"> 🪑 On a wooden bench in a quiet square</label>
+                <label class="option"><input type="radio" name="q3" value="Inside a traditional tea house"> 🍵 Inside a traditional tea house</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="4">
+            <div class="statement">4️⃣ What was the woman's name?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q4" value="Sakura"> 🌸 Sakura</label>
+                <label class="option"><input type="radio" name="q4" value="Yuki"> ❄️ Yuki</label>
+                <label class="option"><input type="radio" name="q4" value="Hana"> 🌼 Hana</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="5">
+            <div class="statement">5️⃣ Why did the woman find Tony "strange" at first?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q5" value="He spoke too much"> 🗣️ He spoke too much</label>
+                <label class="option"><input type="radio" name="q5" value="He didn't try to talk to her"> 🤐 He didn't try to talk to her</label>
+                <label class="option"><input type="radio" name="q5" value="He was eating chicken and rice"> 🍗 He was eating chicken and rice</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="6">
+            <div class="statement">6️⃣ What did Yuki reveal about her past?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q6" value="She moved from another city"> 🚚 She moved from another city</label>
+                <label class="option"><input type="radio" name="q6" value="Her husband left without explanation two years before"> 💔 Her husband left without explanation two years before</label>
+                <label class="option"><input type="radio" name="q6" value="She is a professional photographer"> 📸 She is a professional photographer</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="7">
+            <div class="statement">7️⃣ What did Tony and Yuki watch together at sunset?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q7" value="The city lights"> 🌃 The city lights</label>
+                <label class="option"><input type="radio" name="q7" value="The pink sky turn gold between old rooftops"> 🌅 The pink sky turn gold between old rooftops</label>
+                <label class="option"><input type="radio" name="q7" value="A traditional parade"> 🎭 A traditional parade</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="8">
+            <div class="statement">8️⃣ What dish did Yuki invite Tony to share for dinner?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q8" value="Sushi and Miso Soup"> 🍣 Sushi and Miso Soup</label>
+                <label class="option"><input type="radio" name="q8" value="Ramen with pork"> 🍜 Ramen with pork</label>
+                <label class="option"><input type="radio" name="q8" value="Tori Gohan (chicken and rice)"> 🍛 Tori Gohan (chicken and rice)</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="9">
+            <div class="statement">9️⃣ Which sentence best reflects the final lesson Tony learned?</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q9" value="Traveling is about finding famous landmarks"> 🗽 Traveling is about finding famous landmarks</label>
+                <label class="option"><input type="radio" name="q9" value="Traveling was not about finding new places, but about sitting in the right place to be found"> 🧭 Traveling was not about finding new places, but about sitting in the right place to be found</label>
+                <label class="option"><input type="radio" name="q9" value="Always avoid talking to strangers"> 🙅 Always avoid talking to strangers</label>
+            </div>
+        </div>
+
+        <div class="exercise" data-qid="10">
+            <div class="statement">🔟 Tony first ignored Yuki because...</div>
+            <div class="options">
+                <label class="option"><input type="radio" name="q10" value="He was reading a book"> 📖 He was reading a book</label>
+                <label class="option"><input type="radio" name="q10" value="He was tired of useless small talk and watched the falling petals"> 🍃 He was tired of useless small talk and watched the falling petals</label>
+                <label class="option"><input type="radio" name="q10" value="He was waiting for a phone call"> 📞 He was waiting for a phone call</label>
+            </div>
+        </div>
+        
+        <!-- Rodapé do PDF -->
+        <div style="margin-top: 40px; text-align: center; font-size: 0.8rem; color: #5f7f9a; border-top: 1px solid #d4e2ec; padding-top: 20px;">
+            ✅ Student answers recorded above. Based on the story "The Right Bench" (Japan / Cherry Blossom Festival).
+        </div>
+    </div>
+
+    <div class="footer-info">
+        ✅ Read the story carefully. Choose one answer per question. After finishing, click **"Save as PDF"** at the top of the page.<br>
+        📧 A "Save as" window will open automatically. Save the PDF and send it to your teacher by email. Don't forget to write your full name!
+    </div>
+</div>
+
+<script>
+    (function() {
+        const pdfBtn = document.getElementById('saveAsPdfBtn');
+        const studentNameInput = document.getElementById('studentName');
+        
+        // Função para marcar as respostas no PDF antes de gerar
+        function markAnswersInPDF() {
+            // Coleta todas as respostas selecionadas e adiciona um indicador visual
+            for (let i = 1; i <= 10; i++) {
+                const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                let selectedValue = "";
+                for (let r of radios) {
+                    if (r.checked) {
+                        selectedValue = r.value;
+                        break;
+                    }
+                }
+                
+                // Encontra o container da questão e adiciona um texto com a resposta
+                const exerciseDiv = document.querySelector(`.exercise[data-qid="${i}"]`) || 
+                                   document.querySelectorAll('.exercise')[i-1];
+                if (exerciseDiv && selectedValue) {
+                    // Remove marcação anterior se existir
+                    const oldMark = exerciseDiv.querySelector('.selected-answer-mark');
+                    if (oldMark) oldMark.remove();
+                    
+                    // Adiciona uma marcação visual da resposta selecionada
+                    const markSpan = document.createElement('div');
+                    markSpan.className = 'selected-answer-mark';
+                    markSpan.style.marginTop = '10px';
+                    markSpan.style.padding = '6px 12px';
+                    markSpan.style.background = '#e8f5e9';
+                    markSpan.style.borderRadius = '20px';
+                    markSpan.style.fontSize = '0.85rem';
+                    markSpan.style.color = '#2e7d32';
+                    markSpan.style.border = '1px solid #a5d6a7';
+                    markSpan.innerHTML = `✓ Your answer: ${selectedValue}`;
+                    exerciseDiv.appendChild(markSpan);
+                } else if (exerciseDiv && !selectedValue) {
+                    // Se não houver resposta, mostra um aviso
+                    const oldMark = exerciseDiv.querySelector('.selected-answer-mark');
+                    if (oldMark) oldMark.remove();
+                    const markSpan = document.createElement('div');
+                    markSpan.className = 'selected-answer-mark';
+                    markSpan.style.marginTop = '10px';
+                    markSpan.style.padding = '6px 12px';
+                    markSpan.style.background = '#ffebee';
+                    markSpan.style.borderRadius = '20px';
+                    markSpan.style.fontSize = '0.85rem';
+                    markSpan.style.color = '#c62828';
+                    markSpan.style.border = '1px solid #ef9a9a';
+                    markSpan.innerHTML = `⚠️ No answer selected for this question`;
+                    exerciseDiv.appendChild(markSpan);
+                }
+            }
+        }
+        
+        // Função para limpar as marcações (para não poluir a página após gerar PDF)
+        function clearMarks() {
+            const marks = document.querySelectorAll('.selected-answer-mark');
+            marks.forEach(mark => mark.remove());
+        }
+        
+        // Função para gerar o PDF
+        async function generatePDF() {
+            const studentName = studentNameInput.value.trim();
+            
+            // Alerta caso o aluno esqueça o nome
+            if (studentName === "") {
+                alert("⚠️ Please type your full name before saving the PDF. Don't forget to include your name so your teacher can identify your answers.");
+                studentNameInput.focus();
+                return;
+            }
+            
+            // Verifica se pelo menos uma questão foi respondida
+            let anyAnswered = false;
+            for (let i = 1; i <= 10; i++) {
+                const radios = document.querySelectorAll(`input[name="q${i}"]`);
+                for (let r of radios) {
+                    if (r.checked) { anyAnswered = true; break; }
+                }
+                if (anyAnswered) break;
+            }
+            if (!anyAnswered) {
+                if (!confirm("⚠️ You haven't selected any answer yet. Do you still want to generate a PDF with blank answers?")) {
+                    return;
+                }
+            }
+            
+            // Adiciona o nome do aluno no topo do conteúdo do PDF
+            const pdfContent = document.getElementById('pdfContent');
+            const existingNameHeader = document.getElementById('pdfNameHeader');
+            if (existingNameHeader) existingNameHeader.remove();
+            
+            const nameHeader = document.createElement('div');
+            nameHeader.id = 'pdfNameHeader';
+            nameHeader.style.background = '#e8f0fe';
+            nameHeader.style.padding = '12px 20px';
+            nameHeader.style.borderRadius = '16px';
+            nameHeader.style.marginBottom = '20px';
+            nameHeader.style.borderLeft = '5px solid #f4a261';
+            nameHeader.innerHTML = `<strong>👤 Student:</strong> ${escapeHtml(studentName)} &nbsp;&nbsp;|&nbsp;&nbsp; <strong>📅 Date:</strong> ${new Date().toLocaleString()}`;
+            pdfContent.insertBefore(nameHeader, pdfContent.firstChild);
+            
+            // Marca as respostas visualmente no PDF
+            markAnswersInPDF();
+            
+            // Configuração do html2pdf
+            const element = document.getElementById('pdfContent');
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5], // margens em polegadas
+                filename: `Tony_Answers_${studentName.replace(/[^a-z0-9]/gi, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, letterRendering: true, useCORS: false, logging: false },
+                jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+            };
+            
+            try {
+                // Gera o PDF
+                await html2pdf().set(opt).from(element).save();
+            } catch (error) {
+                console.error('Erro ao gerar PDF:', error);
+                alert('Error generating PDF. Please try again.');
+            } finally {
+                // Limpa as marcações e o header extra após gerar
+                clearMarks();
+                const headerToRemove = document.getElementById('pdfNameHeader');
+                if (headerToRemove) headerToRemove.remove();
+            }
+        }
+        
+        function escapeHtml(str) {
+            if (!str) return "";
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+        
+        pdfBtn.addEventListener('click', generatePDF);
+    })();
+</script>
+</body>
+</html>
