@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Aula de Português - Partes da Narrativa | 6º Ano</title>
+    <!-- Google Fonts e Font Awesome para elegância e ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #f9f5ef 0%, #f0e9e0 100%);
+            color: #2c241a;
+            line-height: 1.5;
+            padding: 2rem 1rem;
+        }
+
+        /* container principal da "lousa" moderna */
+        .aula-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(1px);
+            border-radius: 2.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: all 0.2s ease;
+        }
+
+        /* cabeçalho com timer e tema */
+        .header-aula {
+            background: #3e2c22;
+            color: #fef1e0;
+            padding: 1.2rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 1rem;
+            border-bottom: 4px solid #e0a878;
+        }
+
+        .title-area h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .title-area h1 i {
+            color: #e0a878;
+            font-size: 1.8rem;
+        }
+
+        .title-area p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 6px;
+            font-weight: 400;
+        }
+
+        .timer-card {
+            background: #1f1813;
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            box-shadow: inset 0 1px 2px rgba(0,0,0,0.2), 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .timer-card i {
+            font-size: 1.6rem;
+            color: #e0a878;
+        }
+
+        .timer-display {
+            font-size: 1.7rem;
+            font-family: monospace;
+            letter-spacing: 2px;
+            background: #00000055;
+            padding: 0 8px;
+            border-radius: 32px;
+        }
+
+        /* navegação entre etapas (tempo sugerido) */
+        .etapas-nav {
+            display: flex;
+            flex-wrap: wrap;
+            background: #fff7f0;
+            border-bottom: 1px solid #e5d9ce;
+            padding: 0.5rem 1rem;
+            gap: 0.5rem;
+        }
+
+        .botao-etapa {
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            border-radius: 40px;
+            color: #5a4a3a;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .botao-etapa i {
+            font-size: 0.9rem;
+        }
+
+        .botao-etapa.ativo {
+            background: #3e2c22;
+            color: #ffefdf;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .botao-etapa:hover:not(.ativo) {
+            background: #e7dbcf;
+            color: #2e241c;
+        }
+
+        /* conteúdo dinâmico */
+        .conteudo-aula {
+            padding: 2rem 2rem 2.5rem;
+        }
+
+        .card-parte {
+            background: white;
+            border-radius: 1.8rem;
+            padding: 1.8rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 6px 14px rgba(0, 0, 0, 0.03);
+            border: 1px solid #f0e2d4;
+            transition: 0.2s;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            border-bottom: 2px dashed #f0dcc8;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .card-header i {
+            font-size: 2.2rem;
+            background: #f9ede2;
+            padding: 10px;
+            border-radius: 50%;
+            color: #b46f3a;
+        }
+
+        .card-header h2 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #3e2c22;
+        }
+
+        .explicacao {
+            font-size: 1.02rem;
+            color: #2e2a24;
+            margin-bottom: 1rem;
+            background: #fefaf5;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            border-left: 5px solid #e0a878;
+        }
+
+        .exemplo-box {
+            background: #f5efe9;
+            padding: 1rem 1.2rem;
+            border-radius: 1.2rem;
+            margin: 1rem 0;
+            font-style: italic;
+        }
+
+        .exemplo-box strong {
+            color: #b46f3a;
+            font-style: normal;
+        }
+
+        .btn-atividade {
+            background: #e0a878;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-weight: 600;
+            color: #2c1f15;
+            margin-top: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: 0.15s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-atividade:hover {
+            background: #cb8b54;
+            color: white;
+            transform: scale(0.97);
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            background: #f3eee9;
+            padding: 8px 15px;
+            border-radius: 60px;
+            display: inline-block;
+        }
+
+        /* lista de atividades interativas */
+        .pergunta-quiz {
+            background: #fff6ee;
+            border-radius: 1.5rem;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .opcoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .opcao {
+            background: white;
+            border: 1px solid #e2cfbc;
+            border-radius: 60px;
+            padding: 6px 16px;
+            cursor: pointer;
+            transition: all 0.1s;
+            font-weight: 500;
+        }
+
+        .opcao:hover {
+            background: #e0a87830;
+            border-color: #b46f3a;
+        }
+
+        .opcao.selecionada {
+            background: #e0a878;
+            color: #2c1f15;
+            border-color: #a65828;
+        }
+
+        .resultado-pequeno {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            font-weight: 500;
+        }
+
+        footer {
+            background: #e7dbcf;
+            padding: 1rem 2rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #5a4a3a;
+            border-top: 1px solid #dacbbc;
+        }
+
+        @media (max-width: 700px) {
+            .conteudo-aula {
+                padding: 1.5rem;
+            }
+            .card-header h2 {
+                font-size: 1.4rem;
+            }
+            .timer-display {
+                font-size: 1.2rem;
+            }
+        }
+        .icone-tempo {
+            font-size: 0.75rem;
+            background: #efe3d8;
+            border-radius: 20px;
+            padding: 2px 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="aula-container">
+    <div class="header-aula">
+        <div class="title-area">
+            <h1><i class="fas fa-book-open"></i> As Partes da Narrativa</h1>
+            <p><i class="fas fa-graduation-cap"></i> 6º ano · Ensino Fundamental · Duração: 40 minutos</p>
+        </div>
+        <div class="timer-card">
+            <i class="fas fa-hourglass-half"></i>
+            <span>Tempo restante</span>
+            <span class="timer-display" id="timer">40:00</span>
+        </div>
+    </div>
+
+    <div class="etapas-nav" id="navEtapas">
+        <button class="botao-etapa ativo" data-etapa="0"><i class="fas fa-play-circle"></i> Início (5')</button>
+        <button class="botao-etapa" data-etapa="1"><i class="fas fa-bolt"></i> Problema & Conflito (10')</button>
+        <button class="botao-etapa" data-etapa="2"><i class="fas fa-chart-line"></i> Clímax (8')</button>
+        <button class="botao-etapa" data-etapa="3"><i class="fas fa-flag-checkered"></i> Desfecho (7')</button>
+        <button class="botao-etapa" data-etapa="4"><i class="fas fa-puzzle-piece"></i> Atividade Final (10')</button>
+    </div>
+
+    <div class="conteudo-aula" id="conteudoDinamico">
+        <!-- conteúdo preenchido via JS dinâmico -->
+    </div>
+    <footer>
+        <i class="fas fa-feather-alt"></i> Português dinâmico · Construindo histórias incríveis · Aula 40min
+    </footer>
+</div>
+
+<script>
+    // ----- DADOS DAS ETAPAS -----
+    const etapas = [
+        { // etapa 0 - introdução
+            titulo: "🌿 Introdução: A estrutura da narrativa",
+            conteudo: `
+                <div class="card-parte">
+                    <div class="card-header">
+                        <i class="fas fa-map-signs"></i>
+                        <h2>O que são as partes da narrativa?</h2>
+                    </div>
+                    <div class="explicacao">
+                        Toda história tem um <strong>esqueleto</strong>! Assim como nós, as narrativas possuem partes que organizam a aventura: 
+                        <strong>apresentação, problema (conflito), clímax, desfecho</strong>. Hoje vamos explorar cada uma delas!
+                    </div>
+                    <div class="exemplo-box">
+                        📖 <strong>Pense em seu filme ou livro favorito</strong>: O que faz a história ficar emocionante? Geralmente é como o problema aparece, o momento mais tenso (clímax) e como tudo se resolve!
+                    </div>
+                    <div class="icone-tempo"><i class="far fa-clock"></i> 5 minutos - Aquecimento</div>
+                    <button class="btn-atividade" id="btnRefletir"><i class="fas fa-comment-dots"></i> Reflexão rápida</button>
+                    <div id="feedbackReflexao" class="quiz-feedback" style="display:none;"></div>
+                </div>
+            `
+        },
+        { // etapa 1 - Problema e conflito
+            titulo: "⚡ Problema & Conflito",
+            conteudo: `
+                <div class="card-parte">
+                    <div class="card-header">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h2>Problema (Conflito) · A faísca da história</h2>
+                    </div>
+                    <div class="explicacao">
+                        O <strong>problema</strong> é o que desequilibra a vida dos personagens. Pode ser um desafio, uma briga, um mistério ou uma dificuldade. 
+                        É a partir dele que a trama engrena! Sem conflito, não existe narrativa interessante.
+                    </div>
+                    <div class="exemplo-box">
+                        🎬 <strong>Exemplo clássico:</strong> Em "Harry Potter e a Pedra Filosofal", o problema surge quando Harry descobre que Voldemort quer roubar a pedra. 
+                        Ele precisa impedir o vilão! Esse é o conflito principal.
+                    </div>
+                    <div class="pergunta-quiz" id="quizProblema">
+                        <p><strong>📌 Miniquiz:</strong> Identifique o conflito na frase: "Maria queria vencer o campeonato de xadrez, mas seu maior rival, Lucas, usava truques proibidos."</p>
+                        <div class="opcoes">
+                            <div class="opcao" data-resp="a">A) Maria quer aprender a jogar xadrez</div>
+                            <div class="opcao" data-resp="b">B) Lucas usa truques proibidos, impedindo uma competição justa</div>
+                            <div class="opcao" data-resp="c">C) O campeonato foi cancelado</div>
+                        </div>
+                        <div class="resultado-pequeno" id="respProblema"></div>
+                    </div>
+                </div>
+            `
+        },
+        { // etapa 2 - Clímax
+            titulo: "📈 Clímax · O ponto de maior tensão",
+            conteudo: `
+                <div class="card-parte">
+                    <div class="card-header">
+                        <i class="fas fa-fire"></i>
+                        <h2>Clímax: o momento da verdade</h2>
+                    </div>
+                    <div class="explicacao">
+                        O <strong>clímax</strong> é o ponto mais emocionante da história. É quando o conflito atinge seu ápice, o personagem enfrenta o maior desafio.
+                        Tudo pode mudar aqui! Depois do clímax, a história encaminha para o desfecho.
+                    </div>
+                    <div class="exemplo-box">
+                        🔥 <strong>Exemplo:</strong> No filme "A Era do Gelo", o clímax ocorre quando Manny e os amigos correm contra o tempo para devolver o bebê humano ao pai, 
+                        enfrentando uma geleira prestes a desabar. A tensão é máxima!
+                    </div>
+                    <div class="pergunta-quiz" id="quizClimax">
+                        <p><strong>🎭 Clímax é quando...</strong> (marque a correta):</p>
+                        <div class="opcoes">
+                            <div class="opcao" data-resp="a">O personagem é apresentado</div>
+                            <div class="opcao" data-resp="b">A história começa com um "Era uma vez"</div>
+                            <div class="opcao" data-resp="c">O conflito atinge o pico de emoção e suspense</div>
+                        </div>
+                        <div class="resultado-pequeno" id="respClimax"></div>
+                    </div>
+                </div>
+            `
+        },
+        { // etapa 3 - Desfecho (resolução)
+            titulo: "🏁 Desfecho (Resolução)",
+            conteudo: `
+                <div class="card-parte">
+                    <div class="card-header">
+                        <i class="fas fa-dove"></i>
+                        <h2>Desfecho: como tudo termina</h2>
+                    </div>
+                    <div class="explicacao">
+                        Após o clímax, o <strong>desfecho</strong> mostra as consequências e a solução do problema. Os laços se amarram, 
+                        e o leitor descobre o destino dos personagens. Pode ser um final feliz, triste ou surpreendente!
+                    </div>
+                    <div class="exemplo-box">
+                        🎯 <strong>Exemplo:</strong> Em "O Pequeno Príncipe", após o clímax da partida, o principezinho se despede do piloto no deserto.
+                        O desfecho traz uma mensagem poética sobre amizade e saudade.
+                    </div>
+                    <div><i class="fas fa-lightbulb"></i> Agora é sua vez: no final da atividade vamos construir um mini final criativo!</div>
+                </div>
+            `
+        },
+        { // etapa 4 - Atividade interativa final (10 min)
+            titulo: "🧩 Atividade final · Monte a narrativa!",
+            conteudo: `
+                <div class="card-parte">
+                    <div class="card-header">
+                        <i class="fas fa-pen-fancy"></i>
+                        <h2>Desafio do conto em 3 atos</h2>
+                    </div>
+                    <div class="explicacao">
+                        Vamos praticar! Abaixo temos fragmentos de uma história. Seu trabalho: <strong>organizar cada parte no local certo</strong> (Problema, Clímax, Desfecho).
+                        Depois, crie um final original!
+                    </div>
+                    <div id="jogoOrdenar">
+                        <p style="font-weight:600;">📖 Trechos da história "O Mistério do Baú":</p>
+                        <div id="opcoesEmbaralhadas" style="display:flex; flex-wrap:wrap; gap:12px; margin: 15px 0;"></div>
+                        <div style="display:flex; flex-wrap:wrap; justify-content:space-between; gap:16px; margin-top:20px;">
+                            <div style="flex:1; background:#fef3e8; border-radius:24px; padding:12px;"><strong>🔥 Problema/Conflito</strong><div id="dropProblema" class="dropzone" style="min-height:80px; background:#f7e9de; border-radius:20px; margin-top:8px; padding:8px;"></div></div>
+                            <div style="flex:1; background:#fef3e8; border-radius:24px; padding:12px;"><strong>⚡ Clímax</strong><div id="dropClimax" class="dropzone" style="min-height:80px; background:#f7e9de; border-radius:20px; margin-top:8px; padding:8px;"></div></div>
+                            <div style="flex:1; background:#fef3e8; border-radius:24px; padding:12px;"><strong>🏆 Desfecho</strong><div id="dropDesfecho" class="dropzone" style="min-height:80px; background:#f7e9de; border-radius:20px; margin-top:8px; padding:8px;"></div></div>
+                        </div>
+                        <button id="verificarOrdenacao" class="btn-atividade" style="margin-top:20px;"><i class="fas fa-check-circle"></i> Verificar ordenação</button>
+                        <div id="msgOrdenacao" class="quiz-feedback" style="display:block; margin-top:12px;"></div>
+                    </div>
+                    <hr style="margin:20px 0; border-color:#ecdccc;">
+                    <div>
+                        <p><strong>✍️ Crie um desfecho original (mini texto) para a história do baú:</strong></p>
+                        <textarea id="textoDesfecho" rows="3" style="width:100%; border-radius:20px; border:1px solid #e2cfbc; padding:12px; font-family:inherit;" placeholder="Ex: Então, Lucas abriu o baú e encontrou um diário antigo que revelava o segredo da floresta..."></textarea>
+                        <button id="salvarDesfechoBtn" class="btn-atividade" style="margin-top:8px;"><i class="fas fa-save"></i> Salvar meu desfecho</button>
+                        <div id="feedbackDesfecho" class="resultado-pequeno" style="margin-top:8px;"></div>
+                    </div>
+                </div>
+            `
+        }
+    ];
+
+    // Dados para a atividade de arrastar e soltar (simplificada: cliques)
+    // Itens embaralhados
+    const cartas = [
+        { texto: "Lucas encontrou um baú trancado no sótão da avó. Uma chave desaparecida há anos era o único jeito de abri-lo.", tipo: "problema" },
+        { texto: "Enquanto a casa começava a pegar fogo, Lucas teve a ideia de usar um grampo para destrancar o baú, salvando a relíquia e escapando por pouco das chamas.", tipo: "climax" },
+        { texto: "Com o baú aberto, Lucas descobriu fotos antigas da família e um mapa do tesouro que uniu todos os parentes numa grande aventura. Tiveram um final feliz e cheio de união.", tipo: "desfecho" }
+    ];
+    let cartasEmbaralhadas = [...cartas];
+    function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+    }
+    // alocação atual dos drops (valores armazenados)
+    let dropProblema = null;
+    let dropClimax = null;
+    let dropDesfecho = null;
+
+    function renderOrdenacaoJogo() {
+        const container = document.getElementById("opcoesEmbaralhadas");
+        if (!container) return;
+        cartasEmbaralhadas = shuffleArray([...cartas]);
+        container.innerHTML = "";
+        cartasEmbaralhadas.forEach((carta, idx) => {
+            const cardDiv = document.createElement("div");
+            cardDiv.className = "opcao";
+            cardDiv.style.cursor = "grab";
+            cardDiv.style.padding = "10px 15px";
+            cardDiv.style.backgroundColor = "#fff";
+            cardDiv.innerText = carta.texto;
+            cardDiv.setAttribute("data-idx", idx);
+            cardDiv.setAttribute("data-tipo-original", carta.tipo);
+            cardDiv.addEventListener("click", (e) => {
+                e.stopPropagation();
+                // ao clicar no card, ele é "movido" para o próximo drop vazio? Mas faremos mais intuitivo: 
+                // Vamos abrir um prompt? melhor: selecionar e depois clicar em zona? Vamos fazer simples: mostrar tooltip? 
+                // implementação amigável: clicar no card e depois numa zona alvo, mas pra não complicar, implementamos seleção com highlight.
+                // faremos um sistema: primeiro clique seleciona o card, depois clique na dropzone move.
+                if (window.cardSelecionado === cardDiv) {
+                    window.cardSelecionado.style.border = "none";
+                    window.cardSelecionado = null;
+                    return;
+                }
+                if (window.cardSelecionado) window.cardSelecionado.style.border = "none";
+                window.cardSelecionado = cardDiv;
+                cardDiv.style.border = "2px solid #b46f3a";
+            });
+            container.appendChild(cardDiv);
+        });
+        // limpar drops visuais
+        document.getElementById("dropProblema").innerHTML = dropProblema ? `<div class="opcao removivel" style="background:#e0c8b4;">${dropProblema.texto} <i class="fas fa-times-circle" style="margin-left:8px; cursor:pointer;"></i></div>` : "arraste/clique no card e depois aqui ➕";
+        document.getElementById("dropClimax").innerHTML = dropClimax ? `<div class="opcao removivel" style="background:#e0c8b4;">${dropClimax.texto} <i class="fas fa-times-circle" style="margin-left:8px; cursor:pointer;"></i></div>` : "arraste/clique no card e depois aqui ➕";
+        document.getElementById("dropDesfecho").innerHTML = dropDesfecho ? `<div class="opcao removivel" style="background:#e0c8b4;">${dropDesfecho.texto} <i class="fas fa-times-circle" style="margin-left:8px; cursor:pointer;"></i></div>` : "arraste/clique no card e depois aqui ➕";
+        // adicionar eventos de remoção
+        document.querySelectorAll(".removivel .fa-times-circle").forEach(icon => {
+            icon.addEventListener("click", (e) => {
+                e.stopPropagation();
+                const parentDiv = icon.closest(".removivel");
+                if (parentDiv && parentDiv.parentElement.id === "dropProblema") dropProblema = null;
+                if (parentDiv && parentDiv.parentElement.id === "dropClimax") dropClimax = null;
+                if (parentDiv && parentDiv.parentElement.id === "dropDesfecho") dropDesfecho = null;
+                renderOrdenacaoJogo();
+            });
+        });
+    }
+
+    function configurarDrops() {
+        const areas = ["dropProblema", "dropClimax", "dropDesfecho"];
+        areas.forEach(areaId => {
+            const el = document.getElementById(areaId);
+            if (!el) return;
+            el.addEventListener("click", (e) => {
+                if (!window.cardSelecionado) {
+                    const msgBox = document.getElementById("msgOrdenacao");
+                    if(msgBox) msgBox.innerText = "⚠️ Clique primeiro em um card (trecho) para selecioná-lo!";
+                    return;
+                }
+                const card = window.cardSelecionado;
+                const textoCard = card.innerText;
+                const tipoOriginal = card.getAttribute("data-tipo-original");
+                const novoItem = { texto: textoCard, tipo: tipoOriginal };
+                if (areaId === "dropProblema") dropProblema = novoItem;
+                else if (areaId === "dropClimax") dropClimax = novoItem;
+                else if (areaId === "dropDesfecho") dropDesfecho = novoItem;
+                // remover card da lista de opções
+                const idx = parseInt(card.getAttribute("data-idx"));
+                cartasEmbaralhadas.splice(idx, 1);
+                if(window.cardSelecionado) window.cardSelecionado.remove();
+                window.cardSelecionado = null;
+                renderOrdenacaoJogo();
+                const msgBox = document.getElementById("msgOrdenacao");
+                if(msgBox) msgBox.innerText = "📌 Item movido! Complete as três partes.";
+            });
+        });
+    }
+
+    // Variáveis de timer
+    let tempoRestante = 40 * 60; // 40 min em segundos
+    let timerInterval;
+    let aulaAtiva = true;
+
+    function atualizarTimerDisplay() {
+        const minutos = Math.floor(tempoRestante / 60);
+        const segundos = tempoRestante % 60;
+        document.getElementById("timer").innerText = `${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+        if (tempoRestante <= 0 && aulaAtiva) {
+            clearInterval(timerInterval);
+            alert("⏰ Tempo finalizado! Ótimo aproveitamento. Você pode revisar os conteúdos.");
+            aulaAtiva = false;
+        }
+    }
+    function iniciarTimer() {
+        timerInterval = setInterval(() => {
+            if (tempoRestante > 0) {
+                tempoRestante--;
+                atualizarTimerDisplay();
+            } else {
+                clearInterval(timerInterval);
+            }
+        }, 1000);
+    }
+
+    // Navegação entre etapas
+    let etapaAtual = 0;
+    function carregarEtapa(index) {
+        etapaAtual = index;
+        const conteudoDiv = document.getElementById("conteudoDinamico");
+        conteudoDiv.innerHTML = etapas[etapaAtual].conteudo;
+        // reatachar eventos específicos das etapas
+        if (etapaAtual === 0) {
+            const btnRef = document.getElementById("btnRefletir");
+            if(btnRef) btnRef.onclick = () => {
+                const fb = document.getElementById("feedbackReflexao");
+                fb.style.display = "block";
+                fb.innerHTML = "📖 Reflexão: Toda história precisa de um problema para ficar emocionante! Anote um exemplo que você gosta.";
+            };
+        }
+        if (etapaAtual === 1) {
+            document.querySelectorAll("#quizProblema .opcao").forEach(op => {
+                op.addEventListener("click", () => {
+                    const resp = op.getAttribute("data-resp");
+                    const resultadoDiv = document.getElementById("respProblema");
+                    if(resp === "b") resultadoDiv.innerHTML = "✅ Correto! O conflito é o uso de truques proibidos que atrapalham Maria.";
+                    else resultadoDiv.innerHTML = "❌ Tente novamente. Releia: O conflito envolve um obstáculo injusto causado pelo rival.";
+                });
+            });
+        }
+        if (etapaAtual === 2) {
+            document.querySelectorAll("#quizClimax .opcao").forEach(op => {
+                op.addEventListener("click", () => {
+                    const resp = op.getAttribute("data-resp");
+                    const resDiv = document.getElementById("respClimax");
+                    if(resp === "c") resDiv.innerHTML = "🎉 Exato! O clímax é o pico da tensão.";
+                    else resDiv.innerHTML = "🔁 Não é bem isso. O clímax é o ponto mais alto da história!";
+                });
+            });
+        }
+        if (etapaAtual === 4) {
+            renderOrdenacaoJogo();
+            configurarDrops();
+            const verifBtn = document.getElementById("verificarOrdenacao");
+            if(verifBtn) verifBtn.onclick = () => {
+                let acertos = 0;
+                if(dropProblema && dropProblema.tipo === "problema") acertos++;
+                if(dropClimax && dropClimax.tipo === "climax") acertos++;
+                if(dropDesfecho && dropDesfecho.tipo === "desfecho") acertos++;
+                document.getElementById("msgOrdenacao").innerHTML = acertos === 3 ? "🌟 Perfeito! Você organizou as partes corretamente." : `Você acertou ${acertos}/3. Reveja a definição de cada parte!`;
+            };
+            const salvarDesfecho = document.getElementById("salvarDesfechoBtn");
+            if(salvarDesfecho) salvarDesfecho.onclick = () => {
+                const texto = document.getElementById("textoDesfecho").value;
+                if(texto.trim() !== "") document.getElementById("feedbackDesfecho").innerHTML = "📝 Desfecho registrado! Você é um ótimo escritor.";
+                else document.getElementById("feedbackDesfecho").innerHTML = "✏️ Escreva um final criativo!";
+            };
+        }
+        // atualizar botões ativos
+        document.querySelectorAll(".botao-etapa").forEach((btn, idx) => {
+            if(parseInt(btn.dataset.etapa) === index) btn.classList.add("ativo");
+            else btn.classList.remove("ativo");
+        });
+    }
+
+    // Navegação
+    document.querySelectorAll(".botao-etapa").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            const etapaIdx = parseInt(btn.dataset.etapa);
+            carregarEtapa(etapaIdx);
+        });
+    });
+    iniciarTimer();
+    carregarEtapa(0);
+</script>
+</body>
+</html>
