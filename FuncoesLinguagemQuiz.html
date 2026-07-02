@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Funções da Linguagem · Avaliação</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3350;
+    --accent: #6c63ff;
+    --accent2: #a78bfa;
+    --green: #22c55e;
+    --red: #ef4444;
+    --yellow: #f59e0b;
+    --text: #e8eaf6;
+    --muted: #8892b0;
+    --radius: 14px;
+    --radius-sm: 8px;
+    font-size: 16px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 1rem 3rem;
+  }
+
+  /* ===== HEADER ===== */
+  .app-header {
+    width: 100%;
+    max-width: 720px;
+    padding: 1.5rem 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem; flex-shrink: 0;
+  }
+  .logo-text { font-size: 0.85rem; color: var(--muted); line-height: 1.3; }
+  .logo-text strong { color: var(--text); display: block; font-size: 1rem; }
+
+  /* ===== SCREENS ===== */
+  .screen { width: 100%; max-width: 720px; }
+  .screen.hidden { display: none; }
+
+  /* ===== CARD ===== */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  /* ===== START ===== */
+  .start-hero {
+    text-align: center;
+    padding: 2.5rem 2rem 2rem;
+  }
+  .start-hero h1 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent2), #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+    margin-bottom: 0.6rem;
+  }
+  .start-hero p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+  .info-chips {
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+    justify-content: center; margin: 1.5rem 0;
+  }
+  .chip {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.3rem 0.9rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .chip span { color: var(--accent2); font-weight: 600; }
+
+  .form-field { margin-bottom: 1.1rem; }
+  .form-field label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; letter-spacing: 0.04em; text-transform: uppercase; }
+  .form-field input {
+    width: 100%;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.7rem 1rem;
+    color: var(--text);
+    font-size: 1rem;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-field input:focus { border-color: var(--accent); }
+  .form-field input::placeholder { color: var(--muted); opacity: 0.6; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    border: none; cursor: pointer; font-family: inherit;
+    border-radius: var(--radius-sm);
+    font-weight: 700; font-size: 1rem;
+    transition: filter 0.15s, transform 0.12s;
+    padding: 0.8rem 1.8rem;
+  }
+  .btn:hover { filter: brightness(1.1); }
+  .btn:active { transform: scale(0.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #818cf8);
+    color: #fff;
+    width: 100%;
+  }
+  .btn-outline {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--text);
+  }
+  .btn-outline:hover { border-color: var(--accent2); color: var(--accent2); }
+
+  /* ===== QUIZ ===== */
+  .quiz-topbar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-top: 1.5rem; margin-bottom: 0.75rem;
+    gap: 1rem;
+  }
+  .q-counter { font-size: 0.82rem; color: var(--muted); white-space: nowrap; }
+  .q-counter strong { color: var(--accent2); font-size: 1rem; }
+  .progress-track {
+    flex: 1;
+    height: 6px;
+    background: var(--surface2);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .timer-badge {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.2rem 0.7rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .timer-badge.warn { color: var(--red); border-color: var(--red); }
+
+  .genre-tag {
+    display: inline-block;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 0.72rem;
+    color: var(--accent2);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.6rem;
+    margin-bottom: 0.9rem;
+    font-weight: 600;
+  }
+  .text-block {
+    background: var(--surface2);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.25rem;
+    font-size: 0.95rem;
+    line-height: 1.75;
+    color: var(--text);
+    white-space: pre-line;
+  }
+  .q-stem {
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-bottom: 1.1rem;
+    color: var(--text);
+  }
+
+  .options { display: flex; flex-direction: column; gap: 0.55rem; }
+  .option {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    background: var(--surface2);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    text-align: left;
+    font-family: inherit;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    width: 100%;
+  }
+  .option:hover:not([disabled]) { border-color: var(--accent); background: #22263a; }
+  .option.selected { border-color: var(--accent); background: rgba(108,99,255,0.12); }
+  .option.correct { border-color: var(--green); background: rgba(34,197,94,0.1); }
+  .option.wrong { border-color: var(--red); background: rgba(239,68,68,0.1); }
+  .option[disabled] { cursor: default; }
+  .option-letter {
+    min-width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: background 0.15s;
+  }
+  .option.selected .option-letter { background: var(--accent); }
+  .option.correct .option-letter { background: var(--green); }
+  .option.wrong .option-letter { background: var(--red); }
+
+  .feedback-box {
+    margin-top: 1rem;
+    border-radius: var(--radius-sm);
+    padding: 0.85rem 1rem;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    display: none;
+  }
+  .feedback-box.correct-fb { background: rgba(34,197,94,0.1); border: 1px solid var(--green); color: #86efac; }
+  .feedback-box.wrong-fb { background: rgba(239,68,68,0.09); border: 1px solid var(--red); color: #fca5a5; }
+  .feedback-box .fb-label { font-weight: 700; margin-bottom: 0.3rem; }
+  .feedback-box .fb-answer { color: var(--text); font-weight: 600; }
+  .feedback-box .fb-comment { color: var(--muted); margin-top: 0.3rem; font-size: 0.85rem; }
+
+  .quiz-actions {
+    display: flex; gap: 0.75rem; margin-top: 1.5rem;
+    justify-content: flex-end;
+  }
+
+  /* ===== RESULT ===== */
+  .result-hero {
+    text-align: center;
+    padding: 2rem 1rem 1rem;
+  }
+  .medal-display {
+    font-size: 4rem;
+    margin-bottom: 0.5rem;
+    animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  .result-grade {
+    font-size: clamp(2rem, 8vw, 3.5rem);
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--accent2), #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .result-label { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; }
+  .result-sub { color: var(--text); font-size: 1.05rem; font-weight: 600; margin-top: 0.6rem; }
+  .result-msg { color: var(--muted); font-size: 0.9rem; margin-top: 0.3rem; line-height: 1.5; }
+
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem; margin: 1.5rem 0;
+  }
+  .stat-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.9rem 0.5rem;
+    text-align: center;
+  }
+  .stat-box .sv { font-size: 1.5rem; font-weight: 800; color: var(--accent2); }
+  .stat-box .sl { font-size: 0.72rem; color: var(--muted); margin-top: 0.2rem; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .func-stats { margin-top: 1.25rem; }
+  .func-stats h3 { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+  .func-row {
+    display: flex; align-items: center; gap: 0.75rem;
+    margin-bottom: 0.55rem;
+  }
+  .func-name { font-size: 0.85rem; min-width: 120px; color: var(--text); }
+  .func-bar-track { flex: 1; height: 8px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+  .func-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; transition: width 0.6s ease; }
+  .func-score { font-size: 0.8rem; color: var(--muted); min-width: 36px; text-align: right; }
+
+  .review-section { margin-top: 1.5rem; }
+  .review-section h3 { font-size: 0.82rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+  .review-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.1rem;
+    margin-bottom: 0.6rem;
+  }
+  .review-item .ri-top {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.5rem; gap: 0.5rem;
+  }
+  .ri-num { font-size: 0.8rem; color: var(--muted); }
+  .ri-badge {
+    font-size: 0.75rem; font-weight: 700; border-radius: 99px;
+    padding: 0.15rem 0.6rem;
+  }
+  .ri-badge.ok { background: rgba(34,197,94,0.15); color: var(--green); }
+  .ri-badge.err { background: rgba(239,68,68,0.15); color: var(--red); }
+  .ri-stem { font-size: 0.85rem; color: var(--text); line-height: 1.4; margin-bottom: 0.4rem; }
+  .ri-answer { font-size: 0.8rem; color: var(--muted); }
+  .ri-answer strong { color: var(--accent2); }
+  .ri-comment { font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; line-height: 1.45; border-top: 1px solid var(--border); padding-top: 0.35rem; }
+
+  .result-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .result-actions .btn { flex: 1; min-width: 140px; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .card { animation: fadeUp 0.35s ease both; }
+
+  /* ===== SCROLLBAR ===== */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 99px; }
+
+  @media (max-width: 480px) {
+    .card { padding: 1.25rem; }
+    .stats-grid { grid-template-columns: repeat(3,1fr); gap: 0.5rem; }
+    .func-name { min-width: 90px; font-size: 0.78rem; }
+    .result-actions { flex-direction: column; }
+  }
+
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    /* Esconder elementos interativos e desnecessários */
+    .btn, .quiz-actions, .result-actions, .app-header, .quiz-topbar, .timer-badge, .progress-track, .q-counter {
+      display: none !important;
+    }
+
+    /* Forçar fundo branco e texto escuro para impressão */
+    body, .card, .text-block, .review-item, .func-row, .stat-box {
+      background: #ffffff !important;
+      color: #111111 !important;
+      border-color: #cccccc !important;
+    }
+
+    .card {
+      box-shadow: none !important;
+      border: 1px solid #ccc !important;
+      padding: 1.5rem !important;
+      page-break-inside: avoid;
+    }
+
+    /* Quebras de página para não cortar questões */
+    .review-item, .func-row, .stat-box {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .result-hero, .stats-grid, .func-stats, .review-section {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    /* Cabeçalho com nome do aluno */
+    .print-header {
+      display: block !important;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      padding: 1rem 0 0.5rem;
+      border-bottom: 2px solid #333;
+      margin-bottom: 1.5rem;
+      color: #111 !important;
+    }
+    .print-header small {
+      font-weight: normal;
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .genre-tag, .option-letter {
+      background: #eee !important;
+      color: #111 !important;
+      border-color: #aaa !important;
+    }
+
+    .option {
+      background: #f5f5f5 !important;
+      border-color: #ccc !important;
+      color: #111 !important;
+    }
+
+    .option.correct {
+      border-color: #22c55e !important;
+      background: #e6f9ec !important;
+    }
+    .option.wrong {
+      border-color: #ef4444 !important;
+      background: #fde8e8 !important;
+    }
+
+    .feedback-box {
+      display: block !important;
+      border: 1px solid #ccc !important;
+      background: #f9f9f9 !important;
+      color: #111 !important;
+    }
+    .feedback-box.correct-fb, .feedback-box.wrong-fb {
+      background: #f9f9f9 !important;
+      border-color: #999 !important;
+      color: #111 !important;
+    }
+    .feedback-box .fb-comment {
+      color: #333 !important;
+    }
+    .fb-answer strong {
+      color: #000 !important;
+    }
+
+    .result-grade {
+      -webkit-text-fill-color: #222 !important;
+      color: #222 !important;
+      background: none !important;
+    }
+
+    .stat-box .sv { color: #111 !important; }
+    .func-bar-fill { background: #666 !important; }
+    .func-name { color: #111 !important; }
+    .func-score { color: #222 !important; }
+
+    .ri-badge.ok { background: #d4edda !important; color: #155724 !important; }
+    .ri-badge.err { background: #f8d7da !important; color: #721c24 !important; }
+
+    /* Forçar quebras de página suaves */
+    .review-item {
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+  }
+
+  /* Elemento de cabeçalho para impressão (inicialmente escondido) */
+  .print-header {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="logo-icon">📖</div>
+  <div class="logo-text">
+    <strong>Funções da Linguagem</strong>
+    Avaliação Interativa · Ensino Médio
+  </div>
+</header>
+
+<!-- START SCREEN -->
+<div id="screen-start" class="screen">
+  <div class="card">
+    <div class="start-hero">
+      <h1>Funções da Linguagem</h1>
+      <p>20 questões sorteadas de um banco com 60 textos inéditos.<br>Identifique a função predominante em cada situação comunicativa.</p>
+      <div class="info-chips">
+        <div class="chip"><span>60</span> questões no banco</div>
+        <div class="chip"><span>20</span> por avaliação</div>
+        <div class="chip"><span>6</span> funções</div>
+        <div class="chip">Correção instantânea</div>
+      </div>
+    </div>
+    <div class="form-field">
+      <label>Nome completo</label>
+      <input type="text" id="inp-nome" placeholder="Digite seu nome" autocomplete="off">
+    </div>
+    <div class="form-field">
+      <label>Turma</label>
+      <input type="text" id="inp-turma" placeholder="Ex: 3º A" autocomplete="off">
+    </div>
+    <button class="btn btn-primary" onclick="iniciarAvaliacao()">Iniciar avaliação →</button>
+  </div>
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="screen-quiz" class="screen hidden">
+  <div class="quiz-topbar">
+    <span class="q-counter">Questão <strong id="q-num">1</strong> de 20</span>
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <span class="timer-badge" id="timer-badge">⏱ 00:00</span>
+  </div>
+  <div class="card" id="quiz-card">
+    <!-- injected -->
+  </div>
+  <div class="quiz-actions">
+    <button class="btn btn-outline" id="btn-skip" onclick="pularQuestao()">Pular</button>
+    <button class="btn btn-primary" id="btn-next" onclick="proximaQuestao()" style="display:none">Próxima →</button>
+  </div>
+</div>
+
+<!-- RESULT SCREEN -->
+<div id="screen-result" class="screen hidden">
+  <div class="card">
+    <!-- Cabeçalho para impressão (injetado via JS) -->
+    <div class="print-header" id="print-header">
+      <span id="print-nome">Aluno</span> · <span id="print-turma">Turma</span>
+      <small>— Funções da Linguagem — Resultado</small>
+    </div>
+
+    <div class="result-hero">
+      <div class="medal-display" id="res-medal">🥇</div>
+      <div class="result-grade" id="res-nota">10,0</div>
+      <div class="result-label">nota</div>
+      <div class="result-sub" id="res-acertos">20 de 20 acertos · 100%</div>
+      <div class="result-msg" id="res-msg"></div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-box"><div class="sv" id="st-acertos">20</div><div class="sl">Acertos</div></div>
+      <div class="stat-box"><div class="sv" id="st-erros">0</div><div class="sl">Erros</div></div>
+      <div class="stat-box"><div class="sv" id="st-tempo">—</div><div class="sl">Tempo</div></div>
+    </div>
+
+    <div class="func-stats">
+      <h3>Desempenho por função</h3>
+      <div id="func-rows"></div>
+    </div>
+
+    <div class="review-section" id="review-section">
+      <h3>Revisão das questões</h3>
+      <div id="review-list"></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-outline" onclick="reiniciar()">↩ Nova avaliação</button>
+      <button class="btn btn-primary" onclick="window.print()">🖨 Imprimir resultado</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── BANCO DE QUESTÕES (60 questões) ───────────────────────────────────────
+const BANCO = [
+
+// ── REFERENCIAL (informar, descrever, denotar) ──
+{
+  id:1, genero:"Reportagem", funcao:"Referencial",
+  texto:`Pesquisadores da Universidade de São Paulo identificaram uma nova espécie de fungo capaz de decompor plástico PET em menos de 72 horas. O microrganismo foi encontrado em amostras de solo coletadas próximo a aterros sanitários na região metropolitana de Campinas. Os estudos ainda estão em fase inicial, mas os cientistas acreditam que a descoberta pode representar um avanço significativo no tratamento de resíduos plásticos.`,
+  pergunta:"Qual função da linguagem predomina no texto?",
+  opcoes:["Referencial","Emotiva","Conativa","Poética"],
+  correta:0,
+  comentario:"O texto transmite informações objetivas sobre um fato científico, sem marcas de subjetividade ou apelo ao leitor. Predomina a função referencial (ou denotativa)."
+},
+{
+  id:2, genero:"Verbete de dicionário", funcao:"Metalinguística",
+  texto:`metonímia s.f. (ret.) Figura de linguagem que consiste na substituição de uma palavra por outra com a qual mantém relação de contiguidade, como "beber um copo" (pelo conteúdo do copo) ou "ler Machado de Assis" (pela obra do autor).`,
+  pergunta:"Qual função da linguagem predomina no verbete?",
+  opcoes:["Metalinguística","Referencial","Poética","Fática"],
+  correta:0,
+  comentario:"O verbete usa a linguagem para explicar a própria linguagem (a figura metonímia). Isso caracteriza a função metalinguística."
+},
+{
+  id:3, genero:"Divulgação científica", funcao:"Referencial",
+  texto:`O buraco negro M87*, situado a 55 milhões de anos-luz da Terra, possui uma massa equivalente a 6,5 bilhões de sóis. Em 2019, o Event Horizon Telescope obteve a primeira imagem direta de um buraco negro, revelando o anel de luz formado pela matéria aquecida em torno do horizonte de eventos.`,
+  pergunta:"O texto acima tem como objetivo principal:",
+  opcoes:["Transmitir informações científicas objetivas","Convencer o leitor a estudar astronomia","Expressar a admiração do autor pelo espaço","Estabelecer contato com o leitor"],
+  correta:0,
+  comentario:"O texto informa dados precisos (distância, massa, data) sobre um fenômeno científico. Não há apelo emocional nem tentativa de persuasão — predomina a função referencial."
+},
+{
+  id:4, genero:"Notícia", funcao:"Referencial",
+  texto:`O Banco Central elevou a taxa Selic em 0,5 ponto percentual, para 14,25% ao ano, na reunião do Comitê de Política Monetária realizada nesta quarta-feira. A decisão foi unânime entre os membros do colegiado. Esta é a terceira alta consecutiva desde outubro do ano passado.`,
+  pergunta:"Qual é a função predominante nessa notícia?",
+  opcoes:["Referencial","Conativa","Emotiva","Poética"],
+  correta:0,
+  comentario:"A notícia relata um fato de forma objetiva, com dados precisos (percentual, data, unanimidade). Caracteriza a função referencial."
+},
+{
+  id:5, genero:"Tutorial", funcao:"Conativa",
+  texto:`Para redefinir sua senha, siga os passos abaixo:
+1. Acesse a página de login.
+2. Clique em "Esqueci minha senha".
+3. Insira o e-mail cadastrado e confirme.
+4. Verifique sua caixa de entrada e clique no link enviado.
+5. Crie uma nova senha com pelo menos 8 caracteres.`,
+  pergunta:"Por que a função referencial não é a predominante nesse tutorial?",
+  opcoes:["Porque o texto instrui o leitor a realizar ações","Porque o texto usa linguagem poética","Porque o texto expressa sentimentos do autor","Porque o texto faz comentários sobre si mesmo"],
+  correta:0,
+  comentario:"Embora haja informação, o objetivo central é dirigir a ação do leitor com verbos no imperativo (acesse, clique, insira). Predomina a função conativa (imperativa/apelativa)."
+},
+
+// ── EMOTIVA / EXPRESSIVA ──
+{
+  id:6, genero:"Postagem de rede social", funcao:"Emotiva",
+  texto:`Acabei de receber o resultado do vestibular. Aprovada em Medicina na USP. Estou tremendo, chorando e rindo ao mesmo tempo. Cinco anos de muito estudo, abdicação e fé. Obrigada a cada pessoa que acreditou em mim quando eu mesma duvidei. 💙`,
+  pergunta:"Qual função da linguagem predomina na postagem?",
+  opcoes:["Emotiva","Referencial","Fática","Conativa"],
+  correta:0,
+  comentario:"A mensagem é centrada nos sentimentos da emissora (tremendo, chorando, rindo, obrigada). A função emotiva ou expressiva predomina quando o foco recai sobre o emissor e suas emoções."
+},
+{
+  id:7, genero:"Crônica", funcao:"Emotiva",
+  texto:`Que saudade do cheiro de terra molhada depois da chuva de verão lá em casa. Do barulho do ventilador de teto rangendo no quarto da minha avó. De acordar sem pressa, sem reunião, sem celular vibrando. Às vezes penso que o tempo que passou não foi embora — ficou guardado em algum lugar do peito.`,
+  pergunta:"O trecho expressa predominantemente:",
+  opcoes:["Os sentimentos e memórias do narrador","Informações sobre fenômenos climáticos","Uma instrução ao leitor sobre como viver","Um comentário sobre a linguagem utilizada"],
+  correta:0,
+  comentario:"O texto é marcado pela subjetividade do emissor — saudades, memórias afetivas, sensações. Predomina a função emotiva (expressiva)."
+},
+{
+  id:8, genero:"E-mail", funcao:"Emotiva",
+  texto:`Prezada professora Carla,
+
+Escrevo com o coração apertado para agradecer tudo que a senhora fez por mim nesse ano. Sua aula foi o único lugar onde eu me senti realmente capaz. Não sei se a senhora imagina o quanto uma palavra de incentivo pode mudar o rumo de uma vida.
+
+Com carinho,
+Beatriz`,
+  pergunta:"Qual função da linguagem predomina nesse e-mail?",
+  opcoes:["Emotiva","Conativa","Fática","Metalinguística"],
+  correta:0,
+  comentario:"O e-mail expressa os sentimentos da remetente (coração apertado, gratidão, afeto). A função emotiva foca no estado interior do emissor."
+},
+{
+  id:9, genero:"Comentário online", funcao:"Emotiva",
+  texto:`Acabei de terminar esse livro e estou destruída. Chorei nas últimas 80 páginas. Não consigo acreditar que um autor seja capaz de criar personagens tão reais que doem de verdade quando somem. Precisava desabafar com alguém.`,
+  pergunta:"Que característica do texto evidencia a função emotiva?",
+  opcoes:["O foco nas reações emocionais da leitora","A descrição objetiva do enredo do livro","O apelo para que outros também leiam","A explicação do que é um personagem literário"],
+  correta:0,
+  comentario:"O texto é centrado no estado emocional da emissora (destruída, chorei, doem). A função emotiva é evidenciada pela subjetividade do relato."
+},
+{
+  id:10, genero:"Música / Letra", funcao:"Poética",
+  texto:`Chuva miúda cai no paralelepípedo,
+cada gota um eco de tempo não vivido,
+nos vidros embaçados, rostos que se foram —
+saudade é o nome que demos ao vazio.`,
+  pergunta:"Qual função da linguagem predomina nesses versos?",
+  opcoes:["Poética","Emotiva","Referencial","Fática"],
+  correta:0,
+  comentario:"Embora haja emoção, o destaque é para a elaboração estética da mensagem: rimas, metáforas (\"saudade é o nome que demos ao vazio\"), ritmo. Predomina a função poética."
+},
+
+// ── CONATIVA / APELATIVA ──
+{
+  id:11, genero:"Campanha pública", funcao:"Conativa",
+  texto:`DIRIJA COM RESPONSABILIDADE.
+Cada segundo de distração pode mudar vidas para sempre.
+Guarde o celular. Respeite o limite de velocidade.
+Chegue em casa.`,
+  pergunta:"Qual função predomina nessa campanha de trânsito?",
+  opcoes:["Conativa","Referencial","Emotiva","Metalinguística"],
+  correta:0,
+  comentario:"A campanha usa imperativos (dirija, guarde, respeite) e apela diretamente ao receptor para mudar seu comportamento. Caracteriza a função conativa (apelativa)."
+},
+{
+  id:12, genero:"Anúncio publicitário", funcao:"Conativa",
+  texto:`Você merece um café que respeite o seu tempo.
+Experimente o NovaBlend: moagem na hora, temperatura exata, sabor que faz você parar tudo.
+Peça agora com 20% de desconto. Só hoje.`,
+  pergunta:"Há mais de uma função presente, mas qual é predominante?",
+  opcoes:["Conativa","Emotiva","Referencial","Poética"],
+  correta:0,
+  comentario:"Há informação (desconto, produto) e algum apelo emocional, mas o objetivo central é convencer o receptor a agir (experimente, peça agora). Predomina a função conativa."
+},
+{
+  id:13, genero:"Propaganda política", funcao:"Conativa",
+  texto:`A mudança começa com você. Vote consciente. Escolha quem defende sua educação, sua saúde, seu futuro. No próximo domingo, o seu voto decide o amanhã de todos nós. Não fique em casa.`,
+  pergunta:"Qual recurso linguístico evidencia a função conativa no texto?",
+  opcoes:["O uso de verbos no imperativo (vote, escolha) e pronomes na 2ª pessoa (você)","A descrição objetiva das propostas do candidato","A expressão dos sentimentos do emissor","O uso de rimas e recursos sonoros"],
+  correta:0,
+  comentario:"Verbos no imperativo (vote, escolha) e pronomes direcionados ao receptor (você, seu, sua) são marcas típicas da função conativa, que busca influenciar a ação do interlocutor."
+},
+{
+  id:14, genero:"FAQ", funcao:"Conativa",
+  texto:`Ainda não assinou o plano Premium?
+Aproveite agora: acesso ilimitado, sem anúncios, downloads offline.
+Assine por apenas R$ 19,90/mês e cancele quando quiser.
+Experimente 30 dias grátis. O que você está esperando?`,
+  pergunta:"Por que a função predominante não é a referencial?",
+  opcoes:["Porque o objetivo é persuadir o leitor a assinar, não apenas informar","Porque o texto expressa os sentimentos do autor","Porque o texto comenta a própria linguagem","Porque o texto estabelece apenas o contato"],
+  correta:0,
+  comentario:"Embora haja informações (preço, benefícios), a intenção central é convencer o receptor a contratar o serviço. Isso caracteriza a função conativa."
+},
+{
+  id:15, genero:"Receita culinária", funcao:"Conativa",
+  texto:`Modo de preparo:
+Bata as claras em neve até ficarem firmes. Adicione o açúcar aos poucos, sem parar de bater. Acrescente as gemas e a farinha peneirada. Leve ao forno preaquecido a 180 °C por 35 minutos. Não abra o forno antes do tempo!`,
+  pergunta:"O texto de receita é predominantemente:",
+  opcoes:["Conativo, pois instrui o leitor a executar ações","Referencial, pois descreve o processo quimicamente","Emotivo, pois o autor expressa entusiasmo","Poético, pois usa linguagem elaborada"],
+  correta:0,
+  comentario:"A receita usa verbos no imperativo (bata, adicione, acrescente, leve) para guiar a ação do receptor. Predomina a função conativa."
+},
+
+// ── FÁTICA ──
+{
+  id:16, genero:"Conversa de WhatsApp", funcao:"Fática",
+  texto:`— Oi, tô te ligando há meia hora, cadê você?
+— Oi!! Desculpa, estava sem sinal aqui embaixo do metrô.
+— Ah tá, ainda dá tempo então!
+— Tô chegando sim, uns 10 minutinhos.
+— Ok ok, te espero aqui na entrada.`,
+  pergunta:"Qual função predomina nessa conversa?",
+  opcoes:["Fática","Referencial","Emotiva","Metalinguística"],
+  correta:0,
+  comentario:"O objetivo central da conversa é verificar o contato (\"cadê você\", \"ainda dá tempo\", \"te espero aqui\"). A função fática serve para estabelecer, manter ou verificar o canal de comunicação."
+},
+{
+  id:17, genero:"Podcast / Apresentação", funcao:"Fática",
+  texto:`— Pessoal, vocês estão ouvindo bem? O som tá chegando legal para todo mundo? Tem alguém com eco? Pode mandar no chat se tiver algum problema. Beleza, então a gente vai começar. Valeu pela paciência!`,
+  pergunta:"Qual função predomina nessa fala de abertura de podcast?",
+  opcoes:["Fática","Conativa","Referencial","Emotiva"],
+  correta:0,
+  comentario:"O apresentador verifica se o canal de comunicação está funcionando (\"estão ouvindo bem\", \"tem alguém com eco\"). Predomina a função fática."
+},
+{
+  id:18, genero:"Cartão de visitas / Protocolo", funcao:"Fática",
+  texto:`Bom dia! Tudo bem com você? Como foram as férias? Aqui está meu cartão caso precise falar comigo. Qualquer dúvida, pode me chamar!`,
+  pergunta:"Há mais de uma intenção no texto, mas qual função é predominante?",
+  opcoes:["Fática","Conativa","Referencial","Poética"],
+  correta:0,
+  comentario:"\"Tudo bem\", \"como foram as férias\" e \"pode me chamar\" são formas de manter o canal aberto e o relacionamento social. Predomina a função fática."
+},
+{
+  id:19, genero:"Transmissão ao vivo", funcao:"Fática",
+  texto:`Eai galera, eu tô ao vivo! Quem tá aqui manda um oi nos comentários. Conseguem me ouvir? Tô vendo o chat travar, alguém mais tendo esse problema? Manda um coração se tiver tudo certo.`,
+  pergunta:"O que caracteriza a função fática nessa transmissão?",
+  opcoes:["A preocupação em verificar se o canal de comunicação está funcionando","A expressão de entusiasmo do streamer","A transmissão de informações sobre um tema","A tentativa de convencer a audiência a comprar algo"],
+  correta:0,
+  comentario:"O streamer verifica repetidamente se o canal está ativo (\"conseguem me ouvir\", \"tá travando\"). A função fática cuida do contato entre emissor e receptor."
+},
+{
+  id:20, genero:"Telefonema formal", funcao:"Fática",
+  texto:`— Alô, boa tarde, aqui é da Clínica São Lucas. A senhora pode falar agora?
+— Sim, pode falar.
+— Ótimo. A senhora conseguiu receber nossa mensagem de confirmação?
+— Recebi sim, obrigada.
+— Perfeito, então estamos confirmados para amanhã às 9h.`,
+  pergunta:"Qual função é predominante nesse telefonema?",
+  opcoes:["Fática","Referencial","Conativa","Emotiva"],
+  correta:0,
+  comentario:"A ligação serve principalmente para verificar o canal e confirmar o contato (\"pode falar agora\", \"conseguiu receber\"). Predomina a função fática."
+},
+
+// ── POÉTICA ──
+{
+  id:21, genero:"Slogan / Publicidade", funcao:"Poética",
+  texto:`Nasci para voar.
+Voei para nascer.
+Café Altitude: a altitude do sabor.`,
+  pergunta:"Qual função predomina no slogan?",
+  opcoes:["Poética","Conativa","Referencial","Emotiva"],
+  correta:0,
+  comentario:"O slogan explora jogos de inversão (\"nasci para voar / voei para nascer\"), aliteração e ambiguidade da palavra \"altitude\". O trabalho estético com a linguagem caracteriza a função poética."
+},
+{
+  id:22, genero:"Poema", funcao:"Poética",
+  texto:`O trem parte às três,
+leva nomes sem rosto,
+cidades sem nome —
+e eu, que fiquei,
+não sei mais ao certo
+de qual lado está a janela.`,
+  pergunta:"Qual recurso poético do texto evidencia a função poética?",
+  opcoes:["As metáforas e ambiguidades que trabalham a forma da linguagem","A informação objetiva sobre o horário do trem","O apelo ao leitor para que reflita sobre viagens","A expressão direta dos sentimentos do eu lírico"],
+  correta:0,
+  comentario:"O poema explora metáforas (\"nomes sem rosto\", \"não sei de qual lado está a janela\") e ambiguidade. O foco na construção estética da mensagem caracteriza a função poética."
+},
+{
+  id:23, genero:"Trocadilho / Humor", funcao:"Poética",
+  texto:`— Por que o espantalho ganhou um prêmio?
+— Porque ele era o melhor em seu ramo.`,
+  pergunta:"Qual função da linguagem predomina no trocadilho?",
+  opcoes:["Poética","Fática","Emotiva","Referencial"],
+  correta:0,
+  comentario:"O humor se constrói pela polissemia de \"ramo\" (galho de árvore / área de atuação). O jogo com o código linguístico é a marca da função poética."
+},
+{
+  id:24, genero:"Haiku", funcao:"Poética",
+  texto:`Folha que cai devagar —
+no silêncio da tarde,
+outono completo.`,
+  pergunta:"Embora o haiku evoque uma emoção, por que a função poética é predominante?",
+  opcoes:["Porque o foco está na elaboração estética e imagética da mensagem","Porque o texto transmite informações sobre o outono","Porque o texto apela ao leitor","Porque o texto fala sobre a própria língua"],
+  correta:0,
+  comentario:"A emoção está presente, mas é produzida pela construção da imagem poética. O haiku é, por definição, um exercício de linguagem — predomina a função poética."
+},
+{
+  id:25, genero:"Propaganda criativa", funcao:"Poética",
+  texto:`Leveza que pesa.
+Silêncio que fala.
+Tênis Nuvem: caminhe como se o chão fosse seu.`,
+  pergunta:"Qual característica evidencia a função poética no anúncio?",
+  opcoes:["O uso de paradoxos e imagens inusitadas","A informação técnica sobre o tênis","O comando direto ao consumidor","A expressão dos sentimentos do criador"],
+  correta:0,
+  comentario:"\"Leveza que pesa\" e \"silêncio que fala\" são paradoxos — figuras que exploram a linguagem de forma criativa. Predomina a função poética."
+},
+
+// ── METALINGUÍSTICA ──
+{
+  id:26, genero:"Aula de redação", funcao:"Metalinguística",
+  texto:`A coesão textual é garantida por mecanismos de retomada, como a pronominalização. Por exemplo: "João chegou cedo. Ele trouxe os documentos." O pronome "ele" retoma o sujeito "João", evitando a repetição e mantendo a progressão do texto.`,
+  pergunta:"Qual função predomina nesse trecho didático?",
+  opcoes:["Metalinguística","Referencial","Conativa","Fática"],
+  correta:0,
+  comentario:"O texto usa a linguagem para explicar o funcionamento da própria linguagem (coesão, pronominalização). Isso é metalinguagem — função metalinguística."
+},
+{
+  id:27, genero:"Nota do autor", funcao:"Metalinguística",
+  texto:`Nota da autora: ao longo deste livro, utilizo o termo "afeto" no sentido filosófico proposto por Espinosa — não como emoção sentimental, mas como capacidade de afetar e ser afetado pelo mundo.`,
+  pergunta:"Qual função da linguagem é exercida por essa nota?",
+  opcoes:["Metalinguística","Emotiva","Poética","Fática"],
+  correta:0,
+  comentario:"A autora comenta o uso de uma palavra do próprio texto (\"afeto\"). Explicar o código linguístico empregado é a função metalinguística."
+},
+{
+  id:28, genero:"Gramática / Manual", funcao:"Metalinguística",
+  texto:`O verbo "ser" pode funcionar como auxiliar (\"está sendo feito\") ou como verbo de ligação (\"ela é inteligente\"). Distinguir essas funções é essencial para a análise sintática correta.`,
+  pergunta:"Que função predomina no trecho gramatical acima?",
+  opcoes:["Metalinguística","Referencial","Conativa","Poética"],
+  correta:0,
+  comentario:"O texto analisa o funcionamento de um elemento da própria língua (o verbo \"ser\"). Usar a linguagem para falar da linguagem é a função metalinguística."
+},
+{
+  id:29, genero:"Crítica literária", funcao:"Metalinguística",
+  texto:`A prosa de Clarice Lispector desafia os limites da narrativa convencional. Suas frases não descrevem — elas performam. O leitor percebe que as palavras não nomeiam a realidade, mas a constroem à medida que se desdobram.`,
+  pergunta:"Por que há função metalinguística nesse trecho crítico?",
+  opcoes:["Porque o texto analisa o funcionamento e os efeitos da linguagem literária","Porque o texto expressa a emoção do crítico","Porque o texto instrui o leitor a ler Clarice","Porque o texto usa metáforas e recursos poéticos"],
+  correta:0,
+  comentario:"A crítica discute como a linguagem da autora funciona (\"as palavras não nomeiam — constroem\"). Isso é metalinguagem: a linguagem falando sobre si mesma."
+},
+{
+  id:30, genero:"IA / Chatbot", funcao:"Metalinguística",
+  texto:`Usuário: O que quer dizer "celeuma"?
+IA: "Celeuma" é um substantivo feminino que significa confusão, alvoroço ou discussão acalorada. Exemplo: "A celeuma nas redes sociais durou dias."`,
+  pergunta:"Qual função predomina na resposta da IA?",
+  opcoes:["Metalinguística","Fática","Conativa","Emotiva"],
+  correta:0,
+  comentario:"A IA usa a linguagem para explicar o significado de uma palavra — o próprio código linguístico. Isso caracteriza a função metalinguística."
+},
+
+// ── QUESTÕES MISTAS / PREDOMINÂNCIA ──
+{
+  id:31, genero:"Anúncio de serviço", funcao:"Conativa",
+  texto:`Seu celular tem mais de 2 anos? Então já está na hora de dar um upgrade.
+Venha à TechStore e saia hoje com o modelo mais recente, com condições exclusivas para clientes que chegarem antes das 14h.`,
+  pergunta:"Qual função é predominante, e o que a caracteriza?",
+  opcoes:["Conativa — verbos e estratégias que visam levar o receptor à ação","Referencial — informações sobre o produto","Emotiva — entusiasmo do vendedor","Fática — tentativa de manter contato com o cliente"],
+  correta:0,
+  comentario:"\"Venha\", \"saia hoje\" e \"chegarem antes das 14h\" são recursos para provocar uma ação no receptor. Predomina a função conativa."
+},
+{
+  id:32, genero:"Review de produto", funcao:"Emotiva",
+  texto:`Simplesmente me apaixonei por esse fone. A qualidade do som me deixou sem palavras — é uma experiência que vai além do que eu esperava. Nunca achei que pagaria tanto por um eletrônico, mas não me arrependo nem um pouco. Dez estrelas se pudesse!`,
+  pergunta:"Qual função predomina na resenha?",
+  opcoes:["Emotiva","Referencial","Conativa","Fática"],
+  correta:0,
+  comentario:"O texto é centrado nas reações subjetivas do emissor (\"me apaixonei\", \"sem palavras\", \"não me arrependo\"). Predomina a função emotiva."
+},
+{
+  id:33, genero:"Bula de remédio", funcao:"Referencial",
+  texto:`Composição: cada comprimido contém 500 mg de paracetamol, celulose microcristalina e estearato de magnésio. Indicações: alívio de dores leves a moderadas e febre. Contraindicações: hipersensibilidade ao paracetamol ou a qualquer componente da fórmula.`,
+  pergunta:"Qual função predomina na bula?",
+  opcoes:["Referencial","Conativa","Metalinguística","Poética"],
+  correta:0,
+  comentario:"A bula transmite informações objetivas e técnicas sobre o medicamento. Predomina a função referencial (denotativa)."
+},
+{
+  id:34, genero:"Mensagem de aniversário", funcao:"Emotiva",
+  texto:`Meu amor, hoje você completa mais um ano e eu não poderia estar mais feliz e grata por ter você ao meu lado. Você me faz querer ser uma pessoa melhor todos os dias. Que esse ano te traga tudo que você merece. Te amo demais. 🎂❤️`,
+  pergunta:"Qual é a função predominante nessa mensagem?",
+  opcoes:["Emotiva","Fática","Conativa","Poética"],
+  correta:0,
+  comentario:"A mensagem é inteiramente voltada para os sentimentos da emissora (\"feliz\", \"grata\", \"te amo\"). Predomina a função emotiva."
+},
+{
+  id:35, genero:"IA / Resposta automática", funcao:"Fática",
+  texto:`Olá! Obrigado por entrar em contato com nosso suporte. Sua mensagem foi recebida com sucesso. Em breve um de nossos atendentes responderá. Você está na fila de número 4. Tempo estimado: 8 minutos.`,
+  pergunta:"Qual função predomina nessa mensagem automática?",
+  opcoes:["Fática","Referencial","Conativa","Emotiva"],
+  correta:0,
+  comentario:"A mensagem confirma o recebimento do contato e mantém o canal aberto (\"sua mensagem foi recebida\", \"você está na fila\"). Predomina a função fática."
+},
+{
+  id:36, genero:"Poesia concreta", funcao:"Poética",
+  texto:`amor
+roma
+amor
+mora
+mora
+amor`,
+  pergunta:"Qual função é explorada nessa poesia visual?",
+  opcoes:["Poética","Metalinguística","Referencial","Fática"],
+  correta:0,
+  comentario:"A poesia concreta joga com o arranjo visual e os anagramas de \"amor\" para criar novos sentidos. O foco está na forma da mensagem — função poética."
+},
+{
+  id:37, genero:"Instrução de segurança", funcao:"Conativa",
+  texto:`Em caso de incêndio:
+• Mantenha a calma.
+• Acione o alarme mais próximo.
+• Evacue o prédio pelas saídas de emergência.
+• Não use elevadores.
+• Aguarde socorro do lado de fora.`,
+  pergunta:"Qual função predomina nas instruções de segurança?",
+  opcoes:["Conativa","Referencial","Emotiva","Fática"],
+  correta:0,
+  comentario:"O texto usa verbos no imperativo (mantenha, acione, evacue, não use, aguarde) para dirigir a ação do receptor em situação de emergência. Função conativa."
+},
+{
+  id:38, genero:"Carta ao leitor", funcao:"Emotiva",
+  texto:`Escrevo esta carta aos 73 anos, com as mãos que já não são as mesmas, mas ainda carregam o calor daquela tarde de 1972 quando vi pela primeira vez o oceano. Ainda hoje não sei explicar o que senti: era como se o mundo me devolvesse algo que eu nunca soube que havia perdido.`,
+  pergunta:"O texto é predominantemente:",
+  opcoes:["Emotivo, pois o foco é a experiência subjetiva do emissor","Referencial, pois descreve um evento real","Poético, pois usa metáforas elaboradas","Conativo, pois o autor quer comover o leitor"],
+  correta:0,
+  comentario:"Apesar das metáforas, o centro do texto é a expressão de um estado interior do emissor. Predomina a função emotiva."
+},
+{
+  id:39, genero:"Manchete de jornal", funcao:"Referencial",
+  texto:`Brasil registra 3,2 milhões de novos empregos formais no primeiro semestre, aponta IBGE.`,
+  pergunta:"Qual função predomina na manchete?",
+  opcoes:["Referencial","Conativa","Poética","Emotiva"],
+  correta:0,
+  comentario:"A manchete informa um dado objetivo (número de empregos, fonte, período). Predomina a função referencial."
+},
+{
+  id:40, genero:"Meme / Humor", funcao:"Poética",
+  texto:`Segunda-feira:
+o dia em que a semana decide começar sem avisar.`,
+  pergunta:"Qual função predomina no meme?",
+  opcoes:["Poética","Fática","Referencial","Conativa"],
+  correta:0,
+  comentario:"O humor do meme vem da personificação da segunda-feira e do trocadilho com a ideia de \"avisar\". O jogo criativo com a linguagem caracteriza a função poética."
+},
+
+// ── MAIS QUESTÕES VARIADAS ──
+{
+  id:41, genero:"Podcast — roteiro", funcao:"Referencial",
+  texto:`Neste episódio vamos falar sobre a síndrome de burnout. Segundo a Organização Mundial da Saúde, o burnout é um fenômeno ocupacional resultante de estresse crônico no trabalho que não foi gerenciado com sucesso. Os principais sintomas são exaustão, distanciamento mental do trabalho e queda de desempenho.`,
+  pergunta:"Qual função predomina nesse roteiro de podcast?",
+  opcoes:["Referencial","Emotiva","Conativa","Fática"],
+  correta:0,
+  comentario:"O trecho fornece dados objetivos de uma fonte especializada (OMS) sobre um fenômeno. Não há apelo ao ouvinte nem expressão de sentimento — predomina a função referencial."
+},
+{
+  id:42, genero:"Comentário de vídeo", funcao:"Emotiva",
+  texto:`Assisti esse vídeo três vezes e toda hora bate aquela sensação de que você tá falando exatamente o que eu sinto mas nunca soube colocar em palavras. Obrigada do fundo do coração, sério.`,
+  pergunta:"Por que a função emotiva predomina nesse comentário?",
+  opcoes:["Porque o texto foca nos sentimentos e experiências subjetivas do emissor","Porque o texto instrui outros a assistirem ao vídeo","Porque o texto avalia tecnicamente o conteúdo do vídeo","Porque o texto estabelece contato com a criadora do canal"],
+  correta:0,
+  comentario:"O comentário gira em torno da experiência emocional do receptor/emissor (\"sensação\", \"o que eu sinto\", \"do fundo do coração\"). Função emotiva."
+},
+{
+  id:43, genero:"Aviso escolar", funcao:"Conativa",
+  texto:`Atenção, alunos!
+As notas do 3º bimestre já estão disponíveis no portal. Acesse com seu RA e senha pessoal. Caso haja qualquer divergência, procure a secretaria até o dia 15. Não deixe para a última hora.`,
+  pergunta:"Qual função predomina no aviso?",
+  opcoes:["Conativa","Referencial","Fática","Metalinguística"],
+  correta:0,
+  comentario:"Embora haja informações, os imperativos (acesse, procure, não deixe) e os comandos diretos ao aluno indicam que o objetivo é orientar a ação do receptor. Predomina a função conativa."
+},
+{
+  id:44, genero:"Verbete de enciclopédia", funcao:"Referencial",
+  texto:`Fotossíntese: processo metabólico pelo qual os organismos autótrofos convertem energia luminosa em energia química, armazenada sob a forma de glicose. A equação geral é: 6 CO₂ + 6 H₂O + luz → C₆H₁₂O₆ + 6 O₂.`,
+  pergunta:"Qual função predomina no verbete?",
+  opcoes:["Referencial","Poética","Metalinguística","Conativa"],
+  correta:0,
+  comentario:"O verbete define um processo científico com terminologia técnica e equação química. Transmite informação objetiva — função referencial."
+},
+{
+  id:45, genero:"E-mail corporativo", funcao:"Fática",
+  texto:`Olá, Paulo!
+Espero que esteja tudo bem com você e com a família. Só passando para confirmar se você recebeu o arquivo que enviei ontem à tarde. Pode me dar um retorno quando tiver um tempinho? Obrigado!`,
+  pergunta:"Qual função é predominante nesse e-mail?",
+  opcoes:["Fática","Referencial","Emotiva","Conativa"],
+  correta:0,
+  comentario:"O e-mail verifica se a comunicação chegou (\"confirmar se você recebeu\") e mantém o canal aberto. A abertura social (\"espero que esteja bem\") também é fática. Predomina a função fática."
+},
+{
+  id:46, genero:"Legenda de Instagram", funcao:"Poética",
+  texto:`Mar de segunda-feira.
+Pessoas de terça.
+Eu, que sou fim de semana todo dia.`,
+  pergunta:"Qual função predomina na legenda?",
+  opcoes:["Poética","Emotiva","Fática","Referencial"],
+  correta:0,
+  comentario:"A legenda joga com paradoxos e imagens inusitadas (\"ser fim de semana todo dia\"). O trabalho estético com a linguagem caracteriza a função poética."
+},
+{
+  id:47, genero:"Nota científica", funcao:"Referencial",
+  texto:`A temperatura média global aumentou 1,1 °C desde a era pré-industrial, segundo o último relatório do IPCC. Os modelos climáticos projetam um aumento de 1,5 °C até 2040 caso as emissões de CO₂ não sejam drasticamente reduzidas.`,
+  pergunta:"Qual função da linguagem é predominante?",
+  opcoes:["Referencial","Conativa","Emotiva","Fática"],
+  correta:0,
+  comentario:"O texto apresenta dados e projeções científicas de forma objetiva. Função referencial."
+},
+{
+  id:48, genero:"Manual de estilo", funcao:"Metalinguística",
+  texto:`Evite o uso do gerúndio encadeado. Frases como "estávamos tentando estar melhorando o produto" são gramaticalmente possíveis, mas afetadas e desnecessariamente longas. Prefira formas verbais diretas: "estamos melhorando o produto".`,
+  pergunta:"Qual função predomina no manual de estilo?",
+  opcoes:["Metalinguística","Conativa","Referencial","Poética"],
+  correta:0,
+  comentario:"O manual orienta sobre o uso da própria língua, analisando estruturas gramaticais. Usar a linguagem para falar da linguagem = função metalinguística."
+},
+{
+  id:49, genero:"Peça de teatro / Monólogo", funcao:"Emotiva",
+  texto:`Às vezes acordo às 3 da manhã e fico olhando o teto sem entender muito bem por que estou aqui. Não é tristeza, não exatamente. É uma espécie de estranheza — como se eu fosse hóspede na minha própria vida.`,
+  pergunta:"Qual função predomina nesse monólogo?",
+  opcoes:["Emotiva","Poética","Referencial","Fática"],
+  correta:0,
+  comentario:"O monólogo expressa um estado interior complexo do emissor (\"não entendo por que estou aqui\", \"hóspede na minha própria vida\"). Predomina a função emotiva."
+},
+{
+  id:50, genero:"Campanha de saúde", funcao:"Conativa",
+  texto:`Vacine-se contra a gripe.
+A imunização protege não só você, mas todos ao seu redor.
+Procure a unidade de saúde mais próxima e garanta sua dose antes que acabe.`,
+  pergunta:"Qual função predomina na campanha?",
+  opcoes:["Conativa","Referencial","Emotiva","Metalinguística"],
+  correta:0,
+  comentario:"Verbos no imperativo (vacine-se, procure, garanta) dirigem a ação do receptor. Função conativa."
+},
+{
+  id:51, genero:"Chat de suporte", funcao:"Fática",
+  texto:`Atendente: Olá! Ainda está por aqui?
+Usuário: Sim, sim, tô aqui.
+Atendente: Ótimo! Só queria confirmar que você ainda está aguardando. Sua solicitação está sendo processada.`,
+  pergunta:"O que caracteriza predominantemente a função fática nesse chat?",
+  opcoes:["A verificação de que o canal ainda está ativo","A informação sobre o processamento da solicitação","A expressão de interesse do atendente","A instrução ao usuário para aguardar"],
+  correta:0,
+  comentario:"\"Ainda está por aqui?\" e \"só queria confirmar que você ainda está aguardando\" verificam se o contato permanece ativo — função fática."
+},
+{
+  id:52, genero:"Letra de rap", funcao:"Poética",
+  texto:`Concreto e asfalto, minha paleta de cores.
+Grafite na parede, minha fala são flores.
+Cada rima é um tijolo que eu boto na laje —
+fundo meu castelo no meio da viagem.`,
+  pergunta:"O que evidencia predominantemente a função poética nesses versos?",
+  opcoes:["O uso de metáforas, rimas e imagens para trabalhar a linguagem de forma criativa","A transmissão de informações sobre a vida na cidade","A expressão direta dos sentimentos do rapper","A tentativa de convencer o ouvinte de algo"],
+  correta:0,
+  comentario:"Rimas (cores/flores, laje/viagem), metáforas (\"grafite é fala\", \"rima é tijolo\") mostram o trabalho estético com o código. Predomina a função poética."
+},
+{
+  id:53, genero:"Aviso de sistema", funcao:"Fática",
+  texto:`Conexão estabelecida com sucesso.
+Sincronizando dados… 100%
+Você está online. ✓`,
+  pergunta:"Qual função predomina no aviso do sistema?",
+  opcoes:["Fática","Referencial","Conativa","Metalinguística"],
+  correta:0,
+  comentario:"O aviso confirma que o canal de comunicação entre dispositivo e servidor está funcionando. Predomina a função fática."
+},
+{
+  id:54, genero:"Piada", funcao:"Poética",
+  texto:`— Por que o livro de matemática foi ao psicólogo?
+— Porque tinha muitos problemas.`,
+  pergunta:"Qual função predomina na piada?",
+  opcoes:["Poética","Emotiva","Conativa","Referencial"],
+  correta:0,
+  comentario:"O humor se constrói pela ambiguidade de \"problemas\" (exercícios matemáticos / problemas pessoais). O jogo semântico com o código é a marca da função poética."
+},
+{
+  id:55, genero:"Manchete sensacionalista", funcao:"Conativa",
+  texto:`VOCÊ PRECISA VER ISSO AGORA: estudo revela o alimento que está destruindo silenciosamente sua saúde — e que você provavelmente come todo dia.`,
+  pergunta:"Há função referencial (conteúdo do estudo) e função conativa. Qual é predominante?",
+  opcoes:["Conativa — o objetivo é provocar clique e ação no leitor","Referencial — o objetivo é informar sobre o estudo","Emotiva — o objetivo é assustar o leitor","Fática — o objetivo é manter o leitor na página"],
+  correta:0,
+  comentario:"O título manipula o receptor com urgência e alarme para forçar o clique (\"você precisa ver isso agora\", \"que você provavelmente come todo dia\"). O objetivo central é a ação do receptor — função conativa."
+},
+{
+  id:56, genero:"Definição filosófica", funcao:"Metalinguística",
+  texto:`Neste ensaio, utilizo "liberdade" não em seu sentido jurídico — ausência de coerção — mas no sentido ontológico sartriano: a condição de ser sempre além do que já se é, o permanente inacabamento do ser humano.`,
+  pergunta:"Qual função predomina na nota do ensaísta?",
+  opcoes:["Metalinguística","Referencial","Emotiva","Poética"],
+  correta:0,
+  comentario:"O autor comenta o sentido específico em que usa uma palavra do próprio texto (\"liberdade\"). Isso é metalinguagem: a linguagem explicando a si mesma."
+},
+{
+  id:57, genero:"Streaming — descrição", funcao:"Referencial",
+  texto:`Oppenheimer (2023). Direção: Christopher Nolan. Duração: 180 min. Sinopse: a vida do físico J. Robert Oppenheimer, pai da bomba atômica, e sua participação no Projeto Manhattan durante a Segunda Guerra Mundial. Gênero: drama histórico/biográfico.`,
+  pergunta:"Qual função predomina nessa descrição de streaming?",
+  opcoes:["Referencial","Conativa","Emotiva","Fática"],
+  correta:0,
+  comentario:"A ficha técnica apresenta dados objetivos sobre o filme (diretor, duração, enredo, gênero). Função referencial."
+},
+{
+  id:58, genero:"Texto de autoajuda", funcao:"Conativa",
+  texto:`Pare de esperar que as circunstâncias mudem. Seja a mudança que você quer ver. Comece hoje: identifique um hábito que te sabota e substitua por um que te constrói. Você tem mais poder do que imagina.`,
+  pergunta:"Qual função predomina no texto de autoajuda?",
+  opcoes:["Conativa","Emotiva","Referencial","Fática"],
+  correta:0,
+  comentario:"\"Pare\", \"seja\", \"comece\", \"identifique\" — verbos no imperativo diretos ao receptor, visando mudar seu comportamento. Predomina a função conativa."
+},
+{
+  id:59, genero:"Legenda de foto", funcao:"Poética",
+  texto:`Fotografei o vento.
+Não apareceu na foto, mas estava lá —
+entre as folhas suspensas
+e o meu dedo no botão.`,
+  pergunta:"O que caracteriza a função poética nesse texto?",
+  opcoes:["A construção de uma imagem paradoxal que trabalha os limites da linguagem","A informação objetiva sobre como tirar fotos","A expressão da frustração do fotógrafo","O pedido para que o leitor experimente fotografar o vento"],
+  correta:0,
+  comentario:"\"Fotografei o vento\" é um paradoxo criativo que reflete sobre os limites da linguagem e da representação. O trabalho estético com a mensagem caracteriza a função poética."
+},
+{
+  id:60, genero:"Enquete / Formulário", funcao:"Conativa",
+  texto:`Sua opinião importa!
+Responda nossa pesquisa de satisfação e nos ajude a melhorar. Leva apenas 2 minutos. Clique no botão abaixo e participe.`,
+  pergunta:"Qual função predomina no convite para a enquete?",
+  opcoes:["Conativa","Fática","Referencial","Emotiva"],
+  correta:0,
+  comentario:"\"Responda\", \"clique\", \"participe\" são imperativos que visam engajar a ação do receptor. Predomina a função conativa."
+}
+
+]; // fim do BANCO
+
+// ─── ESTADO ────────────────────────────────────────────────────────────────
+let estado = {
+  nome: "", turma: "",
+  questoes: [],       // 20 sorteadas
+  atual: 0,
+  respostas: [],      // índice da opção escolhida (ou null se pulou)
+  corretas: [],       // true/false
+  inicio: null,
+  fim: null,
+  timerInterval: null
+};
+
+// ─── UTILITÁRIOS ───────────────────────────────────────────────────────────
+function embaralhar(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function sortear20() {
+  return embaralhar(BANCO).slice(0, 20).map(q => {
+    // embaralhar as opções mantendo referência à correta
+    const opcaoCorreta = q.opcoes[q.correta];
+    const ops = embaralhar([...q.opcoes]);
+    return { ...q, opcoes: ops, correta: ops.indexOf(opcaoCorreta) };
+  });
+}
+
+function formatarTempo(s) {
+  const m = Math.floor(s / 60).toString().padStart(2, '0');
+  const ss = (s % 60).toString().padStart(2, '0');
+  return `${m}:${ss}`;
+}
+
+// ─── TELA INICIAL ──────────────────────────────────────────────────────────
+function iniciarAvaliacao() {
+  const nome = document.getElementById('inp-nome').value.trim();
+  const turma = document.getElementById('inp-turma').value.trim();
+  if (!nome) { document.getElementById('inp-nome').focus(); return; }
+  estado.nome = nome;
+  estado.turma = turma;
+  estado.questoes = sortear20();
+  estado.atual = 0;
+  estado.respostas = new Array(20).fill(null);
+  estado.corretas = new Array(20).fill(false);
+  estado.inicio = Date.now();
+  iniciarTimer();
+  mostrarTela('screen-quiz');
+  renderQuestao();
+}
+
+// ─── TIMER ─────────────────────────────────────────────────────────────────
+function iniciarTimer() {
+  const badge = document.getElementById('timer-badge');
+  estado.timerInterval = setInterval(() => {
+    const seg = Math.floor((Date.now() - estado.inicio) / 1000);
+    badge.textContent = '⏱ ' + formatarTempo(seg);
+    badge.classList.toggle('warn', seg > 1200);
+  }, 1000);
+}
+
+// ─── RENDER QUESTÃO ────────────────────────────────────────────────────────
+function renderQuestao() {
+  const idx = estado.atual;
+  const q = estado.questoes[idx];
+  const total = 20;
+
+  document.getElementById('q-num').textContent = idx + 1;
+  document.getElementById('progress-fill').style.width = ((idx / total) * 100) + '%';
+  document.getElementById('btn-skip').style.display = '';
+  document.getElementById('btn-next').style.display = 'none';
+
+  const letras = ['A', 'B', 'C', 'D'];
+  const opcoesHTML = q.opcoes.map((op, i) => `
+    <button class="option" onclick="selecionarOpcao(${i})" id="op-${i}">
+      <span class="option-letter">${letras[i]}</span>
+      <span>${op}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('quiz-card').innerHTML = `
+    <div class="genre-tag">${q.genero}</div>
+    <div class="text-block">${q.texto}</div>
+    <div class="q-stem">${q.pergunta}</div>
+    <div class="options" id="options-container">${opcoesHTML}</div>
+    <div class="feedback-box" id="feedback-box"></div>
+  `;
+}
+
+// ─── SELECIONAR OPÇÃO ──────────────────────────────────────────────────────
+function selecionarOpcao(idx) {
+  const q = estado.questoes[estado.atual];
+  if (document.querySelector('.option.correct, .option.wrong')) return; // já respondeu
+
+  // marca a seleção
+  document.querySelectorAll('.option').forEach((el, i) => {
+    el.disabled = true;
+    el.classList.remove('selected');
+    if (i === idx) el.classList.add('selected');
+  });
+
+  const acertou = idx === q.correta;
+  estado.respostas[estado.atual] = idx;
+  estado.corretas[estado.atual] = acertou;
+
+  // aplica cores
+  document.getElementById(`op-${q.correta}`).classList.add('correct');
+  if (!acertou) document.getElementById(`op-${idx}`).classList.add('wrong');
+
+  // feedback
+  const fb = document.getElementById('feedback-box');
+  fb.style.display = 'block';
+  if (acertou) {
+    fb.className = 'feedback-box correct-fb';
+    fb.innerHTML = `<div class="fb-label">✓ Correto!</div><div class="fb-comment">${q.comentario}</div>`;
+  } else {
+    fb.className = 'feedback-box wrong-fb';
+    fb.innerHTML = `
+      <div class="fb-label">✗ Incorreto</div>
+      <div class="fb-answer">Resposta correta: <strong>${q.opcoes[q.correta]}</strong></div>
+      <div class="fb-comment">${q.comentario}</div>
+    `;
+  }
+
+  document.getElementById('btn-skip').style.display = 'none';
+  document.getElementById('btn-next').style.display = '';
+}
+
+// ─── PULAR QUESTÃO ─────────────────────────────────────────────────────────
+function pularQuestao() {
+  estado.respostas[estado.atual] = null;
+  estado.corretas[estado.atual] = false;
+  avancar();
+}
+
+// ─── PRÓXIMA QUESTÃO ───────────────────────────────────────────────────────
+function proximaQuestao() { avancar(); }
+
+function avancar() {
+  if (estado.atual < 19) {
+    estado.atual++;
+    renderQuestao();
+  } else {
+    finalizarAvaliacao();
+  }
+}
+
+// ─── FINALIZAR ─────────────────────────────────────────────────────────────
+function finalizarAvaliacao() {
+  clearInterval(estado.timerInterval);
+  estado.fim = Date.now();
+  const tempoSeg = Math.floor((estado.fim - estado.inicio) / 1000);
+
+  const acertos = estado.corretas.filter(Boolean).length;
+  const erros = 20 - acertos;
+  const pct = (acertos / 20) * 100;
+  const nota = (acertos / 20) * 10;
+
+  // medalha e mensagem
+  let medal, msg;
+  if (acertos >= 18) { medal = '🥇'; msg = 'Excelente! Você domina as funções da linguagem.'; }
+  else if (acertos >= 15) { medal = '🥈'; msg = 'Muito bom! Revise os casos de predominância entre funções.'; }
+  else if (acertos >= 12) { medal = '🥉'; msg = 'Bom desempenho! Vale reforçar as funções poética e metalinguística.'; }
+  else { medal = '📚'; msg = 'Continue praticando! Releia as explicações de cada questão.'; }
+
+  document.getElementById('res-medal').textContent = medal;
+  document.getElementById('res-nota').textContent = nota.toFixed(1).replace('.', ',');
+  document.getElementById('res-acertos').textContent = `${acertos} de 20 acertos · ${pct.toFixed(0)}%`;
+  document.getElementById('res-msg').textContent = msg;
+  document.getElementById('st-acertos').textContent = acertos;
+  document.getElementById('st-erros').textContent = erros;
+  document.getElementById('st-tempo').textContent = formatarTempo(tempoSeg);
+
+  // Preencher cabeçalho de impressão com nome e turma
+  document.getElementById('print-nome').textContent = estado.nome;
+  document.getElementById('print-turma').textContent = estado.turma || 'Turma não informada';
+
+  // estatísticas por função
+  const funcoes = ['Referencial','Emotiva','Conativa','Fática','Poética','Metalinguística'];
+  const totalPorFunc = {}, acertosPorFunc = {};
+  funcoes.forEach(f => { totalPorFunc[f] = 0; acertosPorFunc[f] = 0; });
+  estado.questoes.forEach((q, i) => {
+    totalPorFunc[q.funcao]++;
+    if (estado.corretas[i]) acertosPorFunc[q.funcao]++;
+  });
+
+  const fr = document.getElementById('func-rows');
+  fr.innerHTML = funcoes.map(f => {
+    const t = totalPorFunc[f];
+    if (t === 0) return '';
+    const a = acertosPorFunc[f];
+    const pf = Math.round((a / t) * 100);
+    return `
+      <div class="func-row">
+        <span class="func-name">${f}</span>
+        <div class="func-bar-track"><div class="func-bar-fill" style="width:${pf}%"></div></div>
+        <span class="func-score">${a}/${t}</span>
+      </div>`;
+  }).join('');
+
+  // revisão
+  const rl = document.getElementById('review-list');
+  rl.innerHTML = estado.questoes.map((q, i) => {
+    const ok = estado.corretas[i];
+    const escolhida = estado.respostas[i];
+    const resEscolhida = escolhida !== null ? q.opcoes[escolhida] : 'Pulada';
+    return `
+      <div class="review-item">
+        <div class="ri-top">
+          <span class="ri-num">Questão ${i + 1} · ${q.genero}</span>
+          <span class="ri-badge ${ok ? 'ok' : 'err'}">${ok ? '✓ Correto' : '✗ Incorreto'}</span>
+        </div>
+        <div class="ri-stem">${q.pergunta}</div>
+        <div class="ri-answer">
+          Sua resposta: <strong>${resEscolhida}</strong>
+          ${!ok ? ` · Correta: <strong>${q.opcoes[q.correta]}</strong>` : ''}
+        </div>
+        <div class="ri-comment">${q.comentario}</div>
+      </div>`;
+  }).join('');
+
+  mostrarTela('screen-result');
+  // animar barras
+  setTimeout(() => {
+    document.querySelectorAll('.func-bar-fill').forEach(el => {
+      const w = el.style.width; el.style.width = '0';
+      requestAnimationFrame(() => { el.style.width = w; });
+    });
+  }, 100);
+}
+
+// ─── REINICIAR ─────────────────────────────────────────────────────────────
+function reiniciar() {
+  document.getElementById('inp-nome').value = '';
+  document.getElementById('inp-turma').value = '';
+  mostrarTela('screen-start');
+}
+
+// ─── HELPER ────────────────────────────────────────────────────────────────
+function mostrarTela(id) {
+  ['screen-start','screen-quiz','screen-result'].forEach(s => {
+    document.getElementById(s).classList.toggle('hidden', s !== id);
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
