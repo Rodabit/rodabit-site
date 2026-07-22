@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ficha de Exercícios – O Pescador e Sua Esposa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e8f0f8;
+            background-image: radial-gradient(circle at 10% 20%, rgba(64, 164, 223, 0.08), transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(255, 215, 0, 0.06), transparent 40%);
+            padding: 2rem 1rem;
+            color: #1e2b3a;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(255, 252, 248, 0.95);
+            backdrop-filter: blur(2px);
+            border-radius: 32px 32px 28px 28px;
+            box-shadow: 0 20px 40px rgba(0, 20, 40, 0.12);
+            padding: 2.5rem 2.5rem 3rem;
+            border: 1px solid #d0dce8;
+        }
+
+        .header {
+            text-align: center;
+            border-bottom: 3px dashed #4a90b0;
+            padding-bottom: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2rem;
+            color: #1a4a6a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 i {
+            color: #f7c948;
+        }
+
+        .header .subtitulo {
+            font-size: 1rem;
+            color: #4a6a7a;
+            margin-top: 0.3rem;
+        }
+
+        .header .badge {
+            display: inline-block;
+            background: #1a4a6a;
+            color: white;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+        }
+
+        .video-link {
+            background: #fcf8e0;
+            border: 2px solid #f7c948;
+            border-radius: 16px;
+            padding: 0.8rem 1.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .video-link a {
+            color: #1a4a6a;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .video-link a:hover {
+            color: #c0392b;
+            text-decoration: underline;
+        }
+
+        .video-link i {
+            font-size: 1.8rem;
+            color: #c0392b;
+        }
+
+        .video-link .badge-video {
+            background: #c0392b;
+            color: white;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        .barra-ferramentas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            padding: 0.8rem 1rem;
+            background: #f0f4f8;
+            border-radius: 40px;
+            border: 1px solid #d0dce8;
+        }
+
+        .barra-ferramentas .btn {
+            background: white;
+            border: 2px solid #b5caa5;
+            padding: 0.4rem 1.4rem;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.15s;
+            color: #1d3d2a;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .barra-ferramentas .btn:hover {
+            background: #eaf0e3;
+            border-color: #4a8c5c;
+            transform: scale(1.02);
+        }
+
+        .barra-ferramentas .btn.principal {
+            background: #1a4a6a;
+            border-color: #1a4a6a;
+            color: white;
+        }
+
+        .barra-ferramentas .btn.principal:hover {
+            background: #2a6a8a;
+        }
+
+        .barra-ferramentas .btn.secundario {
+            background: #f7c948;
+            border-color: #b8860b;
+            color: #1e3a1e;
+        }
+
+        .barra-ferramentas .btn.secundario:hover {
+            background: #f5d060;
+        }
+
+        .barra-ferramentas .btn.perigo {
+            background: #c0392b;
+            border-color: #a93226;
+            color: white;
+        }
+
+        .barra-ferramentas .btn.perigo:hover {
+            background: #e74c3c;
+        }
+
+        .secao {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e0e8f0;
+            transition: 0.2s;
+        }
+
+        .secao:hover {
+            border-color: #b0c8d8;
+        }
+
+        .secao h2 {
+            font-size: 1.2rem;
+            color: #1a4a6a;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .secao h2 i {
+            color: #f7c948;
+            font-size: 1.1rem;
+        }
+
+        .secao p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #2a3a4a;
+            margin-bottom: 0.8rem;
+        }
+
+        .secao .dica {
+            background: #e8f0f8;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #2a5a7a;
+            margin-bottom: 1rem;
+            border-left: 4px solid #4a90b0;
+        }
+
+        .pergunta {
+            margin-bottom: 1.5rem;
+        }
+
+        .pergunta label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+            color: #1a3a4a;
+        }
+
+        .pergunta .rotulo {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+            font-size: 0.95rem;
+            color: #1a3a4a;
+        }
+
+        .pergunta textarea {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 2px solid #d0dce8;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 70px;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .pergunta textarea:focus {
+            border-color: #4a90b0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 176, 0.15);
+        }
+
+        .pergunta textarea.pequeno {
+            min-height: 50px;
+        }
+
+        .pergunta textarea.medio {
+            min-height: 90px;
+        }
+
+        .pergunta textarea.grande {
+            min-height: 250px;
+        }
+
+        .pergunta input[type="text"] {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: 2px solid #d0dce8;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: white;
+        }
+
+        .pergunta input[type="text"]:focus {
+            border-color: #4a90b0;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 144, 176, 0.15);
+        }
+
+        .pergunta .opcoes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .pergunta .opcoes label {
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .pergunta .opcoes input[type="radio"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4a6a;
+            cursor: pointer;
+        }
+
+        .pergunta .opcoes input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4a6a;
+            cursor: pointer;
+        }
+
+        .pergunta .opcoes.vertical {
+            flex-direction: column;
+        }
+
+        .pergunta .opcoes.horizontal {
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .pergunta .opcoes.horizontal label {
+            background: #f0f4f8;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            border: 2px solid #d0dce8;
+            transition: 0.15s;
+        }
+
+        .pergunta .opcoes.horizontal label:hover {
+            background: #e0ecf8;
+            border-color: #4a90b0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .tabela-cena {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tabela-cena th {
+            background: #1a4a6a;
+            color: white;
+            padding: 0.5rem 0.8rem;
+            text-align: left;
+        }
+
+        .tabela-cena td {
+            padding: 0.5rem 0.8rem;
+            border-bottom: 1px solid #e0e8f0;
+        }
+
+        .tabela-cena tr:nth-child(even) td {
+            background: #f4f8fc;
+        }
+
+        .tabela-cena select {
+            width: 100%;
+            padding: 0.4rem 0.6rem;
+            border: 2px solid #d0dce8;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .tabela-cena select:focus {
+            border-color: #4a90b0;
+            outline: none;
+        }
+
+        .tabela-ordenacao {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .tabela-ordenacao th {
+            background: #1a4a6a;
+            color: white;
+            padding: 0.5rem 0.8rem;
+            text-align: left;
+        }
+
+        .tabela-ordenacao td {
+            padding: 0.5rem 0.8rem;
+            border-bottom: 1px solid #e0e8f0;
+        }
+
+        .tabela-ordenacao tr:nth-child(even) td {
+            background: #f4f8fc;
+        }
+
+        .tabela-ordenacao input[type="number"] {
+            width: 60px;
+            padding: 0.3rem 0.5rem;
+            border: 2px solid #d0dce8;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.9rem;
+            text-align: center;
+            background: white;
+        }
+
+        .tabela-ordenacao input[type="number"]:focus {
+            border-color: #4a90b0;
+            outline: none;
+        }
+
+        .checklist {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 20px;
+            margin-top: 0.5rem;
+        }
+
+        .checklist label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .checklist input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #1a4a6a;
+            cursor: pointer;
+        }
+
+        .btn-enviar {
+            background: #1a4a6a;
+            color: white;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            border-radius: 40px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            box-shadow: 0 4px 0 #0f3a52;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-enviar:hover {
+            background: #2a6a8a;
+            transform: scale(1.02);
+        }
+
+        .btn-enviar:active {
+            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0f3a52;
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #6a8a9a;
+            border-top: 1px solid #d0dce8;
+            padding-top: 1.5rem;
+        }
+
+        .footer i {
+            color: #c0392b;
+        }
+
+        .info-aluno {
+            background: #e8f0f8;
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            border-left: 6px solid #4a90b0;
+        }
+
+        .info-aluno .grid-2 {
+            margin-top: 0.5rem;
+        }
+
+        .aviso {
+            background: #fcf8e0;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            border-left: 4px solid #f7c948;
+            font-size: 0.9rem;
+            color: #6a5a2a;
+            margin-bottom: 1rem;
+        }
+
+        .select-partes {
+            width: 100%;
+            padding: 0.4rem 0.6rem;
+            border: 2px solid #d0dce8;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            background: white;
+            cursor: pointer;
+        }
+
+        .select-partes:focus {
+            border-color: #4a90b0;
+            outline: none;
+        }
+
+        .status-salvo {
+            display: inline-block;
+            background: #d4edda;
+            color: #155724;
+            padding: 0.2rem 1rem;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .instrucao-json {
+            background: #e8f0f8;
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            color: #1a4a6a;
+            text-align: center;
+            border: 1px dashed #4a90b0;
+            margin-top: 0.5rem;
+        }
+
+        .instrucao-json i {
+            color: #f7c948;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1.2rem;
+            }
+            .secao {
+                padding: 1rem 1.2rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .checklist {
+                grid-template-columns: 1fr;
+            }
+            .tabela-cena,
+            .tabela-ordenacao {
+                font-size: 0.8rem;
+            }
+            .tabela-cena td,
+            .tabela-ordenacao td {
+                padding: 0.3rem 0.5rem;
+            }
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            .pergunta .opcoes.horizontal {
+                flex-direction: column;
+            }
+            .barra-ferramentas .btn {
+                font-size: 0.75rem;
+                padding: 0.3rem 0.8rem;
+            }
+            .video-link a {
+                font-size: 0.9rem;
+            }
+        }
+
+        #inputFile {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="formulario">
+
+    <!-- CABEÇALHO -->
+    <div class="header">
+        <h1>
+            <i class="fas fa-fish"></i> O Pescador e Sua Esposa
+            <i class="fas fa-crown" style="color:#f7c948;"></i>
+        </h1>
+        <p class="subtitulo">Ficha de Exercícios – Elementos da Narrativa e Estrutura do Enredo</p>
+        <span class="badge">6º ano – Ensino Fundamental</span>
+    </div>
+
+    <!-- LINK DO VÍDEO -->
+    <div class="video-link">
+        <i class="fab fa-youtube"></i>
+        <a href="https://www.youtube.com/watch?v=9kR5nwZxe2o" target="_blank">
+            ▶️ Assista ao vídeo "O Pescador e Sua Esposa" no YouTube
+            <span class="badge-video">NOVO</span>
+        </a>
+        <span style="font-size:0.8rem; color:#6a5a2a;">(assista antes de responder)</span>
+    </div>
+
+    <!-- BARRA DE FERRAMENTAS -->
+    <div class="barra-ferramentas">
+        <button class="btn secundario" onclick="salvarProgresso()">
+            <i class="fas fa-save"></i> 💾 Salvar Progresso
+        </button>
+        <button class="btn" onclick="document.getElementById('inputFile').click()">
+            <i class="fas fa-folder-open"></i> 📂 Carregar Progresso
+        </button>
+        <button class="btn perigo" onclick="limparTudo()">
+            <i class="fas fa-trash"></i> 🗑️ Limpar Tudo
+        </button>
+        <input type="file" id="inputFile" accept=".json" onchange="carregarProgresso(event)" />
+        <span id="statusSalvo" class="status-salvo" style="display:none;">
+            <i class="fas fa-check-circle"></i> Dados carregados
+        </span>
+    </div>
+
+    <!-- INFORMAÇÕES DO ALUNO -->
+    <div class="info-aluno">
+        <h2 style="font-size:1rem; color:#1a4a6a; margin-bottom:0.3rem;"><i class="fas fa-user-graduate"></i> Dados do aluno</h2>
+        <div class="grid-2">
+            <div class="pergunta">
+                <label for="nome">Nome completo:</label>
+                <input type="text" id="nome" name="nome" placeholder="Digite seu nome" />
+            </div>
+            <div class="pergunta">
+                <label for="turma">Turma:</label>
+                <input type="text" id="turma" name="turma" placeholder="Ex: 6º A" />
+            </div>
+        </div>
+        <div class="instrucao-json">
+            <i class="fas fa-info-circle"></i> Ao finalizar, clique em <strong>"Salvar Progresso"</strong> e envie o arquivo <strong>.json</strong> para o professor.
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 1 -->
+    <div class="secao">
+        <h2><i class="fas fa-users"></i> Atividade 1 – Identificando os Elementos da Narrativa</h2>
+        <p>Responda às perguntas abaixo com base na história "O Pescador e Sua Esposa".</p>
+
+        <div class="pergunta">
+            <label for="q1a">a) <strong>Personagens:</strong> Quem são os personagens principais da história? E os secundários?</label>
+            <textarea id="q1a" name="q1a" class="medio" placeholder="Descreva os personagens..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q1b">b) <strong>Espaço:</strong> Onde acontece a história? Descreva os diferentes lugares que aparecem.</label>
+            <textarea id="q1b" name="q1b" class="medio" placeholder="Descreva os lugares..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q1c">c) <strong>Tempo:</strong> Em que época/tempo se passa a história? Como você sabe?</label>
+            <textarea id="q1c" name="q1c" class="pequeno" placeholder="Descreva o tempo da história..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q1d">d) <strong>Narrador:</strong> Quem conta a história? Como você descobriu isso?</label>
+            <textarea id="q1d" name="q1d" class="pequeno" placeholder="Quem é o narrador?..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q1e">e) <strong>Conflito:</strong> Qual é o principal problema ou conflito da história?</label>
+            <textarea id="q1e" name="q1e" class="pequeno" placeholder="Descreva o conflito..."></textarea>
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 2 -->
+    <div class="secao">
+        <h2><i class="fas fa-sitemap"></i> Atividade 2 – As Partes do Enredo</h2>
+        <p>Leia as descrições abaixo e selecione em qual parte do enredo (APRESENTAÇÃO, COMPLICAÇÃO/DESENVOLVIMENTO, CLÍMAX, DESFECHO) cada cena se encaixa.</p>
+
+        <table class="tabela-cena">
+            <thead>
+                <tr>
+                    <th style="width:60%;">Cena</th>
+                    <th style="width:40%;">Parte do Enredo</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. O pescador mora com sua esposa em uma cabana simples. Ele pesca todos os dias.</td>
+                    <td>
+                        <select class="select-partes" name="cena1">
+                            <option value="">Selecione...</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="complicacao">Complicação/Desenvolvimento</option>
+                            <option value="climax">Clímax</option>
+                            <option value="desfecho">Desfecho</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2. A esposa pede uma casa maior, depois um palácio, depois quer ser rainha, imperatriz e até controlar o tempo.</td>
+                    <td>
+                        <select class="select-partes" name="cena2">
+                            <option value="">Selecione...</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="complicacao">Complicação/Desenvolvimento</option>
+                            <option value="climax">Clímax</option>
+                            <option value="desfecho">Desfecho</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3. A esposa desaparece nas nuvens e o pescador pede ao peixe que a devolva.</td>
+                    <td>
+                        <select class="select-partes" name="cena3">
+                            <option value="">Selecione...</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="complicacao">Complicação/Desenvolvimento</option>
+                            <option value="climax">Clímax</option>
+                            <option value="desfecho">Desfecho</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4. O pescador e sua esposa vivem felizes para sempre em uma casa simples e limpa.</td>
+                    <td>
+                        <select class="select-partes" name="cena4">
+                            <option value="">Selecione...</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="complicacao">Complicação/Desenvolvimento</option>
+                            <option value="climax">Clímax</option>
+                            <option value="desfecho">Desfecho</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>5. O pescador pesca um peixe dourado que fala e pede para ser libertado.</td>
+                    <td>
+                        <select class="select-partes" name="cena5">
+                            <option value="">Selecione...</option>
+                            <option value="apresentacao">Apresentação</option>
+                            <option value="complicacao">Complicação/Desenvolvimento</option>
+                            <option value="climax">Clímax</option>
+                            <option value="desfecho">Desfecho</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ATIVIDADE 3 -->
+    <div class="secao">
+        <h2><i class="fas fa-sort-numeric-up"></i> Atividade 3 – A Jornada dos Desejos (Ordenação Cronológica)</h2>
+        <p>Numere os acontecimentos na ordem correta em que acontecem na história (1 = primeiro, 9 = último).</p>
+
+        <table class="tabela-ordenacao">
+            <thead>
+                <tr>
+                    <th style="width:10%;">Ordem</th>
+                    <th style="width:90%;">Acontecimento</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><input type="number" name="ordem1" min="1" max="9" placeholder="1-9" /></td>
+                    <td>O pescador pesca um peixe que fala e o liberta.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem2" min="1" max="9" placeholder="1-9" /></td>
+                    <td>A esposa pede para ser imperatriz.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem3" min="1" max="9" placeholder="1-9" /></td>
+                    <td>O pescador e sua esposa vivem felizes em uma cabana.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem4" min="1" max="9" placeholder="1-9" /></td>
+                    <td>A esposa pede para controlar o tempo e desaparece nas nuvens.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem5" min="1" max="9" placeholder="1-9" /></td>
+                    <td>A esposa pede uma casa maior.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem6" min="1" max="9" placeholder="1-9" /></td>
+                    <td>O pescador pede ao peixe que devolva sua esposa.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem7" min="1" max="9" placeholder="1-9" /></td>
+                    <td>O peixe concede ao pescador o desejo de ter sua esposa de volta e feliz.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem8" min="1" max="9" placeholder="1-9" /></td>
+                    <td>A esposa pede um palácio e para ser rainha.</td>
+                </tr>
+                <tr>
+                    <td><input type="number" name="ordem9" min="1" max="9" placeholder="1-9" /></td>
+                    <td>O pescador e sua esposa vivem felizes para sempre (desfecho).</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ATIVIDADE 4 -->
+    <div class="secao">
+        <h2><i class="fas fa-bolt"></i> Atividade 4 – O Clímax da História</h2>
+        <p>O <strong>clímax</strong> é o momento de maior tensão, onde o conflito atinge seu ponto mais alto.</p>
+
+        <div class="pergunta">
+            <label for="q4a">a) Qual é o momento de maior tensão na história? Descreva com suas palavras.</label>
+            <textarea id="q4a" name="q4a" class="medio" placeholder="Descreva o clímax..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q4b">b) O que acontece nesse momento que faz o leitor/ouvinte ficar apreensivo?</label>
+            <textarea id="q4b" name="q4b" class="medio" placeholder="Explique a apreensão..."></textarea>
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 5 -->
+    <div class="secao">
+        <h2><i class="fas fa-check-circle"></i> Atividade 5 – O Desfecho e a Lição</h2>
+
+        <div class="pergunta">
+            <label for="q5a">a) O que a esposa aprende no final da história?</label>
+            <textarea id="q5a" name="q5a" class="pequeno" placeholder="O que ela aprendeu?..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q5b">b) Qual é a mensagem ou lição que a história quer transmitir?</label>
+            <textarea id="q5b" name="q5b" class="pequeno" placeholder="Qual a mensagem?..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q5c">c) Você concorda com essa mensagem? Justifique sua resposta.</label>
+            <textarea id="q5c" name="q5c" class="pequeno" placeholder="Justifique..."></textarea>
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 6 -->
+    <div class="secao">
+        <h2><i class="fas fa-pen-fancy"></i> Atividade 6 – O Narrador e Seu Ponto de Vista</h2>
+
+        <div class="pergunta">
+            <label for="q6a">a) O narrador é <strong>onipresente</strong> (sabe tudo) ou <strong>personagem</strong> (participa da história)? Justifique.</label>
+            <textarea id="q6a" name="q6a" class="pequeno" placeholder="Justifique..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q6b">b) Se você fosse recontar a história do ponto de vista do peixe mágico, como ela seria diferente?</label>
+            <textarea id="q6b" name="q6b" class="medio" placeholder="Escreva como seria..."></textarea>
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 7 -->
+    <div class="secao">
+        <h2><i class="fas fa-feather-alt"></i> Atividade 7 – Produção Textual: Reescrevendo a História</h2>
+        <p>Agora é sua vez! Reescreva a história "O Pescador e Sua Esposa" com as seguintes mudanças:</p>
+
+        <div class="aviso">
+            <i class="fas fa-lightbulb" style="color:#f7c948;"></i>
+            <strong>Instruções:</strong> Mude o final (a esposa não aprende a lição e continua pedindo mais). Mude os desejos (em vez de pedir uma casa, palácio, ser rainha etc., ela pede outros desejos). Mantenha os elementos da narrativa.
+        </div>
+
+        <div class="pergunta">
+            <label for="titulo">Título da sua versão:</label>
+            <input type="text" id="titulo" name="titulo" placeholder="Dê um título criativo para sua história" />
+        </div>
+
+        <div class="pergunta">
+            <label for="redacao">Escreva sua história aqui:</label>
+            <textarea id="redacao" name="redacao" class="grande" placeholder="Escreva sua versão da história..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label><strong>Checklist – Elementos que devem estar presentes na sua redação:</strong></label>
+            <div class="checklist">
+                <label><input type="checkbox" name="check1" /> Apresentação dos personagens</label>
+                <label><input type="checkbox" name="check2" /> Descrição do espaço</label>
+                <label><input type="checkbox" name="check3" /> Indicação do tempo</label>
+                <label><input type="checkbox" name="check4" /> Conflito (esposa insatisfeita)</label>
+                <label><input type="checkbox" name="check5" /> Desenvolvimento (pedidos/desejos)</label>
+                <label><input type="checkbox" name="check6" /> Clímax (momento de maior tensão)</label>
+                <label><input type="checkbox" name="check7" /> Desfecho (final)</label>
+                <label><input type="checkbox" name="check8" /> Narrador definido</label>
+                <label><input type="checkbox" name="check9" /> Título criativo</label>
+                <label><input type="checkbox" name="check10" /> Coerência e criatividade</label>
+            </div>
+        </div>
+    </div>
+
+    <!-- ATIVIDADE 8 -->
+    <div class="secao">
+        <h2><i class="fas fa-clipboard-check"></i> Atividade 8 – Autoavaliação</h2>
+        <p>Leia sua redação e responda:</p>
+
+        <div class="pergunta">
+            <label for="q8a">a) Qual parte da sua história você acha que ficou melhor? Por quê?</label>
+            <textarea id="q8a" name="q8a" class="pequeno" placeholder="Sua resposta..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q8b">b) O que você aprendeu sobre os elementos da narrativa ao escrever esta história?</label>
+            <textarea id="q8b" name="q8b" class="pequeno" placeholder="Sua resposta..."></textarea>
+        </div>
+
+        <div class="pergunta">
+            <label for="q8c">c) Se pudesse mudar algo na sua história, o que seria?</label>
+            <textarea id="q8c" name="q8c" class="pequeno" placeholder="Sua resposta..."></textarea>
+        </div>
+    </div>
+
+    <!-- INSTRUÇÃO FINAL -->
+    <div class="aviso" style="background:#e8f0f8; border-left-color:#1a4a6a; text-align:center;">
+        <i class="fas fa-file-export" style="color:#1a4a6a; font-size:1.2rem;"></i>
+        <strong>Finalizou?</strong> Clique em <strong>"Salvar Progresso"</strong> para baixar o arquivo <strong>.json</strong> e envie para o professor.
+    </div>
+
+    <div class="footer">
+        <i class="fas fa-fish"></i> "O Pescador e Sua Esposa" – 6º ano <br />
+        Preencha todos os campos, salve o progresso e envie o arquivo para o professor.
+    </div>
+
+</div>
+
+<!-- Font Awesome -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js">
+</script>
+
+<script>
+    // ============================================================
+    // FUNÇÕES DE SALVAR E CARREGAR PROGRESSO (JSON)
+    // ============================================================
+
+    function coletarDados() {
+        // Dados do aluno
+        const nome = document.getElementById('nome').value || '';
+        const turma = document.getElementById('turma').value || '';
+
+        // Atividade 1
+        const q1a = document.getElementById('q1a').value || '';
+        const q1b = document.getElementById('q1b').value || '';
+        const q1c = document.getElementById('q1c').value || '';
+        const q1d = document.getElementById('q1d').value || '';
+        const q1e = document.getElementById('q1e').value || '';
+
+        // Atividade 2 (selects)
+        const cena1 = document.querySelector('select[name="cena1"]').value || '';
+        const cena2 = document.querySelector('select[name="cena2"]').value || '';
+        const cena3 = document.querySelector('select[name="cena3"]').value || '';
+        const cena4 = document.querySelector('select[name="cena4"]').value || '';
+        const cena5 = document.querySelector('select[name="cena5"]').value || '';
+
+        // Atividade 3 (ordenação)
+        const ordem1 = document.querySelector('input[name="ordem1"]').value || '';
+        const ordem2 = document.querySelector('input[name="ordem2"]').value || '';
+        const ordem3 = document.querySelector('input[name="ordem3"]').value || '';
+        const ordem4 = document.querySelector('input[name="ordem4"]').value || '';
+        const ordem5 = document.querySelector('input[name="ordem5"]').value || '';
+        const ordem6 = document.querySelector('input[name="ordem6"]').value || '';
+        const ordem7 = document.querySelector('input[name="ordem7"]').value || '';
+        const ordem8 = document.querySelector('input[name="ordem8"]').value || '';
+        const ordem9 = document.querySelector('input[name="ordem9"]').value || '';
+
+        // Atividade 4
+        const q4a = document.getElementById('q4a').value || '';
+        const q4b = document.getElementById('q4b').value || '';
+
+        // Atividade 5
+        const q5a = document.getElementById('q5a').value || '';
+        const q5b = document.getElementById('q5b').value || '';
+        const q5c = document.getElementById('q5c').value || '';
+
+        // Atividade 6
+        const q6a = document.getElementById('q6a').value || '';
+        const q6b = document.getElementById('q6b').value || '';
+
+        // Atividade 7
+        const titulo = document.getElementById('titulo').value || '';
+        const redacao = document.getElementById('redacao').value || '';
+
+        // Checklist
+        const checks = [];
+        document.querySelectorAll('.checklist input[type="checkbox"]').forEach((cb, i) => {
+            checks.push(cb.checked);
+        });
+
+        // Atividade 8
+        const q8a = document.getElementById('q8a').value || '';
+        const q8b = document.getElementById('q8b').value || '';
+        const q8c = document.getElementById('q8c').value || '';
+
+        return {
+            nome,
+            turma,
+            q1a,
+            q1b,
+            q1c,
+            q1d,
+            q1e,
+            cena1,
+            cena2,
+            cena3,
+            cena4,
+            cena5,
+            ordem1,
+            ordem2,
+            ordem3,
+            ordem4,
+            ordem5,
+            ordem6,
+            ordem7,
+            ordem8,
+            ordem9,
+            q4a,
+            q4b,
+            q5a,
+            q5b,
+            q5c,
+            q6a,
+            q6b,
+            titulo,
+            redacao,
+            checks,
+            q8a,
+            q8b,
+            q8c,
+            dataSalvo: new Date().toLocaleString('pt-BR')
+        };
+    }
+
+    function preencherDados(dados) {
+        // Dados do aluno
+        document.getElementById('nome').value = dados.nome || '';
+        document.getElementById('turma').value = dados.turma || '';
+
+        // Atividade 1
+        document.getElementById('q1a').value = dados.q1a || '';
+        document.getElementById('q1b').value = dados.q1b || '';
+        document.getElementById('q1c').value = dados.q1c || '';
+        document.getElementById('q1d').value = dados.q1d || '';
+        document.getElementById('q1e').value = dados.q1e || '';
+
+        // Atividade 2 (selects)
+        document.querySelector('select[name="cena1"]').value = dados.cena1 || '';
+        document.querySelector('select[name="cena2"]').value = dados.cena2 || '';
+        document.querySelector('select[name="cena3"]').value = dados.cena3 || '';
+        document.querySelector('select[name="cena4"]').value = dados.cena4 || '';
+        document.querySelector('select[name="cena5"]').value = dados.cena5 || '';
+
+        // Atividade 3 (ordenação)
+        document.querySelector('input[name="ordem1"]').value = dados.ordem1 || '';
+        document.querySelector('input[name="ordem2"]').value = dados.ordem2 || '';
+        document.querySelector('input[name="ordem3"]').value = dados.ordem3 || '';
+        document.querySelector('input[name="ordem4"]').value = dados.ordem4 || '';
+        document.querySelector('input[name="ordem5"]').value = dados.ordem5 || '';
+        document.querySelector('input[name="ordem6"]').value = dados.ordem6 || '';
+        document.querySelector('input[name="ordem7"]').value = dados.ordem7 || '';
+        document.querySelector('input[name="ordem8"]').value = dados.ordem8 || '';
+        document.querySelector('input[name="ordem9"]').value = dados.ordem9 || '';
+
+        // Atividade 4
+        document.getElementById('q4a').value = dados.q4a || '';
+        document.getElementById('q4b').value = dados.q4b || '';
+
+        // Atividade 5
+        document.getElementById('q5a').value = dados.q5a || '';
+        document.getElementById('q5b').value = dados.q5b || '';
+        document.getElementById('q5c').value = dados.q5c || '';
+
+        // Atividade 6
+        document.getElementById('q6a').value = dados.q6a || '';
+        document.getElementById('q6b').value = dados.q6b || '';
+
+        // Atividade 7
+        document.getElementById('titulo').value = dados.titulo || '';
+        document.getElementById('redacao').value = dados.redacao || '';
+
+        // Checklist
+        if (dados.checks && dados.checks.length === 10) {
+            document.querySelectorAll('.checklist input[type="checkbox"]').forEach((cb, i) => {
+                cb.checked = dados.checks[i] || false;
+            });
+        }
+
+        // Atividade 8
+        document.getElementById('q8a').value = dados.q8a || '';
+        document.getElementById('q8b').value = dados.q8b || '';
+        document.getElementById('q8c').value = dados.q8c || '';
+
+        // Mostra status
+        const status = document.getElementById('statusSalvo');
+        status.style.display = 'inline-block';
+        status.innerHTML = `<i class="fas fa-check-circle"></i> Dados carregados (${dados.dataSalvo || 'data desconhecida'})`;
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 5000);
+    }
+
+    function salvarProgresso() {
+        const dados = coletarDados();
+
+        if (!dados.nome) {
+            alert('⚠️ Por favor, preencha seu nome antes de salvar o progresso.');
+            return;
+        }
+
+        const json = JSON.stringify(dados, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `progresso_${dados.nome.replace(/\s/g, '_')}_pescador.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        const status = document.getElementById('statusSalvo');
+        status.style.display = 'inline-block';
+        status.innerHTML = `<i class="fas fa-check-circle" style="color:#155724;"></i> ✅ Progresso salvo com sucesso!`;
+        setTimeout(() => {
+            status.style.display = 'none';
+        }, 4000);
+    }
+
+    function carregarProgresso(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const dados = JSON.parse(e.target.result);
+                preencherDados(dados);
+                alert('✅ Progresso carregado com sucesso! Continue de onde parou.');
+            } catch (err) {
+                alert('❌ Erro ao carregar o arquivo. Verifique se é um arquivo JSON válido.');
+                console.error(err);
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = '';
+    }
+
+    function limparTudo() {
+        if (!confirm('⚠️ Tem certeza que deseja limpar todos os campos? Esta ação não pode ser desfeita.')) return;
+
+        document.querySelectorAll('input[type="text"], input[type="email"], textarea').forEach(el => {
+            el.value = '';
+        });
+        document.querySelectorAll('select').forEach(el => {
+            el.selectedIndex = 0;
+        });
+        document.querySelectorAll('input[type="checkbox"]').forEach(el => {
+            el.checked = false;
+        });
+        document.querySelectorAll('input[type="number"]').forEach(el => {
+            el.value = '';
+        });
+
+        const status = document.getElementById('statusSalvo');
+        status.style.display = 'none';
+
+        alert('🧹 Todos os campos foram limpos!');
+    }
+</script>
+
+</body>
+</html>
