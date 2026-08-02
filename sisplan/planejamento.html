@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<!-- Este sistema foi desenvolvido pelo professor Givanildo Boneti Godinho em vibe coding com DeepSeek.
+Para informações, entre encontato pelo e-mail givaboneti@gmail.com -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SisPlan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+<div class="container">
+    <div class="header-paper">
+        <h1>Escola Estadual de Ensino Médio Carlos Gomes</h1>
+        <h2>SisPlan - Sistema de Planejamento de Aulas 2026</h2>
+        <div class="sub" id="headerSubtitle">Matriz de Referência SEDUC RS</div>
+        <button class="theme-toggle" id="themeToggleBtn"><i class="fas fa-moon"></i> Claro</button>
+    </div>
+
+    <div class="info-card">
+        <div class="section-title"><i class="fas fa-clipboard-list"></i> Identificação do Planejamento</div>
+        <div class="filters-row">
+            <div class="filter-group area"><label>Área *</label>
+                <select id="areaSelect">
+                    <option value="" selected disabled>-- Selecione a Área --</option>
+                    <option value="Linguagens">LINGUAGENS E SUAS TECNOLOGIAS</option>
+                    <option value="Humanas">CIÊNCIAS HUMANAS E SUAS TECNOLOGIAS</option>
+                </select>
+            </div>
+            <div class="filter-group componente"><label>Componente *</label>
+                <select id="componenteSelect" disabled>
+                    <option value="" selected disabled>-- Selecione o Componente --</option>
+                </select>
+            </div>
+            <div class="filter-group ano"><label>Ano/Série *</label>
+                <select id="anoSelect" disabled>
+                    <option value="" selected disabled>-- Selecione o Ano --</option>
+                </select>
+            </div>
+            <div class="filter-group turma"><label>Turma</label>
+                <input type="text" id="turma" placeholder="Aguardando seleção..." disabled>
+            </div>
+            <div class="filter-group trimestre"><label>Trimestre</label>
+                <select id="trimestreSelect" disabled>
+                    <option value="PRIMEIRO">PRIMEIRO</option>
+                    <option value="SEGUNDO">SEGUNDO</option>
+                    <option value="TERCEIRO">TERCEIRO</option>
+                </select>
+            </div>
+        </div>
+        <div class="filters-row">
+            <div class="filter-group professor"><label>Professor Regente</label>
+                <input type="text" id="professorRegente" placeholder="Aguardando seleção..." disabled>
+            </div>
+            <div class="carga-group">
+                <div class="filter-group"><label>Carga Anual</label>
+                    <input type="number" id="cargaAnual" value="" step="1" style="width:75px;" disabled placeholder="---">
+                </div>
+                <div class="filter-group"><label>Carga Trim.</label>
+                    <input type="text" id="cargaTrimestralDisplay" readonly style="width:70px;" value="---">
+                </div>
+                <div class="filter-group"><label>Carga Semanal</label>
+                    <input type="number" id="cargaSemanal" value="" step="1" style="width:70px;" disabled placeholder="---">
+                </div>
+            </div>
+            <div class="btn-group-row">
+                <button class="btn-secondary" id="exportarTxtBtn" disabled>Exportar TXT</button>
+                <button class="btn-primary" id="imprimirMatrizBtn" disabled>Imprimir Matriz</button>
+                <button class="btn-primary" id="imprimirPlanosBtn" disabled>Imprimir Planos</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="trimestre-section" id="trimestreSection" style="display: none;">
+        <div class="trimestre-title" id="trimestreTitle">Selecione Área, Componente e Ano/Série</div>
+        <div style="overflow-x: auto;">
+            <table class="plan-table" id="planTable">
+                <thead>
+                    <tr>
+                        <th class="col-unidade">UNIDADE TEMÁTICA</th>
+                        <th class="col-habilidades">HABILIDADES</th>
+                        <th class="col-objetos">OBJETOS DO CONHECIMENTO</th>
+                        <th class="col-expectativas">EXPECTATIVAS DE APRENDIZAGEM</th>
+                        <th class="col-periodos-matriz">PERÍODOS</th>
+                        <th class="col-aula-num">AULA Nº</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr><td colspan="6" class="message-placeholder">Selecione Área, Componente e Ano/Série para carregar a matriz.</tbody>
+                </tbody>
+            </table>
+        </div>
+        <div style="padding: 0.3rem 0.8rem;" id="periodosFeedback"></div>
+    </div>
+
+    <div class="plano-aula-section" id="planoAulaSection" style="display: none;">
+        <div class="plano-header">
+            <span><i class="fas fa-book-open"></i> PLANO DE AULA - <span id="planoHeaderTrimestre">PRIMEIRO</span> TRIMESTRE - <span id="planoHeaderComponente">---</span> - <span id="planoHeaderAno">---</span></span>
+            <span id="planoAulaStatus"></span>
+        </div>
+        <div class="plano-content">
+            <div class="plano-grid">
+                <div class="plano-field"><label>Componente</label><input type="text" id="planoComponente" readonly class="replicado" value="---"></div>
+                <div class="plano-field"><label>Ano/Série</label><input type="text" id="planoAno" readonly class="replicado" value="---"></div>
+                <div class="plano-field"><label>Turma</label><input type="text" id="planoTurma" readonly class="replicado" value="---"></div>
+                <div class="plano-field"><label>Professor</label><input type="text" id="planoProfessor" readonly class="replicado" value="---"></div>
+                <div class="plano-field"><label>Nº da Aula</label><select id="planoAulaNumSelect" disabled><option value="">Selecione o número da aula</option></select></div>
+            </div>
+            <div class="card-info" id="planoConteudo">
+                <p><strong>Unidade Temática:</strong> <span id="unidadeDisplay">---</span></p>
+                <p><strong>Objetos do Conhecimento:</strong> <span id="objetosDisplay">---</span></p>
+                <p><strong>Habilidades:</strong> <span id="habilidadesDisplay">---</span></p>
+                <p><strong>Expectativas de Aprendizagem:</strong> <span id="expectativasDisplay">---</span></p>
+            </div>
+            <div style="margin-top: 1rem;">
+                <div class="section-title">Detalhamento Semanal</div>
+                <div id="semanalContainer">
+                    <table class="semanal-table" id="semanalTable">
+                        <thead>
+                            <tr>
+                                <th class="col-semana">SEMANA / DATA</th>
+                                <th class="col-periodos-semanal">PERÍODOS</th>
+                                <th class="col-metodologia">Metodologia / Organização</th>
+                                <th class="col-materiais">Materiais e Recursos</th>
+                                <th class="col-etapas">Etapas / Momentos</th>
+                                <th class="col-evidencias">Evidências de Aprendizagem</th>
+                                <th class="col-instrumentos">Instrumentos de Avaliação</th>
+								<th class="col-botoes">Ações</th>
+							</tr>
+                        </thead>
+                        <tbody id="semanalTbody">
+                            <tr><td colspan="8" class="message-placeholder">Selecione uma aula para visualizar o detalhamento semanal.</tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="btn-week-group">
+                    <button class="btn-secondary btn-sm" id="addWeekBtn" disabled>+ Adicionar Semana</button>
+                    <button class="btn-secondary btn-sm" id="removeWeekBtn" disabled style="display: none;">- Remover Semana</button>
+                </div>
+            </div>
+            <div class="btn-salvar-plano">
+                <button class="btn-secondary" id="limparPlanoBtn" disabled>Limpar</button>
+                <button class="btn-success" id="salvarPlanoBtn" disabled>Salvar Plano de Aula</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="saveStatus" class="save-status">Dados salvos</div>
+
+<script src="script.js"></script>
+</body>
+</html>
