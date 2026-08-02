@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SisPlan - Visualizador de Dados</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            padding: 1.5rem;
+        }
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-bottom: 3px solid #f0b429;
+        }
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        .header p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+        .status {
+            display: inline-block;
+            background: #f1c40f;
+            color: #1a1a2e;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            font-weight: 600;
+        }
+        .status.success {
+            background: #2ecc71;
+            color: white;
+        }
+        .status.error {
+            background: #e74c3c;
+            color: white;
+        }
+        .tabs {
+            display: flex;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #6c757d;
+            transition: all 0.3s;
+        }
+        .tab-btn:hover {
+            background: #e9ecef;
+        }
+        .tab-btn.active {
+            color: #1a1a2e;
+            background: white;
+            border-bottom: 3px solid #f0b429;
+        }
+        .tab-btn .badge {
+            background: #e9ecef;
+            color: #6c757d;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+        }
+        .tab-btn.active .badge {
+            background: #f0b429;
+            color: white;
+        }
+        .tab-btn .icon {
+            font-size: 1.1rem;
+            margin-right: 0.3rem;
+        }
+        .tab-content {
+            display: none;
+            padding: 1.5rem 2rem;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .stat-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem 1.2rem;
+            border-left: 4px solid #f0b429;
+        }
+        .stat-card .number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+        .stat-card .label {
+            font-size: 0.7rem;
+            color: #6c757d;
+            text-transform: uppercase;
+        }
+        .stat-card.eixo-pc {
+            border-left-color: #1e40af;
+        }
+        .stat-card.eixo-md {
+            border-left-color: #065f46;
+        }
+        .stat-card.eixo-cd {
+            border-left-color: #92400e;
+        }
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        table th {
+            background: #f8f9fa;
+            padding: 0.7rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid #e9ecef;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            font-weight: 700;
+        }
+        table td {
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #f1f3f5;
+            vertical-align: top;
+        }
+        table tr:hover td {
+            background: #f8f9fa;
+        }
+        table tr.resultado-busca td {
+            background: #fef9f0;
+        }
+        .codigo {
+            font-weight: 700;
+            color: #f0b429;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+        .codigo-rel {
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            display: inline-block;
+            background: #e9ecef;
+            padding: 0.05rem 0.4rem;
+            border-radius: 4px;
+            margin: 0.1rem 0.15rem;
+            color: #1a1a2e;
+            cursor: default;
+        }
+        .codigo-rel:hover {
+            background: #f0b429;
+            color: white;
+        }
+        .tag {
+            display: inline-block;
+            font-size: 0.6rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            margin: 0.1rem 0.15rem;
+        }
+        .tag-pc {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .tag-md {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .tag-cd {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .tag-comp {
+            background: #e9ecef;
+            color: #495057;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0.1rem 0.15rem;
+        }
+        .tag-entre {
+            background: #fce4ec;
+            color: #c62828;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0.1rem 0.15rem;
+        }
+        .tag-bncc {
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.4rem;
+            border-radius: 10px;
+            display: inline-block;
+            margin: 0.1rem 0.15rem;
+        }
+        .search-box {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .search-box input,
+        .search-box select {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            outline: none;
+        }
+        .search-box input:focus,
+        .search-box select:focus {
+            border-color: #f0b429;
+        }
+        .search-box input {
+            flex: 1;
+            min-width: 200px;
+        }
+        .search-box select {
+            min-width: 150px;
+            background: white;
+        }
+        .msg-box {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 0 1.5rem 1rem 1.5rem;
+        }
+        .msg-box.success {
+            background: #f0fdf4;
+            border: 1px solid #86efac;
+            color: #065f46;
+        }
+        .msg-box.error {
+            background: #fef3f2;
+            border: 1px solid #fecaca;
+            color: #991b1b;
+        }
+        .msg-box.info {
+            background: #eff6ff;
+            border: 1px solid #93c5fd;
+            color: #1e40af;
+        }
+        .footer {
+            background: #f8f9fa;
+            padding: 0.8rem 2rem;
+            border-top: 1px solid #e9ecef;
+            font-size: 0.8rem;
+            color: #6c757d;
+            text-align: center;
+        }
+        .explicacao-text {
+            font-size: 0.8rem;
+            color: #495057;
+            background: #f8f9fa;
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            border-left: 3px solid #f0b429;
+            margin-top: 0.3rem;
+        }
+        .componentes-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.15rem;
+            max-width: 400px;
+        }
+        .resultado-destaque {
+            background: #fef9f0;
+            border: 2px solid #f0b429;
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+        .resultado-destaque .label {
+            font-weight: 700;
+            color: #1a1a2e;
+        }
+        .resultado-destaque .valor {
+            color: #495057;
+        }
+        .busca-rapida {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e9ecef;
+        }
+        .busca-rapida input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            font-family: 'Courier New', monospace;
+        }
+        .busca-rapida input:focus {
+            border-color: #f0b429;
+        }
+        .busca-rapida .dica {
+            font-size: 0.75rem;
+            color: #6c757d;
+            margin-top: 0.3rem;
+        }
+        .busca-rapida .dica code {
+            background: #e9ecef;
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+        }
+        .integracao-item {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            display: inline-block;
+            margin: 0.1rem 0.1rem;
+            white-space: nowrap;
+        }
+        .integracao-item.computacao {
+            background: #dbeafe;
+            border-color: #93c5fd;
+            color: #1e40af;
+        }
+        .integracao-item.entrecomp {
+            background: #fce4ec;
+            border-color: #f48fb1;
+            color: #c62828;
+        }
+        .integracao-item.bncccomp {
+            background: #e8f5e9;
+            border-color: #81c784;
+            color: #2e7d32;
+        }
+        .col-integracao {
+            min-width: 100px;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding: 0.5rem;
+            }
+            .header {
+                padding: 1rem;
+            }
+            .tab-content {
+                padding: 1rem;
+            }
+            .tab-btn {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.75rem;
+            }
+            table {
+                font-size: 0.75rem;
+            }
+            table th,
+            table td {
+                padding: 0.4rem 0.5rem;
+            }
+            .componentes-list {
+                max-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>📊 SisPlan - Visualizador de Dados</h1>
+            <p>Arquivos da pasta <strong>databases/</strong></p>
+            <span class="status" id="statusIndicator">⏳ Carregando...</span>
+        </div>
+
+        <div id="msgContainer"></div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="competencias">
+                <span class="icon">📋</span> 10 Competências <span class="badge" id="badgeComp">0</span>
+            </button>
+            <button class="tab-btn" data-tab="entrecomp">
+                <span class="icon">🚀</span> EntreComp <span class="badge" id="badgeEntre">0</span>
+            </button>
+            <button class="tab-btn" data-tab="bncccomp">
+                <span class="icon">💻</span> BNCC Computação <span class="badge" id="badgeBNCC">0</span>
+            </button>
+            <button class="tab-btn" data-tab="planejamento">
+                <span class="icon">📝</span> Planejamento Integrado <span class="badge" id="badgePlanejamento">⌘</span>
+            </button>
+            <button class="tab-btn" data-tab="busca">
+                <span class="icon">🔍</span> Busca por Código <span class="badge" id="badgeBusca">⌘</span>
+            </button>
+        </div>
+
+        <!-- ABA 1 - 10 Competências -->
+        <div class="tab-content active" id="tab-competencias">
+            <div class="search-box">
+                <input type="text" id="searchComp" placeholder="🔍 Buscar..." oninput="filtrar('competencias')">
+            </div>
+            <div class="stats-grid" id="statsComp"></div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Competência</th>
+                            <th>Descrição</th>
+                            <th>Aplicação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyComp"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 2 - EntreComp -->
+        <div class="tab-content" id="tab-entrecomp">
+            <div class="search-box">
+                <input type="text" id="searchEntre" placeholder="🔍 Buscar..." oninput="filtrar('entrecomp')">
+            </div>
+            <div class="stats-grid" id="statsEntre"></div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Competência</th>
+                            <th>Área</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyEntre"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 3 - BNCC Computação -->
+        <div class="tab-content" id="tab-bncccomp">
+            <div class="search-box">
+                <input type="text" id="searchBNCC" placeholder="🔍 Buscar por código ou descrição..." oninput="filtrar('bncccomp')">
+                <select id="filterAno" onchange="filtrar('bncccomp')">
+                    <option value="">Todos os anos</option>
+                </select>
+                <select id="filterEixo" onchange="filtrar('bncccomp')">
+                    <option value="">Todos os eixos</option>
+                    <option value="Pensamento Computacional">Pensamento Computacional</option>
+                    <option value="Mundo Digital">Mundo Digital</option>
+                    <option value="Cultura Digital">Cultura Digital</option>
+                </select>
+            </div>
+            <div class="stats-grid" id="statsBNCC"></div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:6%;">Código</th>
+                            <th style="width:8%;">Ano</th>
+                            <th style="width:10%;">Eixo</th>
+                            <th style="width:22%;">Descrição</th>
+                            <th style="width:25%;">Explicação</th>
+                            <th style="width:29%;">Códigos Relacionados</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyBNCC"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 4 - PLANEJAMENTO INTEGRADO -->
+        <div class="tab-content" id="tab-planejamento">
+            <div class="search-box">
+                <select id="filtroComponente" onchange="carregarPlanejamento()">
+                    <option value="">-- Selecione o Componente --</option>
+                </select>
+                <select id="filtroAnoPlanejamento" onchange="carregarPlanejamento()">
+                    <option value="">-- Selecione o Ano --</option>
+                </select>
+                <input type="text" id="searchPlanejamento" placeholder="🔍 Buscar habilidade..." oninput="filtrarPlanejamento()">
+            </div>
+            <div class="stats-grid" id="statsPlanejamento"></div>
+            <div id="msgPlanejamento" class="msg-box info" style="margin:0 0 1rem 0;">
+                ℹ️ Selecione um <strong>Componente Curricular</strong> e um <strong>Ano/Série</strong> para visualizar as habilidades e suas integrações.
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:8%;">Código</th>
+                            <th style="width:25%;">Descrição</th>
+                            <th style="width:22%;">Computação (CO)</th>
+                            <th style="width:22%;">EntreComp</th>
+                            <th style="width:23%;">10 Compet. BNCC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyPlanejamento"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ABA 5 - BUSCA POR CÓDIGO -->
+        <div class="tab-content" id="tab-busca">
+            <div class="busca-rapida">
+                <input type="text" id="buscaCodigo" placeholder="Digite um código BNCC (ex: EF01CI02 ou EF01CO01)" oninput="buscarPorCodigo(this.value)">
+                <div class="dica">
+                    💡 Digite qualquer código BNCC (habilidade de componente curricular ou habilidade de computação) para encontrar a habilidade de computação relacionada.
+                    Exemplos: <code>EF01CI02</code>, <code>EF01CO01</code>, <code>EF04MA01</code>
+                </div>
+            </div>
+            <div id="resultadoBusca"></div>
+        </div>
+
+        <div class="footer" id="footerInfo">Aguardando dados...</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // DADOS
+        // ============================================================
+
+        const dados = {
+            competencias: null,
+            entrecomp: null,
+            bncccomp: null,
+            componentes: null
+        };
+
+        const carregado = {
+            competencias: false,
+            entrecomp: false,
+            bncccomp: false,
+            componentes: false
+        };
+
+        // ============================================================
+        // MENSAGENS
+        // ============================================================
+
+        function mostrarMensagem(tipo, texto) {
+            const el = document.getElementById('msgContainer');
+            el.innerHTML = `<div class="msg-box ${tipo}">${texto}</div>`;
+        }
+
+        // ============================================================
+        // CARREGAMENTO
+        // ============================================================
+
+        function carregarScript(nome) {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = `databases/${nome}?t=${Date.now()}`;
+                script.onload = () => resolve();
+                script.onerror = () => reject(new Error(`Erro ao carregar ${nome}`));
+                document.head.appendChild(script);
+            });
+        }
+
+        // ============================================================
+        // ÍNDICE PARA BUSCA RÁPIDA
+        // ============================================================
+
+        let indiceBusca = {};
+
+        function construirIndiceBusca(data) {
+            indiceBusca = {};
+            for (const anoKey in data.anos) {
+                const ano = data.anos[anoKey];
+                for (const eixoKey in ano.eixos) {
+                    const eixo = ano.eixos[eixoKey];
+                    for (const hab of eixo.habilidades) {
+                        indiceBusca[hab.codigo] = { ...hab, ano: ano.ano, eixo: eixo.nome };
+                        if (hab.codigos_relacionados) {
+                            for (const cod of hab.codigos_relacionados) {
+                                if (!indiceBusca[cod]) {
+                                    indiceBusca[cod] = [];
+                                }
+                                if (Array.isArray(indiceBusca[cod])) {
+                                    indiceBusca[cod].push({ ...hab, ano: ano.ano, eixo: eixo.nome });
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            console.log('📇 Índice de busca construído:', Object.keys(indiceBusca).length, 'entradas');
+        }
+
+        // ============================================================
+        // BUSCA POR CÓDIGO
+        // ============================================================
+
+        function buscarPorCodigo(texto) {
+            const resultadoDiv = document.getElementById('resultadoBusca');
+            const codigo = texto.trim().toUpperCase();
+
+            if (!codigo) {
+                resultadoDiv.innerHTML = `
+                        <div class="msg-box info">
+                            🔍 Digite um código BNCC para buscar a habilidade de computação relacionada.
+                        </div>
+                    `;
+                return;
+            }
+
+            const encontrado = indiceBusca[codigo];
+
+            if (!encontrado) {
+                resultadoDiv.innerHTML = `
+                        <div class="msg-box error">
+                            ❌ Nenhuma habilidade encontrada para o código <strong>${codigo}</strong>.
+                            <br><br>
+                            💡 Dica: Tente buscar por um código de habilidade de componente curricular (ex: EF01CI02) 
+                            ou por um código de habilidade de computação (ex: EF01CO01).
+                        </div>
+                    `;
+                return;
+            }
+
+            if (Array.isArray(encontrado)) {
+                if (encontrado.length === 0) {
+                    resultadoDiv.innerHTML = `
+                            <div class="msg-box info">
+                                ℹ️ O código <strong>${codigo}</strong> está relacionado a ${encontrado.length} habilidades de computação.
+                            </div>
+                        `;
+                    return;
+                }
+
+                let html = `
+                        <div class="resultado-destaque">
+                            <h4>🔍 Resultado para <strong>${codigo}</strong></h4>
+                            <p style="margin:0.5rem 0 0.8rem 0;color:#6c757d;font-size:0.9rem;">
+                                Encontradas <strong>${encontrado.length}</strong> habilidades de computação relacionadas:
+                            </p>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead><tr>
+                                    <th>Código Computação</th>
+                                    <th>Ano</th>
+                                    <th>Eixo</th>
+                                    <th>Descrição</th>
+                                </tr></thead>
+                                <tbody>
+                            `;
+
+                for (const hab of encontrado) {
+                    const eixoClass = hab.eixo === 'Pensamento Computacional' ? 'tag-pc' :
+                        hab.eixo === 'Mundo Digital' ? 'tag-md' : 'tag-cd';
+                    html += `
+                            <tr class="resultado-busca">
+                                <td><span class="codigo">${hab.codigo}</span></td>
+                                <td><strong>${hab.ano}</strong></td>
+                                <td><span class="tag ${eixoClass}">${hab.eixo}</span></td>
+                                <td>${hab.descricao}</td>
+                            </tr>
+                        `;
+                }
+
+                html += `</tbody></table></div>`;
+                resultadoDiv.innerHTML = html;
+                return;
+            }
+
+            const hab = encontrado;
+            const eixoClass = hab.eixo === 'Pensamento Computacional' ? 'tag-pc' :
+                hab.eixo === 'Mundo Digital' ? 'tag-md' : 'tag-cd';
+
+            const relacionados = hab.codigos_relacionados || [];
+            const relHtml = relacionados.map(c => `<span class="codigo-rel">${c}</span>`).join(' ');
+
+            resultadoDiv.innerHTML = `
+                    <div class="resultado-destaque">
+                        <h4>🔍 Resultado para <strong>${codigo}</strong></h4>
+                        <table style="width:100%;border:none;margin-top:0.5rem;">
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;width:140px;"><strong>Código:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;"><span class="codigo">${hab.codigo}</span></td></tr>
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;"><strong>Ano:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;"><strong>${hab.ano}</strong></td></tr>
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;"><strong>Eixo:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;"><span class="tag ${eixoClass}">${hab.eixo}</span></td></tr>
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;"><strong>Descrição:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;">${hab.descricao}</td></tr>
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;"><strong>Explicação:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;"><div class="explicacao-text">${hab.explicacao || '-'}</div></td></tr>
+                            <tr><td style="padding:0.3rem 0.5rem 0.3rem 0;border:none;"><strong>Códigos Relacionados:</strong></td>
+                                <td style="padding:0.3rem 0.5rem;border:none;"><div class="componentes-list">${relHtml || '-'}</div></td></tr>
+                        </table>
+                        ${hab.codigo === codigo ? `
+                                <div class="msg-box info" style="margin:0.5rem 0 0 0;">
+                                    💡 Este é um código de <strong>habilidade de computação</strong>. 
+                                    Os códigos relacionados acima são as habilidades de componentes curriculares que podem ser integradas.
+                                </div>
+                            ` : `
+                                <div class="msg-box info" style="margin:0.5rem 0 0 0;">
+                                    💡 Este é um código de <strong>componente curricular</strong>. 
+                                    A habilidade de computação relacionada está listada acima.
+                                </div>
+                            `}
+                    </div>
+                `;
+        }
+
+        // ============================================================
+        // PLANEJAMENTO INTEGRADO
+        // ============================================================
+
+        function popularSelectsPlanejamento() {
+            const compSelect = document.getElementById('filtroComponente');
+            const anoSelect = document.getElementById('filtroAnoPlanejamento');
+            const codigos = dados.componentes.codigos || {};
+
+            // Preencher componentes - CONVERTENDO SET PARA ARRAY
+            const componentesSet = new Set();
+            for (const key in codigos) {
+                if (codigos[key].componente) {
+                    componentesSet.add(codigos[key].componente);
+                }
+            }
+            const componentes = Array.from(componentesSet).sort();
+
+            compSelect.innerHTML = '<option value="">-- Selecione o Componente --</option>';
+            for (const comp of componentes) {
+                compSelect.innerHTML += `<option value="${comp}">${comp}</option>`;
+            }
+
+            // Preencher anos - TAMBÉM CONVERTENDO SET PARA ARRAY
+            const anosSet = new Set();
+            for (const key in codigos) {
+                if (codigos[key].anos) {
+                    for (const a of codigos[key].anos) {
+                        anosSet.add(a);
+                    }
+                }
+            }
+
+            const anosOrdenados = ['1º ano', '2º ano', '3º ano', '4º ano', '5º ano', '6º ano', '7º ano', '8º ano', '9º ano'];
+            const anosDisponiveis = Array.from(anosSet);
+
+            anoSelect.innerHTML = '<option value="">-- Selecione o Ano --</option>';
+            for (const a of anosOrdenados) {
+                if (anosDisponiveis.includes(a)) {
+                    anoSelect.innerHTML += `<option value="${a}">${a}</option>`;
+                }
+            }
+
+            document.getElementById('badgePlanejamento').textContent = '📝';
+        }
+
+        function carregarPlanejamento() {
+            const componenteSelect = document.getElementById('filtroComponente');
+            const anoSelect = document.getElementById('filtroAnoPlanejamento');
+            const componente = componenteSelect.value;
+            const ano = anoSelect.value;
+            const tbody = document.getElementById('tbodyPlanejamento');
+            const stats = document.getElementById('statsPlanejamento');
+            const msg = document.getElementById('msgPlanejamento');
+
+            if (!componente || !ano) {
+                tbody.innerHTML =
+                    `<tr><td colspan="5" style="text-align:center;padding:2rem;color:#6c757d;">Selecione um componente e um ano para visualizar as habilidades.</td></tr>`;
+                stats.innerHTML = '';
+                msg.style.display = 'block';
+                msg.className = 'msg-box info';
+                msg.innerHTML =
+                    'ℹ️ Selecione um <strong>Componente Curricular</strong> e um <strong>Ano/Série</strong> para visualizar as habilidades e suas integrações.';
+                return;
+            }
+
+            msg.style.display = 'block';
+            msg.className = 'msg-box info';
+            msg.innerHTML = `📚 Carregando habilidades de <strong>${componente}</strong> - <strong>${ano}</strong>...`;
+
+            // Buscar habilidades do componente/ano
+            const codigos = dados.componentes.codigos || {};
+            const habilidades = [];
+
+            for (const key in codigos) {
+                const hab = codigos[key];
+                if (hab.componente === componente && hab.anos && hab.anos.includes(ano)) {
+                    habilidades.push(hab);
+                }
+            }
+
+            if (habilidades.length === 0) {
+                tbody.innerHTML =
+                    `<tr><td colspan="5" style="text-align:center;padding:2rem;color:#6c757d;">Nenhuma habilidade encontrada para ${componente} - ${ano}.</td></tr>`;
+                stats.innerHTML = '';
+                msg.className = 'msg-box error';
+                msg.innerHTML = `⚠️ Nenhuma habilidade encontrada para <strong>${componente}</strong> - <strong>${ano}</strong>.`;
+                return;
+            }
+
+            // Para cada habilidade, buscar integrações
+            let html = '';
+            let totalComIntegracao = 0;
+
+            // Cache para evitar repetir buscas
+            const cacheCO = {};
+            const cacheEntre = {};
+            const cacheBNCC = {};
+
+            const comps10 = dados.competencias ? dados.competencias.competencias : [];
+
+            for (const hab of habilidades) {
+                const codigo = hab.codigo;
+                const descricao = hab.descricao;
+
+                // Buscar integração com Computação
+                let coList = [];
+                const integracaoCO = indiceBusca[codigo] || [];
+
+                if (Array.isArray(integracaoCO)) {
+                    coList = integracaoCO.map(h => h.codigo);
+                } else if (integracaoCO && integracaoCO.codigo) {
+                    coList = [integracaoCO.codigo];
+                }
+
+                let coHtml = '';
+                if (coList.length > 0) {
+                    coHtml = coList.map(c => `<span class="integracao-item computacao">${c}</span>`).join(' ');
+                    totalComIntegracao++;
+                } else {
+                    coHtml = '<span style="color:#6c757d;font-size:0.75rem;">-</span>';
+                }
+
+                // Buscar integração com EntreComp
+                const entrecompRel = [];
+
+                for (const comp of comps10) {
+                    const eixos = comp.eixos_bncc_computacao || [];
+                    const entre = comp.entrecomp_relacionadas || [];
+                    for (const co of coList) {
+                        const coData = indiceBusca[co];
+                        if (coData && coData.eixo) {
+                            if (eixos.includes(coData.eixo)) {
+                                for (const e of entre) {
+                                    if (!entrecompRel.includes(e)) {
+                                        entrecompRel.push(e);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                let entreHtml = '';
+                if (entrecompRel.length > 0) {
+                    entreHtml = entrecompRel.map(e =>
+                        `<span class="integracao-item entrecomp">${e}</span>`
+                    ).join(' ');
+                } else {
+                    entreHtml = '<span style="color:#6c757d;font-size:0.75rem;">-</span>';
+                }
+
+                // Buscar integração com 10 Competências BNCC
+                const bnccRel = [];
+                for (const comp of comps10) {
+                    const eixos = comp.eixos_bncc_computacao || [];
+                    for (const co of coList) {
+                        const coData = indiceBusca[co];
+                        if (coData && coData.eixo) {
+                            if (eixos.includes(coData.eixo)) {
+                                if (!bnccRel.includes(comp.numero)) {
+                                    bnccRel.push(comp.numero);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                let bnccHtml = '';
+                if (bnccRel.length > 0) {
+                    bnccHtml = bnccRel.map(n =>
+                        `<span class="integracao-item bncccomp">Competência ${n}</span>`
+                    ).join(' ');
+                } else {
+                    bnccHtml = '<span style="color:#6c757d;font-size:0.75rem;">-</span>';
+                }
+
+                html += `
+                        <tr>
+                            <td><span class="codigo">${codigo}</span></td>
+                            <td style="font-size:0.82rem;">${descricao}</td>
+                            <td><div class="componentes-list">${coHtml}</div></td>
+                            <td><div class="componentes-list">${entreHtml}</div></td>
+                            <td><div class="componentes-list">${bnccHtml}</div></td>
+                        </tr>
+                    `;
+            }
+
+            tbody.innerHTML = html;
+            stats.innerHTML = `
+                    <div class="stat-card"><div class="number">${habilidades.length}</div><div class="label">Total Habilidades</div></div>
+                    <div class="stat-card"><div class="number">${totalComIntegracao}</div><div class="label">Com Integração</div></div>
+                    <div class="stat-card"><div class="number">${habilidades.length - totalComIntegracao}</div><div class="label">Sem Integração</div></div>
+                `;
+
+            msg.className = 'msg-box success';
+            msg.innerHTML =
+                `✅ Mostrando <strong>${habilidades.length}</strong> habilidades de <strong>${componente}</strong> - <strong>${ano}</strong>. <strong>${totalComIntegracao}</strong> com integração identificada.`;
+        }
+
+        function filtrarPlanejamento() {
+            const search = document.getElementById('searchPlanejamento').value.toLowerCase();
+            const rows = document.querySelectorAll('#tbodyPlanejamento tr');
+            let count = 0;
+
+            for (const row of rows) {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(search) || search === '') {
+                    row.style.display = '';
+                    count++;
+                } else {
+                    row.style.display = 'none';
+                }
+            }
+
+            // Atualizar contagem de filtrados
+            const stats = document.getElementById('statsPlanejamento');
+            const filtroCard = stats.querySelector('.stat-card.filtro');
+            if (filtroCard) {
+                filtroCard.querySelector('.number').textContent = count;
+            } else {
+                stats.innerHTML +=
+                    `<div class="stat-card filtro" style="border-left-color:#6c757d;"><div class="number">${count}</div><div class="label">Filtrados</div></div>`;
+            }
+        }
+
+        // ============================================================
+        // RENDERIZAÇÃO
+        // ============================================================
+
+        function renderizarTudo() {
+            if (dados.competencias) renderCompetencias(dados.competencias, '');
+            if (dados.entrecomp) renderEntreComp(dados.entrecomp, '');
+            if (dados.bncccomp) {
+                renderBNCCComp(dados.bncccomp, '', '', '');
+                construirIndiceBusca(dados.bncccomp);
+                document.getElementById('footerInfo').textContent = '✅ Todos os dados carregados com sucesso!';
+                document.getElementById('resultadoBusca').innerHTML = `
+                        <div class="msg-box info">
+                            🔍 Digite um código BNCC no campo acima para buscar a habilidade de computação relacionada.
+                            <br><br>
+                            <strong>Exemplos:</strong>
+                            <code>EF01CI02</code> - busca uma habilidade de Ciências
+                            <code>EF01CO01</code> - busca uma habilidade de Computação
+                            <code>EF04MA01</code> - busca uma habilidade de Matemática
+                        </div>
+                    `;
+            }
+            if (dados.componentes) {
+                popularSelectsPlanejamento();
+            }
+        }
+
+        // ----- 10 Competências -----
+        function renderCompetencias(data, filtro) {
+            const list = data.competencias || [];
+            const search = (filtro || '').toLowerCase();
+            let count = 0;
+            let html = '';
+
+            for (const c of list) {
+                if (search && !c.nome.toLowerCase().includes(search) && !c.descricao.toLowerCase().includes(search))
+                    continue;
+                count++;
+                html += `<tr>
+                        <td><strong>${c.numero}</strong></td>
+                        <td><strong>${c.nome}</strong></td>
+                        <td>${c.descricao}</td>
+                        <td>${c.aplicacao_pratica || '-'}</td>
+                    </tr>`;
+            }
+
+            document.getElementById('tbodyComp').innerHTML = html ||
+                '<tr><td colspan="4" style="text-align:center;padding:2rem;color:#6c757d;">Nenhuma competência encontrada</td></tr>';
+            document.getElementById('statsComp').innerHTML = `
+                    <div class="stat-card"><div class="number">${count}</div><div class="label">Exibidas</div></div>
+                    <div class="stat-card"><div class="number">${list.length}</div><div class="label">Total</div></div>
+                `;
+            document.getElementById('badgeComp').textContent = list.length;
+        }
+
+        // ----- EntreComp -----
+        function renderEntreComp(data, filtro) {
+            const search = (filtro || '').toLowerCase();
+            let todas = [];
+            for (const areaKey in data.areas) {
+                const area = data.areas[areaKey];
+                for (const comp of area.competencias) {
+                    todas.push({ ...comp, areaNome: area.nome });
+                }
+            }
+
+            let count = 0;
+            let html = '';
+            for (const c of todas) {
+                if (search && !c.id.toLowerCase().includes(search) && !c.nome.toLowerCase().includes(search) && !c
+                    .descricao.toLowerCase().includes(search)) continue;
+                count++;
+                html += `<tr>
+                        <td><span class="codigo">${c.id}</span></td>
+                        <td><strong>${c.nome}</strong></td>
+                        <td><span class="tag tag-comp">${c.areaNome}</span></td>
+                        <td>${c.descricao}</td>
+                    </tr>`;
+            }
+
+            document.getElementById('tbodyEntre').innerHTML = html ||
+                '<tr><td colspan="4" style="text-align:center;padding:2rem;color:#6c757d;">Nenhuma competência encontrada</td></tr>';
+            document.getElementById('statsEntre').innerHTML = `
+                    <div class="stat-card"><div class="number">${count}</div><div class="label">Exibidas</div></div>
+                    <div class="stat-card"><div class="number">${todas.length}</div><div class="label">Total</div></div>
+                `;
+            document.getElementById('badgeEntre').textContent = todas.length;
+        }
+
+        // ----- BNCC Computação -----
+        function renderBNCCComp(data, filtro, filtroAno, filtroEixo) {
+            const search = (filtro || '').toLowerCase();
+
+            const anos = Object.keys(data.anos).map(key => data.anos[key].ano);
+            const selectAno = document.getElementById('filterAno');
+            const currentAno = selectAno.value;
+            selectAno.innerHTML = '<option value="">Todos os anos</option>';
+            for (const a of anos) selectAno.innerHTML += `<option value="${a}">${a}</option>`;
+            selectAno.value = currentAno;
+
+            const selectEixo = document.getElementById('filterEixo');
+            const currentEixo = selectEixo.value;
+            selectEixo.innerHTML = '<option value="">Todos os eixos</option>';
+            selectEixo.innerHTML += '<option value="Pensamento Computacional">Pensamento Computacional</option>';
+            selectEixo.innerHTML += '<option value="Mundo Digital">Mundo Digital</option>';
+            selectEixo.innerHTML += '<option value="Cultura Digital">Cultura Digital</option>';
+            selectEixo.value = currentEixo;
+
+            let todas = [];
+            let totalPc = 0,
+                totalMd = 0,
+                totalCd = 0;
+            for (const anoKey in data.anos) {
+                const ano = data.anos[anoKey];
+                for (const eixoKey in ano.eixos) {
+                    const eixo = ano.eixos[eixoKey];
+                    for (const hab of eixo.habilidades) {
+                        todas.push({ ...hab, ano: ano.ano, eixo: eixo.nome });
+                        if (eixo.nome === 'Pensamento Computacional') totalPc++;
+                        else if (eixo.nome === 'Mundo Digital') totalMd++;
+                        else if (eixo.nome === 'Cultura Digital') totalCd++;
+                    }
+                }
+            }
+
+            let count = 0;
+            let html = '';
+            for (const h of todas) {
+                const matchTexto = !search ||
+                    h.codigo.toLowerCase().includes(search) ||
+                    h.descricao.toLowerCase().includes(search) ||
+                    (h.explicacao && h.explicacao.toLowerCase().includes(search));
+                const matchAno = !filtroAno || h.ano === filtroAno;
+                const matchEixo = !filtroEixo || h.eixo === filtroEixo;
+                if (!matchTexto || !matchAno || !matchEixo) continue;
+                count++;
+
+                const eixoClass = h.eixo === 'Pensamento Computacional' ? 'tag-pc' :
+                    h.eixo === 'Mundo Digital' ? 'tag-md' : 'tag-cd';
+
+                const codigos = h.codigos_relacionados || [];
+                let codigosHtml = '';
+                if (codigos.length > 0) {
+                    codigosHtml = codigos.map(c => `<span class="codigo-rel">${c}</span>`).join(' ');
+                } else {
+                    codigosHtml = '<span style="color:#6c757d;font-size:0.75rem;">-</span>';
+                }
+
+                const explicacaoHtml = h.explicacao ?
+                    `<div class="explicacao-text">${h.explicacao}</div>` :
+                    '<span style="color:#6c757d;font-size:0.8rem;">-</span>';
+
+                html += `<tr>
+                        <td><span class="codigo">${h.codigo}</span></td>
+                        <td><strong>${h.ano}</strong></td>
+                        <td><span class="tag ${eixoClass}">${h.eixo}</span></td>
+                        <td>${h.descricao}</td>
+                        <td>${explicacaoHtml}</td>
+                        <td><div class="componentes-list">${codigosHtml}</div></td>
+                    </tr>`;
+            }
+
+            document.getElementById('tbodyBNCC').innerHTML = html ||
+                '<tr><td colspan="6" style="text-align:center;padding:2rem;color:#6c757d;">Nenhuma habilidade encontrada</td></tr>';
+
+            document.getElementById('statsBNCC').innerHTML = `
+                    <div class="stat-card eixo-pc"><div class="number">${totalPc}</div><div class="label">Pensamento Computacional</div></div>
+                    <div class="stat-card eixo-md"><div class="number">${totalMd}</div><div class="label">Mundo Digital</div></div>
+                    <div class="stat-card eixo-cd"><div class="number">${totalCd}</div><div class="label">Cultura Digital</div></div>
+                    <div class="stat-card"><div class="number">${todas.length}</div><div class="label">Total Habilidades</div></div>
+                    <div class="stat-card"><div class="number">${Object.keys(data.anos).length}</div><div class="label">Anos</div></div>
+                `;
+            document.getElementById('badgeBNCC').textContent = todas.length;
+        }
+
+        // ============================================================
+        // FILTROS
+        // ============================================================
+
+        function filtrar(tab) {
+            if (tab === 'competencias' && dados.competencias) {
+                renderCompetencias(dados.competencias, document.getElementById('searchComp').value);
+            } else if (tab === 'entrecomp' && dados.entrecomp) {
+                renderEntreComp(dados.entrecomp, document.getElementById('searchEntre').value);
+            } else if (tab === 'bncccomp' && dados.bncccomp) {
+                renderBNCCComp(
+                    dados.bncccomp,
+                    document.getElementById('searchBNCC').value,
+                    document.getElementById('filterAno').value,
+                    document.getElementById('filterEixo').value
+                );
+            }
+        }
+
+        // ============================================================
+        // ABAS
+        // ============================================================
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                document.getElementById(`tab-${this.dataset.tab}`).classList.add('active');
+
+                if (this.dataset.tab === 'planejamento') {
+                    carregarPlanejamento();
+                }
+            });
+        });
+
+        // ============================================================
+        // INICIAR
+        // ============================================================
+
+        async function iniciar() {
+            const status = document.getElementById('statusIndicator');
+            try {
+                await carregarScript('10competencias.js');
+                if (window.competenciasBNCC) {
+                    dados.competencias = window.competenciasBNCC;
+                    carregado.competencias = true;
+                    console.log('✅ 10competencias.js carregado');
+                }
+
+                await carregarScript('entrecomp.js');
+                if (window.entreComp) {
+                    dados.entrecomp = window.entreComp;
+                    carregado.entrecomp = true;
+                    console.log('✅ entrecomp.js carregado');
+                }
+
+                await carregarScript('bncc_computacao_ef.js');
+                if (window.bnccComputacaoEF) {
+                    dados.bncccomp = window.bnccComputacaoEF;
+                    carregado.bncccomp = true;
+                    console.log('✅ bncc_computacao_ef.js carregado');
+                }
+
+                await carregarScript('bncc_componentes.js');
+                if (window.bnccComponentes) {
+                    dados.componentes = window.bnccComponentes;
+                    carregado.componentes = true;
+                    console.log('✅ bncc_componentes.js carregado');
+                }
+
+                const total = Object.values(carregado).filter(Boolean).length;
+                if (total === 4) {
+                    status.textContent = '✅ Todos os dados carregados!';
+                    status.className = 'status success';
+                    mostrarMensagem('success', '✅ Os 4 arquivos foram carregados com sucesso!');
+                    renderizarTudo();
+                } else {
+                    status.textContent = `⚠️ ${total}/4 arquivos carregados`;
+                    status.className = 'status error';
+                    const faltando = [];
+                    if (!carregado.competencias) faltando.push('10competencias.js');
+                    if (!carregado.entrecomp) faltando.push('entrecomp.js');
+                    if (!carregado.bncccomp) faltando.push('bncc_computacao_ef.js');
+                    if (!carregado.componentes) faltando.push('bncc_componentes.js');
+                    mostrarMensagem('error', `❌ Arquivos não carregados: ${faltando.join(', ')}`);
+                }
+
+            } catch (e) {
+                status.textContent = '❌ Erro ao carregar!';
+                status.className = 'status error';
+                mostrarMensagem('error', `❌ ${e.message}`);
+                console.error(e);
+            }
+        }
+
+        console.log('🧪 SisPlan - Visualizador de Dados');
+        console.log('📁 Carregando arquivos da pasta databases/...');
+        iniciar();
+    </script>
+
+</body>
+</html>
