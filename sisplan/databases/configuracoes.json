@@ -1,0 +1,338 @@
+{
+  "Lingua Portuguesa": {
+    "professorRegente": "Givanildo",
+    "cargaAnual": "120",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-30T22:49:35.746864"
+  },
+  "Educacao Fisica": {
+    "professorRegente": "Joel",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-30T22:50:26.314445"
+  },
+  "Arte": {
+    "professorRegente": "Givanildo Arte",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-31T00:06:35.323035"
+  },
+  "Literatura": {
+    "professorRegente": "Givanildoliterario",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Milena",
+    "ultimaAtualizacao": "2026-03-30T22:57:48.544421"
+  },
+  "Língua Portuguesa": {
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 200,
+    "cargaSemanal": 5,
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-04-12T11:09:05.518291"
+  },
+  "Língua Inglesa": {
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-31T00:06:06.398244"
+  },
+  "Língua Espanhola": {
+    "professorRegente": "Roselaine",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-31T00:06:18.756573"
+  },
+  "Educação Física": {
+    "professorRegente": "Joe",
+    "cargaAnual": "40",
+    "cargaSemanal": "5",
+    "turma": "Ariel",
+    "ultimaAtualizacao": "2026-03-31T00:20:10.368540"
+  },
+  "Linguagens_Língua_Portuguesa_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Portuguesa",
+    "ano": "1º ano EM",
+    "turma": "1A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 120,
+    "cargaSemanal": 3,
+    "ultimaAtualizacao": "2026-05-04T19:23:40.650480"
+  },
+  "Linguagens_Língua_Portuguesa_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Portuguesa",
+    "ano": "2º ano EM",
+    "turma": "2A",
+    "professorRegente": "Milena Albani",
+    "cargaAnual": 120,
+    "cargaSemanal": 3,
+    "ultimaAtualizacao": "2026-05-17T14:14:56.988433"
+  },
+  "Linguagens_Arte_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Arte",
+    "ano": "2º ano EM",
+    "turma": "Milena",
+    "professorRegente": "Alessandra",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-17T11:51:05.487440"
+  },
+  "Linguagens_Arte_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Arte",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Milena Albani",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T13:53:10.572670"
+  },
+  "Linguagens_Literatura_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Literatura",
+    "ano": "2º ano EM",
+    "turma": "2A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-05T00:43:02.266104"
+  },
+  "Linguagens_Literatura_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Literatura",
+    "ano": "1º ano EM",
+    "turma": "1A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-19T22:53:11.196084"
+  },
+  "Linguagens_Língua_Portuguesa_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Portuguesa",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Roselaine",
+    "cargaAnual": 160,
+    "cargaSemanal": 4,
+    "ultimaAtualizacao": "2026-05-17T13:55:51.920060"
+  },
+  "Linguagens_Língua_Inglesa_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "1º ano EM",
+    "turma": "1A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-06-19T10:21:20.146180"
+  },
+  "Linguagens_Língua_Inglesa_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-05T21:18:34.532764"
+  },
+  "Linguagens_Arte_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Arte",
+    "ano": "1º ano EM",
+    "turma": "1A (Ariel)",
+    "professorRegente": "Alessandra Remussi",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-04-27T01:56:49.605383"
+  },
+  "Linguagens_Educação_Física_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Educação Física",
+    "ano": "1º ano EM",
+    "turma": "1A (Ariel)",
+    "professorRegente": "Joel",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-04-27T04:19:25.671196"
+  },
+  "Linguagens_Língua_Espanhola_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Espanhola",
+    "ano": "1º ano EM",
+    "turma": "1A (Ariel)",
+    "professorRegente": "Roselaine",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-04-27T04:29:28.633476"
+  },
+  "Linguagens_Escrita_Criativa_1º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Escrita Criativa",
+    "ano": "1º ano EM",
+    "turma": "1A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-25T15:43:18.781621"
+  },
+  "Linguagens_Literatura_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Literatura",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T14:01:25.446645"
+  },
+  "Linguagens_Escrita_Criativa_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Escrita Criativa",
+    "ano": "2º ano EM",
+    "turma": "2A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-04T23:58:00.085284"
+  },
+  "Linguagens_Redação_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Redação",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-05T00:21:34.559601"
+  },
+  "Linguagens_Língua_Inglesa_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "2º ano EM",
+    "turma": "",
+    "professorRegente": "",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T11:45:30.875168"
+  },
+  "Linguagens_Língua_Espanhola_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Espanhola",
+    "ano": "2º ano EM",
+    "turma": "",
+    "professorRegente": "",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T11:48:25.244403"
+  },
+  "Linguagens_Educação_Física_2º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Educação Física",
+    "ano": "2º ano EM",
+    "turma": "2A",
+    "professorRegente": "Joel Zonin",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-17T11:55:25.111418"
+  },
+  "Linguagens_Educação_Física_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Educação Física",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Joel Zonin",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-17T14:01:13.761816"
+  },
+  "Linguagens_Língua_Espanhola_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Língua Espanhola",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Roselaine",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T14:05:35.999468"
+  },
+  "Linguagens_Escrita_Criativa_3º_ano_EM": {
+    "area": "Linguagens",
+    "componente": "Escrita Criativa",
+    "ano": "3º ano EM",
+    "turma": "3A",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-17T14:11:58.761842"
+  },
+  "Linguagens_Língua_Inglesa_6º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "6º ano EF",
+    "turma": "69",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-17T15:06:41.582200"
+  },
+  "Linguagens_Língua_Portuguesa_6º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Língua Portuguesa",
+    "ano": "6º ano EF",
+    "turma": "69",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 200,
+    "cargaSemanal": 5,
+    "ultimaAtualizacao": "2026-05-17T16:28:16.149123"
+  },
+  "Linguagens_Língua_Inglesa_9º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "9º ano EF",
+    "turma": "99",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-21T21:31:32.293428"
+  },
+  "Linguagens_Língua_Inglesa_8º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "8º ano EF",
+    "turma": "89",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 40,
+    "cargaSemanal": 1,
+    "ultimaAtualizacao": "2026-05-25T11:59:44.841462"
+  },
+  "Linguagens_Língua_Inglesa_7º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Língua Inglesa",
+    "ano": "7º ano EF",
+    "turma": "79",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-23T13:46:02.636263"
+  },
+  "Linguagens_Arte_8º_ano_EF": {
+    "area": "Linguagens",
+    "componente": "Arte",
+    "ano": "8º ano EF",
+    "turma": "89",
+    "professorRegente": "Givanildo Boneti Godinho",
+    "cargaAnual": 80,
+    "cargaSemanal": 2,
+    "ultimaAtualizacao": "2026-05-25T12:07:23.109659"
+  }
+}
