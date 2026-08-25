@@ -4,649 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Montador de Redação ENEM</title>
-
 <style>
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#eef3f8;
-    color:#202124;
-}
-
-header{
-    background:linear-gradient(135deg,#0d47a1,#1976d2);
-    color:white;
-    padding:25px;
-    text-align:center;
-}
-
-header h1{
-    margin:0;
-    font-size:36px;
-}
-
-header p{
-    margin:8px 0 0;
-    font-size:18px;
-}
-
-.container{
-    width:94%;
-    max-width:1300px;
-    margin:25px auto;
-}
-
-.card{
-    background:white;
-    border-radius:16px;
-    padding:22px;
-    margin-bottom:20px;
-    box-shadow:0 4px 14px rgba(0,0,0,.12);
-}
-
-.card h2{
-    margin-top:0;
-    color:#0d47a1;
-    font-size:27px;
-    border-bottom:2px solid #e3eaf2;
-    padding-bottom:10px;
-}
-
-label{
-    display:block;
-    font-weight:bold;
-    margin:15px 0 6px;
-    color:#333;
-}
-
-input, textarea, select{
-    width:100%;
-    border:1px solid #bbb;
-    border-radius:8px;
-    padding:12px;
-    font-size:16px;
-    font-family:inherit;
-}
-
-input:focus, textarea:focus, select:focus{
-    outline:none;
-    border-color:#1976d2;
-    box-shadow:0 0 0 2px rgba(25,118,210,.12);
-}
-
-textarea{
-    min-height:75px;
-    resize:vertical;
-}
-
-.tema input{
-    font-size:21px;
-    font-weight:bold;
-}
-
-.grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
-}
-
-.etapa{
-    border-left:7px solid #1976d2;
-    padding-left:15px;
-}
-
-.introducao{
-    border-color:#1565c0;
-}
-
-.desenvolvimento1{
-    border-color:#7b1fa2;
-}
-
-.desenvolvimento2{
-    border-color:#ef6c00;
-}
-
-.conclusao{
-    border-color:#2e7d32;
-}
-
-.dica{
-    background:#fffde7;
-    border-left:6px solid #f9a825;
-    padding:12px;
-    margin-top:10px;
-    border-radius:7px;
-    font-size:14px;
-}
-
-button{
-    border:none;
-    border-radius:9px;
-    padding:13px 20px;
-    font-size:16px;
-    font-weight:bold;
-    cursor:pointer;
-    margin:5px;
-}
-
-.gerar{
-    background:#1565c0;
-    color:white;
-}
-
-.limpar{
-    background:#e0e0e0;
-    color:#333;
-}
-
-.copiar{
-    background:#2e7d32;
-    color:white;
-}
-
-button:hover{
-    opacity:.88;
-}
-
-.acoes{
-    text-align:center;
-    margin:25px 0;
-}
-
-#resultado{
-    background:#fff;
-    border:2px solid #1976d2;
-    border-radius:12px;
-    padding:25px;
-    min-height:300px;
-    font-family:Georgia, "Times New Roman", serif;
-    font-size:19px;
-    line-height:1.7;
-}
-
-#resultado h3{
-    font-family:Arial,sans-serif;
-    text-align:center;
-    color:#0d47a1;
-    margin-top:0;
-}
-
-.paragrafo{
-    text-indent:2em;
-    margin-bottom:18px;
-}
-
-.nota{
-    font-family:Arial,sans-serif;
-    background:#e3f2fd;
-    padding:12px;
-    border-radius:8px;
-    font-size:14px;
-    margin-bottom:18px;
-}
-
-@media(max-width:800px){
-    .grid{
-        grid-template-columns:1fr;
-    }
-
-    header h1{
-        font-size:28px;
-    }
-}
-
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#eef3f8;color:#202124}
+header{background:linear-gradient(135deg,#0d47a1,#1976d2);color:#fff;padding:25px;text-align:center}
+header h1{margin:0;font-size:36px} header p{margin:8px 0 0;font-size:18px}
+.container{width:94%;max-width:1300px;margin:25px auto}
+.card{background:#fff;border-radius:16px;padding:22px;margin-bottom:20px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.card h2{margin-top:0;color:#0d47a1;font-size:27px;border-bottom:2px solid #e3eaf2;padding-bottom:10px}
+label{display:block;font-weight:bold;margin:15px 0 6px;color:#333}
+input,textarea{width:100%;border:1px solid #bbb;border-radius:8px;padding:12px;font-size:16px;font-family:inherit}
+input:focus,textarea:focus{outline:none;border-color:#1976d2;box-shadow:0 0 0 2px rgba(25,118,210,.12)}
+textarea{min-height:75px;resize:vertical}
+.tema input{font-size:21px;font-weight:bold}
+.etapa{border-left:7px solid #1976d2;padding-left:15px}
+.introducao{border-color:#1565c0}.desenvolvimento1{border-color:#7b1fa2}.desenvolvimento2{border-color:#ef6c00}.conclusao{border-color:#2e7d32}
+.dica{background:#fffde7;border-left:6px solid #f9a825;padding:12px;margin-top:10px;border-radius:7px;font-size:14px}
+.acoes{text-align:center;margin:25px 0}
+button{border:0;border-radius:9px;padding:13px 20px;font-size:16px;font-weight:bold;cursor:pointer;margin:5px}
+button:hover{opacity:.88}
+.gerar{background:#1565c0;color:#fff}.limpar{background:#e0e0e0;color:#333}.salvar{background:#6a1b9a;color:#fff}.carregar{background:#00838f;color:#fff}.copiar{background:#2e7d32;color:#fff}
+#resultado{background:#fff;border:2px solid #1976d2;border-radius:12px;padding:25px;min-height:300px;font-family:Georgia,"Times New Roman",serif;font-size:19px;line-height:1.7}
+#resultado[contenteditable="true"]{outline:none}
+#resultado:focus{border-color:#0d47a1;box-shadow:0 0 0 3px rgba(13,71,161,.12)}
+#resultado h3{font-family:Arial,sans-serif;text-align:center;color:#0d47a1;margin-top:0}
+.paragrafo{text-indent:2em;margin-bottom:18px}
+.nota{font-family:Arial,sans-serif;background:#e3f2fd;padding:12px;border-radius:8px;font-size:14px;margin-bottom:18px}
+.status{font-family:Arial,sans-serif;text-align:center;color:#555;font-size:14px;margin-top:8px}
+.file-input{display:none}
+@media(max-width:800px){header h1{font-size:28px}}
 @media print{
-    body{
-        background:white;
-    }
-
-    header,
-    .formulario,
-    .acoes,
-    .dica{
-        display:none;
-    }
-
-    .container{
-        width:100%;
-        margin:0;
-    }
-
-    .card{
-        box-shadow:none;
-        padding:0;
-    }
-
-    #resultado{
-        border:none;
-        padding:0;
-    }
+ body{background:#fff}
+ header,.formulario,.acoes,.dica,.status,.nota{display:none !important}
+ .container{width:100%;max-width:none;margin:0;padding:0}
+ .card{box-shadow:none;padding:0;margin:0}
+ #resultado{
+   display:block !important;
+   border:none;
+   padding:0;
+   min-height:0;
+   font-family:Georgia,"Times New Roman",serif;
+   font-size:12.5pt;
+   line-height:1.7;
+ }
+ #resultado h3{
+   display:block !important;
+   font-family:Arial,Helvetica,sans-serif;
+   text-align:center;
+   color:#111;
+   font-size:18pt;
+   margin:0 0 25px 0;
+   padding-bottom:0;
+   border-bottom:none;
+ }
+ #resultado::before{
+   content:attr(data-aluno);
+   display:block;
+   font-family:Arial,Helvetica,sans-serif;
+   text-align:left;
+   font-size:12pt;
+   font-weight:bold;
+   margin-bottom:8px;
+ }
+ .paragrafo{
+   text-indent:2em;
+   margin-bottom:16px;
+   break-inside:avoid;
+   page-break-inside:avoid;
+ }
 }
 </style>
 </head>
-
 <body>
-
 <header>
-    <h1>📝 Montador de Redação</h1>
-    <p>Organize as ideias e construa uma redação dissertativo-argumentativa</p>
+<h1>📝 Montador de Redação</h1>
+<p>Organize as ideias e construa uma redação dissertativo-argumentativa</p>
 </header>
 
 <div class="container">
-
+<div class="acoes" style="text-align:right;margin:15px 0;">
+<button class="carregar" onclick="document.getElementById('arquivoJSON').click()">📂 CARREGAR SESSÃO</button>
+<input id="arquivoJSON" class="file-input" type="file" accept=".json" onchange="carregarJSON(event)">
+</div>
 <div class="formulario">
 
-<!-- TEMA -->
 <div class="card tema">
-    <h2>🎯 Tema</h2>
-
-    <label>Tema da redação</label>
-    <input id="tema" placeholder="Ex.: Os impactos da inteligência artificial na educação brasileira">
+<h2>👤 Identificação</h2>
+<label>Nome do aluno</label>
+<input id="nomeAluno" placeholder="Digite seu nome completo">
 </div>
 
+<div class="card tema">
+<h2>🎯 Tema</h2>
+<label>Tema da redação</label>
+<input id="tema" placeholder="Ex.: Os impactos da inteligência artificial na educação brasileira">
+</div>
 
-<!-- INTRODUÇÃO -->
 <div class="card etapa introducao">
-
 <h2>🔵 Introdução</h2>
-
-<p>
-A introdução será organizada em:
-<b>abertura → problema → tese → causas → fechamento.</b>
-</p>
+<p>A introdução será organizada em: <b>abertura → problema → tese → causas → fechamento.</b></p>
 
 <label>1. Estratégia de abertura</label>
-<textarea id="abertura"
-placeholder="Contextualização, dado, referência histórica, filme, lei, situação atual etc."></textarea>
-
+<textarea id="abertura" placeholder="Contextualização, dado, referência histórica, filme, lei, situação atual etc."></textarea>
 <label>2. Apresentação do problema</label>
-<textarea id="problema"
-placeholder="Qual problema relacionado ao tema precisa ser discutido?"></textarea>
-
+<textarea id="problema" placeholder="Qual problema relacionado ao tema precisa ser discutido?"></textarea>
 <label>3. Tese</label>
-<textarea id="tese"
-placeholder="Qual posição será defendida na redação?"></textarea>
-
+<textarea id="tese" placeholder="Qual posição será defendida na redação?"></textarea>
 <label>4. Primeira causa / argumento</label>
-<textarea id="causa1"
-placeholder="Qual será a primeira causa desenvolvida?"></textarea>
-
+<textarea id="causa1" placeholder="Qual será a primeira causa desenvolvida?"></textarea>
 <label>5. Segunda causa / argumento</label>
-<textarea id="causa2"
-placeholder="Qual será a segunda causa desenvolvida?"></textarea>
-
+<textarea id="causa2" placeholder="Qual será a segunda causa desenvolvida?"></textarea>
 <label>6. Fechamento da introdução</label>
-<textarea id="fechamentoIntro"
-placeholder="Frase que prepara o leitor para os argumentos que serão desenvolvidos."></textarea>
-
+<textarea id="fechamentoIntro" placeholder="Frase que prepara o leitor para os argumentos que serão desenvolvidos."></textarea>
 </div>
 
-
-<!-- DESENVOLVIMENTO 1 -->
 <div class="card etapa desenvolvimento1">
-
 <h2>🟣 Desenvolvimento 1</h2>
-
-<p>
-Estrutura:
-<b>causa → argumento → embasamento → consequência.</b>
-</p>
-
+<p>Estrutura: <b>causa → argumento → embasamento → consequência.</b></p>
 <label>1. Frase inicial — primeira causa</label>
-<textarea id="d1causa"
-placeholder="Apresente a primeira causa mencionada na introdução."></textarea>
-
+<textarea id="d1causa" placeholder="Apresente a primeira causa mencionada na introdução."></textarea>
 <label>2. Argumento</label>
-<textarea id="d1argumento"
-placeholder="Explique como essa causa funciona e por que ela contribui para o problema."></textarea>
-
+<textarea id="d1argumento" placeholder="Explique como essa causa funciona e por que ela contribui para o problema."></textarea>
 <label>3. Embasamento</label>
-<textarea id="d1embasamento"
-placeholder="Dado, pesquisa, especialista, lei, exemplo, fato histórico etc."></textarea>
-
+<textarea id="d1embasamento" placeholder="Dado, pesquisa, especialista, lei, exemplo, fato histórico etc."></textarea>
 <label>4. Consequência</label>
-<textarea id="d1consequencia"
-placeholder="Mostre o que essa causa provoca."></textarea>
-
+<textarea id="d1consequencia" placeholder="Mostre o que essa causa provoca."></textarea>
 </div>
 
-
-<!-- DESENVOLVIMENTO 2 -->
 <div class="card etapa desenvolvimento2">
-
 <h2>🟠 Desenvolvimento 2</h2>
-
-<p>
-Repita a mesma lógica:
-<b>causa → argumento → embasamento → consequência.</b>
-</p>
-
+<p>Repita a mesma lógica: <b>causa → argumento → embasamento → consequência.</b></p>
 <label>1. Frase inicial — segunda causa</label>
-<textarea id="d2causa"
-placeholder="Apresente a segunda causa mencionada na introdução."></textarea>
-
+<textarea id="d2causa" placeholder="Apresente a segunda causa mencionada na introdução."></textarea>
 <label>2. Argumento</label>
-<textarea id="d2argumento"
-placeholder="Explique como essa causa funciona."></textarea>
-
+<textarea id="d2argumento" placeholder="Explique como essa causa funciona."></textarea>
 <label>3. Embasamento</label>
-<textarea id="d2embasamento"
-placeholder="Dado, pesquisa, especialista, lei, exemplo, fato histórico etc."></textarea>
-
+<textarea id="d2embasamento" placeholder="Dado, pesquisa, especialista, lei, exemplo, fato histórico etc."></textarea>
 <label>4. Consequência</label>
-<textarea id="d2consequencia"
-placeholder="Mostre o efeito provocado por essa causa."></textarea>
-
+<textarea id="d2consequencia" placeholder="Mostre o efeito provocado por essa causa."></textarea>
 </div>
 
-
-<!-- CONCLUSÃO -->
 <div class="card etapa conclusao">
-
 <h2>🟢 Conclusão</h2>
-
-<p>
-A conclusão retomará o problema e apresentará uma solução.
-</p>
-
+<p>A conclusão retomará o problema e apresentará uma solução.</p>
 <label>Retomada do problema</label>
-<textarea id="retomada"
-placeholder="Retome brevemente o problema discutido."></textarea>
-
+<textarea id="retomada" placeholder="Retome brevemente o problema discutido."></textarea>
 <label>Agente — quem deve agir?</label>
 <input id="agente" placeholder="Ex.: Governo Federal, escolas, sociedade civil...">
-
 <label>Ação — o que deve ser feito?</label>
 <textarea id="acao" placeholder="Qual medida deve ser tomada?"></textarea>
-
 <label>Meio — como isso será realizado?</label>
 <textarea id="meio" placeholder="Por meio de campanhas, projetos, investimentos, políticas públicas..."></textarea>
-
 <label>Finalidade — para quê?</label>
 <textarea id="finalidade" placeholder="Qual resultado se pretende alcançar?"></textarea>
-
 </div>
 
 <div class="acoes">
-    <button class="gerar" onclick="gerarRedacao()">✨ GERAR REDAÇÃO</button>
-    <button class="limpar" onclick="limparTudo()">🗑 LIMPAR</button>
+<button class="gerar" onclick="confirmarGeracao()">✨ GERAR / ATUALIZAR REDAÇÃO</button>
+<button class="limpar" onclick="confirmarLimpeza()">🗑 LIMPAR</button>
 </div>
-
 </div>
-
-
-<!-- RESULTADO -->
 
 <div class="card">
-
 <h2>📄 Sua redação</h2>
-
-<div id="resultado">
-
 <div class="nota">
-Preencha os campos acima e clique em <b>GERAR REDAÇÃO</b>.
+<b>Campo editável:</b> depois de gerar a redação, clique diretamente no texto e faça as alterações que considerar necessárias.
 </div>
 
+<div id="resultado" contenteditable="true" data-aluno="">
+<div class="nota">Preencha os campos acima e clique em <b>GERAR / ATUALIZAR REDAÇÃO</b>.</div>
 <h3>A redação aparecerá aqui.</h3>
-
 </div>
 
-<div class="acoes">
-    <button class="copiar" onclick="copiarTexto()">📋 COPIAR TEXTO</button>
-    <button onclick="window.print()">🖨 IMPRIMIR / PDF</button>
-</div>
+<div class="status" id="status">As alterações feitas diretamente no texto também serão preservadas ao salvar a sessão.</div>
 
+<div class="acoes" style="display:flex;justify-content:flex-end;align-items:center;flex-wrap:wrap;">
+<button class="copiar" onclick="copiarTexto()">📋 COPIAR TEXTO FINAL</button>
+<button onclick="window.print()">🖨 IMPRIMIR / PDF</button>
+<button class="salvar" onclick="salvarJSON()">💾 SALVAR SESSÃO</button>
 </div>
-
 </div>
-
+</div>
 
 <script>
+const ids=[
+"nomeAluno","tema","abertura","problema","tese","causa1","causa2","fechamentoIntro",
+"d1causa","d1argumento","d1embasamento","d1consequencia",
+"d2causa","d2argumento","d2embasamento","d2consequencia",
+"retomada","agente","acao","meio","finalidade"
+];
 
 function valor(id){
-    return document.getElementById(id).value.trim();
+ return document.getElementById(id).value.trim();
 }
 
-function conectar(texto, conectivo){
-
-    if(!texto) return "";
-
-    texto = texto.charAt(0).toUpperCase() + texto.slice(1);
-
-    if(!/[.!?]$/.test(texto)){
-        texto += ".";
-    }
-
-    return conectivo + " " + texto;
+function finalizar(texto){
+ if(!texto) return "";
+ texto=texto.trim();
+ texto=texto.charAt(0).toUpperCase()+texto.slice(1);
+ if(!/[.!?]$/.test(texto)) texto+=".";
+ return texto;
 }
 
+function confirmarGeracao(){
+ const resultado=document.getElementById("resultado");
+ const texto=resultado.innerText.trim();
+ if(texto && !texto.includes("A redação aparecerá aqui.")){
+   const ok=confirm("A redação atual pode ter sido editada manualmente.\n\nGERAR / ATUALIZAR REDAÇÃO substituirá essas edições pela versão montada a partir dos campos do formulário.\n\nDeseja realmente continuar?");
+   if(!ok) return;
+ }
+ gerarRedacao();
+}
+
+function confirmarLimpeza(){
+ const ok=confirm("ATENÇÃO: esta ação apagará os campos do formulário e a redação editada.\n\nRecomenda-se salvar a sessão em JSON antes de continuar.\n\nDeseja realmente limpar tudo?");
+ if(ok) limparTudo();
+}
 
 function gerarRedacao(){
+ const tema=valor("tema");
+ if(!tema){alert("Digite o tema da redação.");return;}
 
-    const tema = valor("tema");
+ let intro="";
+ if(valor("abertura")) intro+=finalizar(valor("abertura"))+" ";
+ if(valor("problema")) intro+="Entretanto, "+finalizar(valor("problema"))+" ";
+ if(valor("tese")) intro+="Nesse contexto, "+finalizar(valor("tese"))+" ";
 
-    if(!tema){
-        alert("Digite o tema da redação.");
-        return;
-    }
+ const c1=valor("causa1"), c2=valor("causa2");
+ if(c1&&c2){
+   intro+="Esse cenário está relacionado, principalmente, a "+
+     c1.replace(/[.]$/,"")+" e a "+c2.replace(/[.]$/,"")+". ";
+ }else if(c1){
+   intro+="Entre os principais fatores, destaca-se "+
+     c1.replace(/[.]$/,"")+". ";
+ }else if(c2){
+   intro+="Entre os principais fatores, destaca-se "+
+     c2.replace(/[.]$/,"")+". ";
+ }
+ if(valor("fechamentoIntro")) intro+="Diante desse cenário, "+finalizar(valor("fechamentoIntro"));
 
-    /*
-    ============================
-    INTRODUÇÃO
-    ============================
-    */
+ let dev1="";
+ if(valor("d1causa")) dev1+=finalizar(valor("d1causa"))+" ";
+ if(valor("d1argumento")) dev1+="Nesse sentido, "+finalizar(valor("d1argumento"))+" ";
+ if(valor("d1embasamento")) dev1+="Além disso, "+finalizar(valor("d1embasamento"))+" ";
+ if(valor("d1consequencia")) dev1+="Consequentemente, "+finalizar(valor("d1consequencia"));
 
-    let abertura = valor("abertura");
-    let problema = valor("problema");
-    let tese = valor("tese");
-    let causa1 = valor("causa1");
-    let causa2 = valor("causa2");
-    let fechamento = valor("fechamentoIntro");
+ let dev2="";
+ if(valor("d2causa")) dev2+="Ademais, "+finalizar(valor("d2causa"))+" ";
+ if(valor("d2argumento")) dev2+="Sob essa perspectiva, "+finalizar(valor("d2argumento"))+" ";
+ if(valor("d2embasamento")) dev2+="Nesse sentido, "+finalizar(valor("d2embasamento"))+" ";
+ if(valor("d2consequencia")) dev2+="Como consequência, "+finalizar(valor("d2consequencia"));
 
-    let intro = "";
+ let conclusao="";
+ if(valor("retomada")) conclusao+="Portanto, "+finalizar(valor("retomada"))+" ";
+ if(valor("agente")&&valor("acao")){
+   conclusao+=finalizar(valor("agente"))+" deve "+
+     valor("acao").replace(/^[Aa]\s+/,"").replace(/[.]$/,"")+", ";
+ }
+ if(valor("meio")){
+   conclusao+="por meio de "+
+     valor("meio").replace(/^[Pp]or meio de\s+/,"").replace(/[.]$/,"")+", ";
+ }
+ if(valor("finalidade")){
+   conclusao+="a fim de "+
+     valor("finalidade").replace(/^[Aa]\s+fim\s+de\s+/i,"").replace(/[.]$/,"")+".";
+ }
 
-    if(abertura) intro += abertura + ". ";
+ let html="<h3>"+escapeHTML(tema)+"</h3>";
+ if(intro) html+='<div class="paragrafo">'+escapeHTML(intro)+'</div>';
+ if(dev1) html+='<div class="paragrafo">'+escapeHTML(dev1)+'</div>';
+ if(dev2) html+='<div class="paragrafo">'+escapeHTML(dev2)+'</div>';
+ if(conclusao) html+='<div class="paragrafo">'+escapeHTML(conclusao)+'</div>';
 
-    if(problema){
-        intro += conectar(problema,"Entretanto,");
-        intro += " ";
-    }
-
-    if(tese){
-        intro += conectar(tese,"Nesse contexto,");
-        intro += " ";
-    }
-
-    if(causa1 && causa2){
-        intro += "Esse cenário está relacionado, principalmente, a " +
-                 causa1.replace(/[.]$/,"") +
-                 " e a " +
-                 causa2.replace(/[.]$/,"") +
-                 ". ";
-    }
-    else if(causa1){
-        intro += conectar(causa1,"Entre os principais fatores, destaca-se que");
-        intro += " ";
-    }
-
-    if(fechamento){
-        intro += conectar(fechamento,"Diante desse cenário,");
-    }
-
-
-    /*
-    ============================
-    DESENVOLVIMENTO 1
-    ============================
-    */
-
-    let d1causa = valor("d1causa");
-    let d1argumento = valor("d1argumento");
-    let d1embasamento = valor("d1embasamento");
-    let d1consequencia = valor("d1consequencia");
-
-    let dev1 = "";
-
-    if(d1causa){
-        dev1 += d1causa + ". ";
-    }
-
-    if(d1argumento){
-        dev1 += conectar(d1argumento,"Nesse sentido,");
-        dev1 += " ";
-    }
-
-    if(d1embasamento){
-        dev1 += conectar(d1embasamento,"Além disso,");
-        dev1 += " ";
-    }
-
-    if(d1consequencia){
-        dev1 += conectar(d1consequencia,"Consequentemente,");
-    }
-
-
-    /*
-    ============================
-    DESENVOLVIMENTO 2
-    ============================
-    */
-
-    let d2causa = valor("d2causa");
-    let d2argumento = valor("d2argumento");
-    let d2embasamento = valor("d2embasamento");
-    let d2consequencia = valor("d2consequencia");
-
-    let dev2 = "";
-
-    if(d2causa){
-        dev2 += conectar(d2causa,"Ademais,");
-        dev2 += " ";
-    }
-
-    if(d2argumento){
-        dev2 += conectar(d2argumento,"Sob essa perspectiva,");
-        dev2 += " ";
-    }
-
-    if(d2embasamento){
-        dev2 += conectar(d2embasamento,"Nesse sentido,");
-        dev2 += " ";
-    }
-
-    if(d2consequencia){
-        dev2 += conectar(d2consequencia,"Como consequência,");
-    }
-
-
-    /*
-    ============================
-    CONCLUSÃO
-    ============================
-    */
-
-    let retomada = valor("retomada");
-    let agente = valor("agente");
-    let acao = valor("acao");
-    let meio = valor("meio");
-    let finalidade = valor("finalidade");
-
-    let conclusao = "";
-
-    if(retomada){
-        conclusao += conectar(retomada,"Portanto,");
-        conclusao += " ";
-    }
-
-    if(agente && acao){
-        conclusao +=
-        agente.charAt(0).toUpperCase() +
-        agente.slice(1) +
-        " deve " +
-        acao.replace(/^[Aa] /,"").replace(/[.]$/,"") +
-        ", ";
-    }
-
-    if(meio){
-        conclusao += "por meio de " +
-        meio.replace(/^[Pp]or meio de /,"").replace(/[.]$/,"") +
-        ", ";
-    }
-
-    if(finalidade){
-        conclusao += "a fim de " +
-        finalidade.replace(/^[Aa] fim de /,"").replace(/[.]$/,"") +
-        ".";
-    }
-
-
-    /*
-    ============================
-    EXIBIÇÃO
-    ============================
-    */
-
-    let html = "";
-
-    html += "<h3>" + tema + "</h3>";
-
-    if(intro)
-        html += '<div class="paragrafo">' + intro + '</div>';
-
-    if(dev1)
-        html += '<div class="paragrafo">' + dev1 + '</div>';
-
-    if(dev2)
-        html += '<div class="paragrafo">' + dev2 + '</div>';
-
-    if(conclusao)
-        html += '<div class="paragrafo">' + conclusao + '</div>';
-
-    document.getElementById("resultado").innerHTML = html;
-
-    window.scrollTo({
-        top: document.getElementById("resultado").offsetTop - 20,
-        behavior:"smooth"
-    });
+ document.getElementById("resultado").innerHTML=html;
+ document.getElementById("resultado").setAttribute("data-aluno", valor("nomeAluno") || "Aluno");
+ document.getElementById("status").textContent="Redação gerada. Agora é possível editar diretamente o texto.";
+ document.getElementById("resultado").scrollIntoView({behavior:"smooth",block:"start"});
 }
 
+function escapeHTML(str){
+ return str.replace(/[&<>"']/g,m=>({
+ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ }[m]));
+}
+
+function nomeArquivoSeguro(texto){
+ return (texto || "SemNome")
+   .normalize("NFD")
+   .replace(/[\\u0300-\\u036f]/g,"")
+   .replace(/[^a-zA-Z0-9]+/g,"")
+   .trim() || "SemNome";
+}
+
+function salvarJSON(){
+ const dados={versao:3,data:new Date().toISOString(),campos:{}};
+ ids.forEach(id=>dados.campos[id]=document.getElementById(id).value);
+ dados.redacaoHTML=document.getElementById("resultado").innerHTML;
+
+ const blob=new Blob([JSON.stringify(dados,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ const nomeAluno=nomeArquivoSeguro(valor("nomeAluno"));
+ const titulo=nomeArquivoSeguro(valor("tema"));
+ const nomeFinal=(nomeAluno.charAt(0).toUpperCase()+nomeAluno.slice(1))+"_"+(titulo.charAt(0).toUpperCase()+titulo.slice(1))+".json";
+ a.href=url;
+ a.download=nomeFinal;
+ a.click();
+ URL.revokeObjectURL(url);
+
+ document.getElementById("status").textContent="Sessão salva em JSON. Guarde o arquivo para continuar o trabalho depois.";
+}
+
+function carregarJSON(event){
+ const arquivo=event.target.files[0];
+ if(!arquivo)return;
+
+ const leitor=new FileReader();
+
+ leitor.onload=function(e){
+   try{
+     const dados=JSON.parse(e.target.result);
+
+     if(!dados.campos){
+       throw new Error("Formato de sessão inválido.");
+     }
+
+     ids.forEach(id=>{
+       if(Object.prototype.hasOwnProperty.call(dados.campos,id)){
+         document.getElementById(id).value=dados.campos[id]||"";
+       }
+     });
+
+     if(dados.redacaoHTML){
+       document.getElementById("resultado").innerHTML=dados.redacaoHTML;
+       document.getElementById("resultado").setAttribute("data-aluno", valor("nomeAluno") || "Aluno");
+     }else{
+       gerarRedacao();
+     }
+
+     document.getElementById("status").textContent=
+       "Sessão carregada com sucesso. O trabalho pode continuar.";
+   }catch(err){
+     alert("Não foi possível carregar este arquivo JSON. Verifique se ele foi gerado por este formulário.");
+   }
+
+   event.target.value="";
+ };
+
+ leitor.readAsText(arquivo);
+}
 
 function copiarTexto(){
+ const resultado=document.getElementById("resultado");
+ const texto=resultado.innerText.trim();
 
-    const resultado = document.getElementById("resultado");
+ if(!texto){
+   alert("Não há texto para copiar.");
+   return;
+ }
 
-    const texto = resultado.innerText;
-
-    navigator.clipboard.writeText(texto)
-    .then(() => {
-        alert("Texto copiado!");
-    });
+ navigator.clipboard.writeText(texto).then(()=>{
+   document.getElementById("status").textContent="Texto final copiado para a área de transferência.";
+ }).catch(()=>{
+   alert("Não foi possível copiar automaticamente. Selecione o texto e use Ctrl+C.");
+ });
 }
-
 
 function limparTudo(){
+ ids.forEach(id=>document.getElementById(id).value="");
 
-    const campos = document.querySelectorAll(
-        "input, textarea"
-    );
+ document.getElementById("resultado").innerHTML=
+ '<div class="nota">Preencha os campos acima e clique em <b>GERAR / ATUALIZAR REDAÇÃO</b>.</div><h3>A redação aparecerá aqui.</h3>';
 
-    campos.forEach(campo => campo.value = "");
-
-    document.getElementById("resultado").innerHTML = `
-        <div class="nota">
-        Preencha os campos acima e clique em <b>GERAR REDAÇÃO</b>.
-        </div>
-
-        <h3>A redação aparecerá aqui.</h3>
-    `;
+ document.getElementById("status").textContent="Formulário limpo.";
 }
-
 </script>
-
 </body>
 </html>
