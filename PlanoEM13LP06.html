@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano de Aula - Trend dos Anos 80 e IAs</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #eef2f7;
+            padding: 30px 20px;
+            color: #1a2a3a;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 18px;
+            padding: 40px 45px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border-top: 8px solid #0077b6;
+        }
+
+        /* CABEÇALHO */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            border-bottom: 3px solid #e0e9f0;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            color: #023e8a;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+        }
+
+        .header .info-rapida {
+            background: #e8f1f8;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            color: #1a3b5a;
+            line-height: 1.6;
+        }
+
+        .header .info-rapida strong {
+            color: #023e8a;
+        }
+
+        .badge-trimestre {
+            display: inline-block;
+            background: #0077b6;
+            color: #fff;
+            font-size: 0.7em;
+            font-weight: 600;
+            padding: 4px 18px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        /* ELEMENTOS GERAIS */
+        h2 {
+            font-size: 1.4em;
+            color: #023e8a;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid #dce6ef;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h3 {
+            font-size: 1.1em;
+            color: #005a8a;
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 10px 0 16px;
+        }
+
+        .card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 16px 20px;
+            border: 1px solid #e2ecf5;
+        }
+
+        .card h4 {
+            color: #023e8a;
+            font-size: 0.95em;
+            margin-bottom: 4px;
+        }
+
+        .card p, .card li {
+            font-size: 0.95em;
+            color: #1e3a5a;
+            line-height: 1.5;
+        }
+
+        .card ul {
+            padding-left: 20px;
+            margin: 4px 0;
+        }
+
+        .tag {
+            display: inline-block;
+            background: #dce6ef;
+            color: #023e8a;
+            font-size: 0.75em;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 20px;
+            margin-right: 4px;
+        }
+
+        .tag.verde {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .tag.laranja {
+            background: #fce8d5;
+            color: #8a4b0a;
+        }
+
+        .tag.azul-claro {
+            background: #d4e4f0;
+            color: #004080;
+        }
+
+        .info-box {
+            background: #eef6fb;
+            border-left: 5px solid #0077b6;
+            padding: 14px 20px;
+            border-radius: 10px;
+            margin: 14px 0;
+        }
+
+        .info-box strong {
+            color: #023e8a;
+        }
+
+        .link-lista {
+            list-style: none;
+            padding: 0;
+        }
+
+        .link-lista li {
+            padding: 8px 0 8px 28px;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="%230077b6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>') left center no-repeat;
+            background-size: 18px;
+            line-height: 1.6;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .link-lista li:last-child {
+            border-bottom: none;
+        }
+
+        .link-lista a {
+            color: #0077b6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .link-lista a:hover {
+            text-decoration: underline;
+            color: #023e8a;
+        }
+
+        .cronograma {
+            display: grid;
+            grid-template-columns: 80px 1fr 80px;
+            gap: 12px 16px;
+            background: #f7fafc;
+            padding: 16px 20px;
+            border-radius: 12px;
+            border: 1px solid #e2ecf5;
+            margin: 12px 0;
+        }
+
+        .cronograma .tempo {
+            font-weight: 700;
+            color: #023e8a;
+        }
+
+        .cronograma .atividade {
+            color: #1a2a3a;
+        }
+
+        .cronograma .cor {
+            text-align: right;
+            font-size: 0.8em;
+            color: #5a7a9a;
+        }
+
+        hr {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, #dce6ef, transparent);
+            margin: 30px 0 15px;
+        }
+
+        .btn-print {
+            background: #0077b6;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .btn-print:hover {
+            background: #023e8a;
+        }
+
+        .exercicio-embed {
+            background: #fafbfc;
+            border: 2px solid #dce6ef;
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-top: 20px;
+        }
+
+        .exercicio-embed h3 {
+            margin-top: 0;
+            color: #023e8a;
+        }
+
+        .exercicio-embed .btn-exercicio {
+            display: inline-block;
+            background: #023e8a;
+            color: #fff;
+            padding: 10px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+
+        .exercicio-embed .btn-exercicio:hover {
+            background: #001f4d;
+        }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 20px 18px;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .header {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .cronograma {
+                grid-template-columns: 1fr;
+                gap: 6px;
+            }
+            .cronograma .cor {
+                text-align: left;
+            }
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+
+        @media print {
+            .btn-print { display: none; }
+            body { background: white; padding: 10px; }
+            .container { box-shadow: none; border-top: none; }
+            .exercicio-embed .btn-exercicio { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ============================================================ -->
+        <!-- CABEÇALHO -->
+        <!-- ============================================================ -->
+        <div class="header">
+            <div>
+                <div class="badge-trimestre">📘 TERCEIRO TRIMESTRE</div>
+                <h1>🎯 Trend dos Anos 80 &amp; IAs</h1>
+                <p style="color: #3a5a7a; font-size: 1em; margin-top: 4px;">
+                    Análise de efeitos de sentido · Escolha lexical · Marcas de opinião
+                </p>
+            </div>
+            <div class="info-rapida">
+                <strong>Componente:</strong> Língua Portuguesa<br>
+                <strong>1º Ano EM</strong> · Turma 1A<br>
+                <strong>Professor:</strong> Givanildo Boneti Godinho<br>
+                <strong>Habilidade:</strong> EM13LP06
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- OBJETOS E EXPECTATIVAS -->
+        <!-- ============================================================ -->
+        <div class="grid-2">
+            <div class="card">
+                <h4>📌 Objetos do Conhecimento</h4>
+                <ul>
+                    <li>Usos expressivos da linguagem</li>
+                    <li>Escolha lexical</li>
+                    <li>Função estética</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>🎯 Expectativas de Aprendizagem</h4>
+                <ul>
+                    <li>Analisar funções da linguagem</li>
+                    <li>Identificar marcas de opinião</li>
+                    <li>Analisar recursos morfossintáticos e semânticos</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- TEXTOS DA AULA -->
+        <!-- ============================================================ -->
+        <h2>📚 Textos da Aula (leitura online)</h2>
+        <div class="info-box">
+            <strong>Orientação:</strong> Os textos serão lidos coletivamente em sala, com pausas para comentários e discussão dirigida pela turma.
+        </div>
+
+        <ul class="link-lista">
+            <li>
+                <a href="https://www.msn.com/pt-br/tecnologia/software/cuidado-no-instagram-e-tiktok-o-motivo-pelo-qual-especialistas-dizem-para-n%C3%A3o-criar-sua-foto-dos-anos-80/ar-AA2bPTop?ocid=msedgntp&pc=U531&cvid=6aa13cbb19f444a78f913abf9610bc98&ei=86" target="_blank">
+                    Texto 1 (MSN) — "Cuidado no Instagram e TikTok: o motivo pelo qual especialistas dizem para não criar sua foto dos anos 80"
+                </a>
+            </li>
+            <li>
+                <a href="https://msn.com/pt-br/estilo-de-vida/other/trend-dos-anos-80-com-ia-veja-o-passo-a-passo-para-fazer-a-sua/ar-AA2bPvi5?ocid=msedgntp&pc=U531&cvid=6aa13cbb19f444a78f913abf9610bc98&cvpid=6aa13ddeb30348b189ec167dc0ee429c&ei=26" target="_blank">
+                    Texto 2 (MSN) — "Trend dos anos 80 com IA: veja o passo a passo para fazer a sua"
+                </a>
+            </li>
+            <li>
+                <a href="https://www.techtudo.com.br/comparativo/2026/09/trend-dos-anos-80-testamos-chatgpt-e-gemini-para-ver-qual-cria-a-melhor-foto-edsoftwares.ghtml" target="_blank">
+                    Texto 3 (TechTudo) — "Trend dos anos 80: testamos ChatGPT e Gemini para ver qual cria a melhor foto"
+                </a>
+            </li>
+            <li>
+                <a href="https://canaltech.com.br/inteligencia-artificial/tem-risco-enviar-fotos-nossas-ao-chatgpt-gemini-e-outras-ias-entenda/" target="_blank">
+                    Texto 4 (Canaltech) — "Tem risco enviar fotos nossas ao ChatGPT, Gemini e outras IAs? Entenda"
+                </a>
+            </li>
+        </ul>
+
+        <!-- ============================================================ -->
+        <!-- CRONOGRAMA DA AULA -->
+        <!-- ============================================================ -->
+        <h2>⏳ Cronograma da Aula</h2>
+
+        <div class="cronograma">
+            <span class="tempo">5 min</span>
+            <span class="atividade"><strong>Abertura:</strong> apresentação do tema e dos objetivos. Contextualização da "trend dos anos 80".</span>
+            <span class="cor">Exposição</span>
+        </div>
+        <div class="cronograma">
+            <span class="tempo">35 min</span>
+            <span class="atividade"><strong>Leitura e Discussão:</strong> leitura coletiva dos 4 textos, com pausas para comentários e perguntas dirigidas.</span>
+            <span class="cor">Leitura + Diálogo</span>
+        </div>
+        <div class="cronograma">
+            <span class="tempo">15 min</span>
+            <span class="atividade"><strong>Sistematização:</strong> explicação dos conceitos-chave (funções da linguagem, escolha lexical, marcas de opinião) com exemplos dos textos.</span>
+            <span class="cor">Exposição</span>
+        </div>
+        <div class="cronograma">
+            <span class="tempo">25 min</span>
+            <span class="atividade"><strong>Exercícios:</strong> aplicação da folha de atividades para fixação e análise aprofundada.</span>
+            <span class="cor">Individual</span>
+        </div>
+        <div class="cronograma">
+            <span class="tempo">5 min</span>
+            <span class="atividade"><strong>Encerramento:</strong> correção coletiva, dúvidas e resumo dos aprendizados.</span>
+            <span class="cor">Coletiva</span>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- METODOLOGIA E MATERIAIS -->
+        <!-- ============================================================ -->
+        <h2>🧩 Metodologia &amp; Materiais</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>📖 Metodologia</h4>
+                <ul>
+                    <li>Leitura compartilhada e dialogada</li>
+                    <li>Discussões orientadas por perguntas</li>
+                    <li>Análise linguística de trechos selecionados</li>
+                    <li>Exercícios individuais de fixação</li>
+                    <li>Correção coletiva e sistematização</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>💻 Materiais</h4>
+                <ul>
+                    <li>Computador e projetor multimídia</li>
+                    <li>Acesso à internet para os 4 links</li>
+                    <li>Quadro e caderno dos alunos</li>
+                    <li>Folha de exercícios impressa</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- AVALIAÇÃO -->
+        <!-- ============================================================ -->
+        <h2>📊 Avaliação</h2>
+
+        <div class="grid-2">
+            <div class="card">
+                <h4>Evidências</h4>
+                <ul>
+                    <li>Participação nas discussões coletivas</li>
+                    <li>Registro organizado no caderno (conceitos e exemplos)</li>
+                    <li>Respostas aos exercícios escritos</li>
+                    <li>Capacidade de identificar e analisar marcas linguísticas</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h4>Instrumentos</h4>
+                <ul>
+                    <li>Observação direta com registro</li>
+                    <li>Verificação dos cadernos</li>
+                    <li>Correção detalhada dos exercícios</li>
+                    <li>Devolutiva oral ao final da aula</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- FOLHA DE EXERCÍCIOS (EMBED) -->
+        <!-- ============================================================ -->
+        <hr>
+
+        <div class="exercicio-embed">
+            <h3>📄 Folha de Exercícios</h3>
+            <p style="color: #1e3a5a; margin-bottom: 10px;">
+                Clique no botão abaixo para abrir a folha de atividades em uma nova aba, ou imprima diretamente.
+            </p>
+            <a href="#" class="btn-exercicio" onclick="window.open('exercicios_trend_80.html', '_blank'); return false;">
+                📋 Abrir Folha de Exercícios
+            </a>
+            <span style="display: inline-block; margin-left: 16px; font-size: 0.9em; color: #5a7a9a;">
+                (ou use o botão "Imprimir" dentro da folha)
+            </span>
+        </div>
+
+        <!-- ============================================================ -->
+        <!-- RODAPÉ -->
+        <!-- ============================================================ -->
+        <hr>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 10px;">
+            <span style="color: #5a7a9a; font-size: 0.9em;">
+                📘 Plano de Aula — 1º Ano EM · Língua Portuguesa
+            </span>
+            <button class="btn-print" onclick="window.print()">🖨️ Imprimir este plano</button>
+        </div>
+
+        <p style="text-align: right; color: #8a9aaa; font-size: 0.8em; margin-top: 20px;">
+            Habilidade EM13LP06 · Terceiro Trimestre
+        </p>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SCRIPT PARA CRIAR O ARQUIVO DE EXERCÍCIOS (opção alternativa) -->
+    <!-- ============================================================ -->
+    <script>
+        // Função para gerar o arquivo HTML da folha de exercícios
+        function gerarExercicios() {
+            const html = `<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exercícios - Trend dos Anos 80 e IAs</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f6f9;
+            padding: 30px 20px;
+            color: #1a2a3a;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px 35px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-left: 6px solid #0077b6;
+        }
+        h1 { color: #023e8a; font-size: 1.8em; border-bottom: 2px solid #e0e9f0; padding-bottom: 10px; }
+        h2 { color: #0077b6; font-size: 1.2em; margin-top: 25px; }
+        .header-info {
+            background: #e8f1f8; padding: 10px 15px; border-radius: 8px;
+            margin-bottom: 20px; font-size: 0.95em; color: #1a3b5a;
+        }
+        .header-info strong { color: #023e8a; }
+        .questao {
+            margin-top: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px dashed #d0dce8;
+        }
+        .questao:last-child { border-bottom: none; }
+        .questao strong { color: #023e8a; display: block; margin-bottom: 6px; }
+        .dica {
+            background: #eef3f7; padding: 12px 18px; border-radius: 8px;
+            font-style: italic; color: #1e4a6e; margin: 10px 0;
+            border-left: 4px solid #0077b6;
+        }
+        .espaco-resposta {
+            background: #f8fafc; border: 1px dashed #a0b8cc; border-radius: 6px;
+            padding: 12px; min-height: 50px; margin: 8px 0 12px 0;
+            color: #4a5a6a; font-size: 0.95em;
+        }
+        hr { border: none; border-top: 2px solid #e0e9f0; margin: 25px 0; }
+        .btn-print {
+            background: #0077b6; color: white; border: none;
+            padding: 10px 25px; border-radius: 30px; font-size: 1em;
+            font-weight: 600; cursor: pointer; margin-top: 20px;
+            display: inline-block;
+        }
+        .btn-print:hover { background: #023e8a; }
+        ul { padding-left: 22px; margin: 6px 0; }
+        ul li { margin-bottom: 4px; }
+        @media print {
+            .btn-print { display: none; }
+            body { background: white; padding: 10px; }
+            .container { box-shadow: none; border-left: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📄 Folha de Exercícios</h1>
+        <div class="header-info">
+            <strong>Componente:</strong> Língua Portuguesa | <strong>1º Ano EM</strong> | <strong>Turma:</strong> 1A<br>
+            <strong>Professor:</strong> Givanildo Boneti Godinho | <strong>Habilidade:</strong> EM13LP06
+        </div>
+        <p><strong>Instruções:</strong> Responda às questões com base na leitura e discussão dos quatro textos sobre a "trend dos anos 80" e o uso de IAs. Utilize os conceitos analisados em aula sobre <strong>funções da linguagem, escolha lexical, marcas de opinião e efeitos de sentido</strong>.</p>
+
+        <hr>
+
+        <!-- QUESTÃO 1 -->
+        <div class="questao">
+            <strong>1. Leia o trecho abaixo do texto "Tem risco enviar fotos nossas ao ChatGPT, Gemini e outras IAs? Entenda" (Canaltech) e responda:</strong>
+            <div class="dica">
+                <em>"O gerente do Centro de Operações de Segurança (SOC) da Redbelt Security, Marcos Sena, explica que vários dados são fornecidos a uma IA generativa, como informações sobre o dispositivo usado, detalhes da foto ou até o comportamento do usuário com a ferramenta."</em>
+            </div>
+            <p><strong>a)</strong> Qual é a função da linguagem predominante nesse trecho? Justifique sua resposta com elementos do texto.</p>
+            <div class="espaco-resposta">Resposta: </div>
+            <p><strong>b)</strong> Identifique uma palavra ou expressão que evidencie a posição do autor ou do especialista citado sobre o assunto. Explique que marca de opinião ela carrega.</p>
+            <div class="espaco-resposta">Resposta: </div>
+        </div>
+
+        <!-- QUESTÃO 2 -->
+        <div class="questao">
+            <strong>2. Compare os títulos dos quatro textos lidos:</strong>
+            <ul>
+                <li><strong>Texto 1 (MSN):</strong> "Cuidado no Instagram e TikTok: o motivo pelo qual especialistas dizem para não criar sua foto dos anos 80"</li>
+                <li><strong>Texto 2 (MSN):</strong> "Trend dos anos 80 com IA: veja o passo a passo para fazer a sua"</li>
+                <li><strong>Texto 3 (TechTudo):</strong> "Trend dos anos 80: testamos ChatGPT e Gemini para ver qual cria a melhor foto"</li>
+                <li><strong>Texto 4 (Canaltech):</strong> "Tem risco enviar fotos nossas ao ChatGPT, Gemini e outras IAs? Entenda"</li>
+            </ul>
+            <p><strong>a)</strong> Analise a escolha lexical de cada título. Que efeito de sentido cada um produz sobre a "trend dos anos 80"?</p>
+            <div class="espaco-resposta">Resposta: </div>
+            <p><strong>b)</strong> Qual título expressa uma opinião mais cautelosa ou negativa em relação à trend? Que palavras ou expressões justificam essa percepção?</p>
+            <div class="espaco-resposta">Resposta: </div>
+        </div>
+
+        <!-- QUESTÃO 3 -->
+        <div class="questao">
+            <strong>3. Releia um trecho do texto 4 (Canaltech):</strong>
+            <div class="dica">
+                <em>"A ameaça é ainda maior para aplicativos de edição de fotos pouco esclarecedores sobre o tratamento de dados. 'A imagem pode ser usada para fraudes e tentativa de golpes, aplicando, por exemplo, biometria facial', aponta o especialista."</em>
+            </div>
+            <p><strong>a)</strong> Identifique um exemplo de <strong>modalização</strong> (expressão que indica um grau de certeza ou possibilidade) nesse trecho. Qual é o efeito de sentido dessa escolha?</p>
+            <div class="espaco-resposta">Resposta: </div>
+            <p><strong>b)</strong> A expressão "pouco esclarecedores" é um adjetivo avaliativo. Que recurso linguístico o autor utiliza para construir essa avaliação? Reescreva a frase substituindo essa expressão por outra que suavize a crítica.</p>
+            <div class="espaco-resposta">Resposta: </div>
+        </div>
+
+        <!-- QUESTÃO 4 -->
+        <div class="questao">
+            <strong>4. Agora, pense nos diferentes gêneros textuais representados pelos quatro links:</strong>
+            <ul>
+                <li><strong>Texto 1 e 2 (MSN):</strong> Notícias ou reportagens curtas, com foco em alerta ou em dicas práticas.</li>
+                <li><strong>Texto 3 (TechTudo):</strong> Comparativo técnico / análise de ferramentas.</li>
+                <li><strong>Texto 4 (Canaltech):</strong> Reportagem aprofundada com entrevista de especialistas.</li>
+            </ul>
+            <p><strong>a)</strong> Como a <strong>ordenação e combinação das palavras</strong> (escolha de termos mais técnicos ou mais coloquiais) muda de um texto para outro? Dê um exemplo de cada um.</p>
+            <div class="espaco-resposta">Resposta: </div>
+            <p><strong>b)</strong> Em qual dos textos a <strong>função referencial</strong> da linguagem é mais evidente? E em qual a <strong>função conativa</strong> (apelo ao leitor) aparece com mais força? Justifique.</p>
+            <div class="espaco-resposta">Resposta: </div>
+        </div>
+
+        <!-- QUESTÃO 5 -->
+        <div class="questao">
+            <strong>5. (Desafio) Produza um pequeno parágrafo (5 a 7 linhas) com a sua opinião sobre o uso de IAs para criar imagens com seu rosto. Em seu texto, utilize:</strong>
+            <ul>
+                <li>Pelo menos uma <strong>marca de opinião</strong> (um adjetivo avaliativo, um advérbio que indique posicionamento, ou uma expressão modalizadora).</li>
+                <li>Uma <strong>contraposição de ideias</strong> (use conectivos como "mas", "porém", "no entanto" ou "embora").</li>
+            </ul>
+            <div class="espaco-resposta" style="min-height: 120px;">Resposta: </div>
+        </div>
+
+        <hr>
+        <div style="text-align: center; margin-top: 25px;">
+            <button class="btn-print" onclick="window.print()">🖨️ Imprimir esta folha</button>
+        </div>
+        <p style="text-align: right; font-size: 0.8em; color: #6a8a9a; margin-top: 30px;">Atividade elaborada com base na habilidade EM13LP06</p>
+    </div>
+</body>
+</html>`;
+
+            // Criar blob e baixar
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'exercicios_trend_80.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Substituir o clique do botão para baixar o arquivo
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.querySelector('.btn-exercicio');
+            if (btn) {
+                btn.removeAttribute('onclick');
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    gerarExercicios();
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
