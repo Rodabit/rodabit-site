@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exercícios – O Celeiro | Leitura e Compreensão</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f3efe8;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      width: 100%;
+      background: #fffcf8;
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+      border-radius: 24px;
+      padding: 2.8rem 2.5rem;
+      border: 1px solid #e6ddd2;
+      transition: all 0.2s;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: #2e241d;
+      border-bottom: 3px double #c8b6a4;
+      padding-bottom: 0.6rem;
+      margin-bottom: 0.4rem;
+      text-align: center;
+      font-family: 'Georgia', serif;
+    }
+
+    .subhead {
+      text-align: center;
+      font-style: italic;
+      color: #7a6b5e;
+      font-size: 1.1rem;
+      margin-bottom: 2.2rem;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e2d6cb;
+      padding-bottom: 1.2rem;
+    }
+
+    .section {
+      margin-bottom: 2.4rem;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: #3d2e24;
+      border-left: 8px solid #b7a086;
+      padding-left: 1rem;
+      margin-bottom: 1.4rem;
+      font-family: 'Georgia', serif;
+      letter-spacing: 0.3px;
+    }
+
+    .question {
+      margin-bottom: 1.25rem;
+      padding-left: 1.2rem;
+      line-height: 1.7;
+      color: #2b211b;
+      font-size: 1.05rem;
+      border-bottom: 1px dashed #e6dbd1;
+      padding-bottom: 0.9rem;
+    }
+
+    .question:last-child {
+      border-bottom: none;
+    }
+
+    .question strong {
+      color: #5e3e2b;
+      font-weight: 600;
+    }
+
+    .sub-question {
+      margin-top: 0.5rem;
+      margin-left: 1.8rem;
+      list-style-type: disc;
+      color: #3e322a;
+    }
+
+    .sub-question li {
+      margin-bottom: 0.4rem;
+      line-height: 1.6;
+    }
+
+    .vocab-item {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin: 0.6rem 0 0.2rem 1.8rem;
+    }
+
+    .vocab-item span {
+      background: #f4ede6;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-style: italic;
+      color: #45382f;
+      border: 1px solid #dbcec1;
+      font-size: 0.95rem;
+    }
+
+    .fill-line {
+      display: inline-block;
+      min-width: 140px;
+      border-bottom: 2px dotted #b7a086;
+      margin: 0 0.2rem;
+      height: 1.2rem;
+    }
+
+    .grammar-box {
+      background: #faf6f1;
+      border-radius: 18px;
+      padding: 1.5rem 1.8rem;
+      margin-top: 0.8rem;
+      border: 1px solid #e3d7cc;
+    }
+
+    .grammar-box p {
+      margin-bottom: 0.8rem;
+      line-height: 1.8;
+    }
+
+    .grammar-box .label {
+      font-weight: 600;
+      color: #4e3a2b;
+      display: inline-block;
+      min-width: 130px;
+    }
+
+    .exercise-list {
+      list-style: none;
+      counter-reset: item;
+    }
+
+    .exercise-list li {
+      counter-increment: item;
+      margin-bottom: 0.9rem;
+      padding-left: 2rem;
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .exercise-list li::before {
+      content: counter(item) ".";
+      position: absolute;
+      left: 0;
+      font-weight: 600;
+      color: #7a5e48;
+    }
+
+    .writing-prompt {
+      background: #f4efe9;
+      border-radius: 18px;
+      padding: 1.6rem 2rem;
+      margin-top: 0.8rem;
+      border-left: 8px solid #b7a086;
+    }
+
+    .writing-prompt p {
+      margin-bottom: 0.8rem;
+      line-height: 1.8;
+      color: #2e241d;
+    }
+
+    .writing-prompt .theme {
+      font-weight: 600;
+      color: #4b3629;
+    }
+
+    hr {
+      border: none;
+      border-top: 1px solid #e2d6cb;
+      margin: 1.6rem 0;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #96887b;
+      margin-top: 2.5rem;
+      font-style: italic;
+      border-top: 1px solid #e6dbd1;
+      padding-top: 1.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 1.8rem 1.2rem;
+      }
+      h1 {
+        font-size: 1.9rem;
+      }
+      .section-title {
+        font-size: 1.3rem;
+      }
+      .grammar-box {
+        padding: 1rem;
+      }
+      .vocab-item {
+        margin-left: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>O Celeiro</h1>
+    <div class="subhead">Leitura e Compreensão – Exercícios</div>
+
+    <!-- 1. COMPREENSÃO LITERAL -->
+    <div class="section">
+      <div class="section-title">1. Compreensão literal</div>
+      <div class="question"><strong>1.</strong> Quem é o narrador da história e qual a sua idade aproximada?</div>
+      <div class="question"><strong>2.</strong> Por que Allister foi deixado aos cuidados de Violet na noite de Halloween?</div>
+      <div class="question"><strong>3.</strong> O que Allister ouviu quando olhou pela janela pela primeira vez?</div>
+      <div class="question"><strong>4.</strong> O que Violet e Allister fizeram com o feno que trouxeram do celeiro?</div>
+      <div class="question"><strong>5.</strong> O que estava acontecendo com Violet quando Matt chegou à casa?</div>
+    </div>
+
+    <!-- 2. COMPREENSÃO INFERENCIAL -->
+    <div class="section">
+      <div class="section-title">2. Compreensão inferencial</div>
+      <div class="question"><strong>1.</strong> Por que Allister não se importava com o Halloween?</div>
+      <div class="question"><strong>2.</strong> Por que Violet disse que os espantalhos fariam as pessoas fugirem de medo?</div>
+      <div class="question"><strong>3.</strong> O que o texto sugere sobre a criatura que Allister viu do lado de fora?</div>
+      <div class="question"><strong>4.</strong> Por que Violet parou de falar e ficou triste quando mencionou juntar dinheiro?</div>
+      <div class="question"><strong>5.</strong> O que levou Allister a se sentir culpado no final da história?</div>
+    </div>
+
+    <!-- 3. VOCABULÁRIO -->
+    <div class="section">
+      <div class="section-title">3. Vocabulário</div>
+      <div class="question"><strong>1.</strong> Escreva o significado das palavras de acordo com o contexto:
+        <ul class="sub-question">
+          <li><em>agouro</em></li>
+          <li><em>traquinagem</em></li>
+          <li><em>desvelar</em></li>
+          <li><em>empalada</em></li>
+          <li><em>prenúncio</em></li>
+        </ul>
+      </div>
+      <div class="question"><strong>2.</strong> Substitua por sinônimos:
+        <ul class="sub-question">
+          <li>enorme → <span class="fill-line"></span></li>
+          <li>aterrorizado → <span class="fill-line"></span></li>
+          <li>traumatizante → <span class="fill-line"></span></li>
+        </ul>
+      </div>
+      <div class="question"><strong>3.</strong> Encontre no texto:
+        <ul class="sub-question">
+          <li>1 palavra relacionada a som</li>
+          <li>1 palavra relacionada a medo ou escuridão</li>
+          <li>1 palavra relacionada à natureza ou ao campo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 4. GRAMÁTICA CONTEXTUALIZADA -->
+    <div class="section">
+      <div class="section-title">4. Gramática contextualizada</div>
+      <div class="question"><strong>1.</strong> Localize três verbos no passado no texto.</div>
+      <div class="question"><strong>2.</strong> Reescreva a frase no futuro: <em>“Violet me levou de volta para casa.”</em></div>
+      <div class="question"><strong>3.</strong> Separe sujeito e predicado da frase: <em>“O enorme celeiro assustava o menino.”</em></div>
+      <div class="question"><strong>4.</strong> Encontre no texto:
+        <ul class="sub-question">
+          <li>um substantivo</li>
+          <li>um adjetivo</li>
+          <li>um verbo</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 5. FRASES EXPANDIDAS -->
+    <div class="section">
+      <div class="section-title">5. Frases expandidas</div>
+      <div class="question"><strong>1.</strong> O celeiro rangia.</div>
+      <div class="question"><strong>2.</strong> Violet gritou.</div>
+      <div class="question"><strong>3.</strong> Allister correu.</div>
+    </div>
+
+    <!-- 6. PRODUÇÃO DE TEXTO -->
+    <div class="section">
+      <div class="section-title">6. Produção de texto</div>
+      <div class="writing-prompt">
+        <p><span class="theme">Escolha um dos temas:</span></p>
+        <p><strong>1.</strong> Reescreva o final da história, imaginando que a criatura do celeiro fosse capturada e revelasse sua verdadeira identidade.</p>
+        <p><strong>2.</strong> Descreva o celeiro usando pelo menos 5 adjetivos, criando uma atmosfera de mistério.</p>
+        <p><strong>3.</strong> Imagine que os espantalhos pudessem falar. O que eles diriam a Allister naquela noite? Escreva um pequeno diálogo.</p>
+      </div>
+    </div>
+
+    <hr>
+    <div class="footer-note">Exercícios elaborados a partir do conto “O Celeiro”, de M.L.P.G.</div>
+  </div>
+</body>
+</html>
